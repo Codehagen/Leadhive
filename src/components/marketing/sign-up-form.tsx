@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { searchOrganization } from "@/lib/search-organization";
-import { createContactRequest } from "@/app/actions/contact/create-contact-request";
+import { createLeadRequest } from "@/app/actions/lead/create-lead-request";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -110,9 +110,10 @@ export function SignUpForm() {
         return;
       }
 
-      const response = await createContactRequest({
+      const response = await createLeadRequest({
         ...formData,
         company: selectedCompany,
+        requestType: "CONTACT",
       });
 
       if (response.success) {

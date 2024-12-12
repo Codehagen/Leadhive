@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { searchOrganization } from "@/app/actions/admin/search-organization";
-import { createContactRequest } from "@/app/actions/contact/create-contact-request";
 import { useDebounce } from "@/lib/hooks/use-debounce";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -17,6 +15,8 @@ import { Check } from "lucide-react";
 import { Icons } from "../icons";
 import confetti from "canvas-confetti";
 import { Textarea } from "@/components/ui/textarea";
+import { searchOrganization } from "@/lib/search-organization";
+import { createLeadRequest } from "@/app/actions/lead/create-contact-request";
 
 export function PhotographerSignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -111,7 +111,7 @@ export function PhotographerSignUpForm() {
     setIsLoading(true);
 
     try {
-      const response = await createContactRequest({
+      const response = await createLeadRequest({
         ...formData,
         company: selectedCompany,
         requestType: "PHOTOGRAPHER",
