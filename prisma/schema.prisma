@@ -1,0 +1,421 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+// -----------------------------
+// Core User Models
+// -----------------------------
+
+model User {
+  id                 String   @id @default(cuid())
+  name               String?
+  email              String?  @unique
+  phone              String?
+  avatar             String?
+  language           String?  @default("english")
+  bio                String?
+  consentToTerms     Boolean  @default(false)
+  consentToMarketing Boolean  @default(false)
+  createdAt          DateTime @default(now()) @map(name: "created_at")
+  updatedAt          DateTime @default(now()) @map(name: "updated_at")
+
+  isSuperUser Boolean  @default(false)
+  role        UserRole @default(CUSTOMER)
+
+  providers     Provider[]     @relation("UserProvider")
+  notifications Notification[]
+  feedback      Feedback[]
+  auditLogs     AuditLog[]
+
+  @@index([email])
+  @@index([role])
+  @@index([email, role])
+  @@map(name: "users")
+}
+
+enum UserRole {
+  ADMIN
+  PROVIDER
+  CUSTOMER
+}
+
+// -----------------------------
+// Notification Model
+// -----------------------------
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  type      NotificationType
+  message   String
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+  @@map(name: "notifications")
+}
+
+enum NotificationType {
+  NEW_LEAD
+  PAYMENT_SUCCESS
+  PAYMENT_FAILURE
+  SYSTEM_ALERT
+  FEEDBACK_RECEIVED
+  // Add other types as needed
+}
+
+// -----------------------------
+// AuditLog Model
+// -----------------------------
+
+model AuditLog {
+  id        String      @id @default(cuid())
+  userId    String? // Make userId optional
+  user      User?       @relation(fields: [userId], references: [id])
+  action    AuditAction
+  entity    String?
+  entityId  String?
+  timestamp DateTime    @default(now())
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+
+  @@index([userId])
+  @@map(name: "audit_logs")
+}
+
+enum AuditAction {
+  USER_LOGIN
+  USER_LOGOUT
+  CREATE_LEAD
+  UPDATE_LEAD
+  DELETE_LEAD
+  PROCESS_PAYMENT
+  REFUND_PAYMENT
+  UPDATE_PROFILE
+  // Add other actions as needed
+}
+
+// -----------------------------
+// Provider Model for Service Providers
+// -----------------------------
+
+model Provider {
+  id        String         @id @default(cuid())
+  name      String
+  orgnr     String         @unique
+  address   String
+  city      String
+  zip       String
+  maxUsers  Int            @default(5)
+  industry  String?
+  status    ProviderStatus @default(ACTIVE)
+  createdAt DateTime       @default(now()) @map(name: "created_at")
+  updatedAt DateTime       @default(now()) @map(name: "updated_at")
+
+  users         User[]         @relation("UserProvider")
+  zones         Zone[]         @relation("ProviderZones")
+  leads         Lead[]
+  leadProviders LeadProvider[]
+  transactions  Transaction[]
+  paymentInfo   PaymentInfo?
+  categories    Category[]     @relation("ProviderCategories")
+  invoices      Invoice[] // Relation to Invoice model
+  Country       Country[]
+
+  @@index([orgnr])
+  @@index([city])
+  @@index([name])
+  @@index([orgnr, name])
+  @@index([industry])
+  @@map(name: "providers")
+}
+
+enum ProviderStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+// -----------------------------
+// PaymentInfo Model
+// -----------------------------
+
+model PaymentInfo {
+  id              String   @id @default(cuid())
+  providerId      String   @unique
+  provider        Provider @relation(fields: [providerId], references: [id])
+  paymentProvider String // e.g., Stripe, PayPal
+  accountId       String // Provider-specific account identifier
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
+
+  @@map(name: "payment_info")
+}
+
+// -----------------------------
+// Transaction Model
+// -----------------------------
+
+model Transaction {
+  id            String            @id @default(cuid())
+  providerId    String
+  provider      Provider          @relation(fields: [providerId], references: [id])
+  leadId        String
+  lead          Lead              @relation(fields: [leadId], references: [id])
+  amount        Float             @default(500)
+  currency      String            @default("USD")
+  status        TransactionStatus @default(PENDING)
+  paymentMethod String? // e.g., credit card, PayPal
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @default(now()) @updatedAt
+
+  @@index([providerId])
+  @@index([leadId])
+  @@map(name: "transactions")
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// -----------------------------
+// Invoice Model
+// -----------------------------
+
+model Invoice {
+  id             String           @id @default(cuid())
+  invoiceNumber  String           @unique // Unique identifier for the invoice
+  providerId     String
+  provider       Provider         @relation(fields: [providerId], references: [id])
+  amount         Float
+  currency       String           @default("USD") // Adjust as needed
+  status         InvoiceStatus    @default(PENDING)
+  fikenId        String? // External system ID (e.g., Fiken)
+  dueDate        DateTime?
+  paidAt         DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
+  PaymentHistory PaymentHistory[]
+
+  @@index([providerId])
+  @@map(name: "invoices")
+}
+
+enum InvoiceStatus {
+  PENDING // Not yet sent to Fiken
+  SENT // Created in Fiken
+  PAID // Marked as paid
+  CANCELLED // Cancelled or credited
+}
+
+// -----------------------------
+// PaymentHistory Model
+// -----------------------------
+
+model PaymentHistory {
+  id        String   @id @default(cuid())
+  invoiceId String
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id])
+  status    String // e.g., "Initiated", "Completed", "Failed"
+  amount    Float
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  @@index([status])
+  @@index([invoiceId, status])
+  @@map(name: "payment_history")
+}
+
+// -----------------------------
+// Zone Model for Geographic Selection
+// -----------------------------
+
+model Zone {
+  id          String   @id @default(cuid())
+  name        String
+  countryId   String
+  country     Country  @relation(fields: [countryId], references: [id])
+  postalCodes String[] // Array of postal codes in this zone
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  providers Provider[] @relation("ProviderZones")
+  Lead      Lead[]
+
+  @@index([countryId])
+  @@map(name: "zones")
+}
+
+// -----------------------------
+// Lead Model for Tracking Service Requests
+// -----------------------------
+
+model Lead {
+  id             String     @id @default(cuid())
+  providerId     String? // Made optional
+  provider       Provider?  @relation(fields: [providerId], references: [id]) // Made optional
+  customerName   String
+  customerEmail  String
+  customerPhone  String
+  serviceDetails String
+  zoneId         String
+  zone           Zone       @relation(fields: [zoneId], references: [id])
+  status         LeadStatus @default(PENDING)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+
+  feedback      Feedback[]
+  leadProviders LeadProvider[]
+  categories    Category[]     @relation("LeadCategories")
+  Transaction   Transaction[]
+
+  @@index([providerId])
+  @@index([zoneId])
+  @@index([status])
+  @@map(name: "leads")
+}
+
+enum LeadStatus {
+  PENDING
+  SENT
+  ACCEPTED
+  DECLINED
+}
+
+// -----------------------------
+// LeadProvider Join Model
+// -----------------------------
+
+model LeadProvider {
+  id          String             @id @default(cuid())
+  leadId      String
+  lead        Lead               @relation(fields: [leadId], references: [id])
+  providerId  String
+  provider    Provider           @relation(fields: [providerId], references: [id])
+  status      LeadProviderStatus @default(SENT)
+  sentAt      DateTime           @default(now())
+  respondedAt DateTime?
+
+  @@unique([leadId, providerId])
+  @@index([providerId])
+  @@map(name: "lead_providers")
+}
+
+enum LeadProviderStatus {
+  SENT
+  ACCEPTED
+  DECLINED
+  COMPLETED
+}
+
+// -----------------------------
+// Feedback Model
+// -----------------------------
+
+model Feedback {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  User      User[]
+
+  @@index([leadId])
+  @@map(name: "feedback")
+}
+
+// -----------------------------
+// Country Model
+// -----------------------------
+
+model Country {
+  id        String   @id @default(cuid())
+  code      String   @unique // ISO code (e.g., NO, SE, DK)
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  zones     Zone[]
+  providers Provider[]
+
+  @@map(name: "countries")
+}
+
+// -----------------------------
+// Stats Model
+// -----------------------------
+
+model Stats {
+  id             String   @id @default(cuid())
+  totalProviders Int      @default(0)
+  totalLeads     Int      @default(0)
+  acceptedLeads  Int      @default(0)
+  declinedLeads  Int      @default(0)
+  totalRevenue   Float    @default(0)
+  monthlyRevenue Float    @default(0)
+  lastUpdated    DateTime @default(now())
+
+  // Monthly stats
+  leadsThisMonth   Int   @default(0)
+  revenueThisMonth Float @default(0)
+
+  // Customer satisfaction
+  averageResponseTime  Float @default(0) // in hours
+  customerSatisfaction Float @default(0) // 0-100
+
+  // Additional Metrics
+  completedLeads         Int   @default(0)
+  cancelledLeads         Int   @default(0)
+  averageRating          Float @default(0)
+  totalTransactions      Int   @default(0)
+  successfulTransactions Int   @default(0)
+
+  @@map(name: "stats")
+}
+
+// -----------------------------
+// Category Model
+// -----------------------------
+
+model Category {
+  id               String    @id @default(cuid())
+  name             String    @unique
+  description      String?
+  parentCategoryId String?
+  parentCategory   Category? @relation("CategoryHierarchy", fields: [parentCategoryId], references: [id])
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @default(now()) @updatedAt
+
+  providers Provider[] @relation("ProviderCategories")
+  leads     Lead[]     @relation("LeadCategories")
+  Category  Category[] @relation("CategoryHierarchy")
+
+  @@map(name: "categories")
+}
+
+// -----------------------------
+// Optional: DailyStats Model for Detailed Analytics
+// -----------------------------
+
+model DailyStats {
+  id           String   @id @default(cuid())
+  date         DateTime @unique
+  newProviders Int      @default(0)
+  newLeads     Int      @default(0)
+  totalRevenue Float    @default(0)
+  createdAt    DateTime @default(now())
+
+  @@map(name: "daily_stats")
+}
