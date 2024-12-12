@@ -275,6 +275,35 @@ export const siteConfig = {
       ],
     },
   ],
+  email: {
+    name: "LeadHive",
+    description: "Your Gateway to Quality Leads",
+    sender: {
+      marketing: "Christer from LeadHive <christer@leadhive.tech>",
+      system: "LeadHive <system@leadhive.tech>",
+    },
+    support: "support@leadhive.tech",
+    unsubscribe: "https://leadhive.tech/unsubscribe",
+    location: "Oslo, Norway",
+    subjects: {
+      welcome: "Welcome to LeadHive 👋",
+      newLead: "New Lead Alert! 🎯",
+      leadUpdate: "Lead Status Update 📊",
+      accountVerification: "Verify Your LeadHive Account ✅",
+      passwordReset: "Reset Your LeadHive Password 🔑",
+      paymentSuccess: "Payment Successful 💳",
+      paymentFailed: "Payment Failed ❌",
+      weeklyReport: "Your Weekly Lead Report 📈",
+    },
+    footer: {
+      marketing: {
+        text: "This email was intended for {email}. If you were not expecting this email, you can ignore it.",
+      },
+      system: {
+        text: "This email was intended for {email}. If you were not expecting this email, you can ignore it. If you are concerned about your account's safety, please contact support@leadhive.tech.",
+      },
+    },
+  },
 };
 
 export type SiteConfig = typeof siteConfig;

@@ -2,6 +2,7 @@ import { siteConfig } from "@/lib/config";
 import { type ClassValue, clsx } from "clsx";
 import { Metadata } from "next";
 import ms from "ms";
+import { customAlphabet } from "nanoid";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -137,4 +138,13 @@ export function nFormatter(num: number, digits?: number) {
   return item
     ? (num / item.value).toFixed(digits || 1).replace(rx, "$1") + item.symbol
     : "0";
+}
+
+export const nanoid = customAlphabet(
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+  7
+); // 7-character random string
+
+interface SWRError extends Error {
+  status: number;
 }
