@@ -1,6 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/db";
+import { sendEmail } from "emails";
+import LeadNotificationEmail from "emails/lead-notification-email";
 
 /**
  * TODO: Provider Matching Enhancements
@@ -10,7 +12,7 @@ import { prisma } from "@/lib/db";
  *    - Consider provider ratings/performance
  *    - Price range matching
  *
- * 2. Implement real email notifications:
+ * 2. Implement real email notifications: DONE
  *    - Set up email service (Resend/SendGrid/etc.)
  *    - Create email templates
  *    - Handle bounce/delivery tracking
@@ -44,6 +46,93 @@ interface LeadRequestData {
   serviceDetails: string;
   postalCode: string;
   categories?: string[];
+}
+
+async function notifyProviders(lead: any, zone: any) {
+  try {
+    // Find providers in the zone
+    const providers = await prisma.provider.findMany({
+      where: {
+        zones: {
+          some: {
+            id: zone.id,
+          },
+        },
+        status: "ACTIVE",
+        // Add any other provider filtering criteria here
+      },
+      include: {
+        users: {
+          where: {
+            role: "PROVIDER",
+          },
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    // Send email to each provider's users
+    const emailPromises = providers.flatMap((provider) =>
+      provider.users.map((user) =>
+        sendEmail({
+          email: user.email!,
+          subject: "newLead",
+          react: LeadNotificationEmail({
+            recipientName: user.name,
+            leadInfo: {
+              name: lead.customerName,
+              address: `${zone.name}, ${zone.country.name}`,
+              zipCode: lead.postalCode,
+              phoneNumber: lead.customerPhone,
+            },
+            email: user.email!,
+          }),
+          marketing: true,
+        })
+      )
+    );
+
+    // Create LeadProvider records
+    const leadProviderPromises = providers.map((provider) =>
+      prisma.leadProvider.create({
+        data: {
+          leadId: lead.id,
+          providerId: provider.id,
+          status: "SENT",
+        },
+      })
+    );
+
+    // Wait for all operations to complete
+    const [emailResults, leadProviderResults] = await Promise.all([
+      Promise.allSettled(emailPromises),
+      Promise.all(leadProviderPromises),
+    ]);
+
+    // Log any email failures
+    emailResults.forEach((result, index) => {
+      if (result.status === "rejected") {
+        console.error(
+          `Failed to send email to provider ${index}:`,
+          result.reason
+        );
+      }
+    });
+
+    return {
+      success: true,
+      providersNotified: providers.length,
+    };
+  } catch (error) {
+    console.error("Error notifying providers:", error);
+    return {
+      success: false,
+      error: "Failed to notify providers",
+    };
+  }
 }
 
 export async function createLeadRequest(data: LeadRequestData) {
@@ -108,21 +197,11 @@ export async function createLeadRequest(data: LeadRequestData) {
       return newLead;
     });
 
-    // Comment this section in/out to test provider matching
-    /*
-    // Match and notify providers
-    const matchingResult = await matchAndNotifyProviders(
-      lead.id,
-      lead.zoneId,
-      data.postalCode
+    // Notify providers about the new lead
+    const notificationResult = await notifyProviders(
+      { ...lead, postalCode: data.postalCode },
+      zone
     );
-
-    if (!matchingResult.success) {
-      console.warn("Provider matching failed:", matchingResult.error);
-    } else {
-      console.log(`Notified ${matchingResult.providersNotified} providers`);
-    }
-    */
 
     // Return success response with zone information
     return {
@@ -132,9 +211,13 @@ export async function createLeadRequest(data: LeadRequestData) {
         postalCode: data.postalCode,
         zoneName: zone.name,
         countryName: zone.country.name,
-        // providersNotified: matchingResult?.providersNotified ?? 0,
+        providersNotified: notificationResult.success
+          ? notificationResult.providersNotified
+          : 0,
       },
-      message: "Lead request created successfully",
+      message: notificationResult.success
+        ? `Lead request created and ${notificationResult.providersNotified} providers notified`
+        : "Lead request created but provider notification failed",
     };
   } catch (error) {
     console.error("Error creating lead request:", error);
