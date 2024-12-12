@@ -279,11 +279,11 @@ export const siteConfig = {
     name: "LeadHive",
     description: "Your Gateway to Quality Leads",
     sender: {
-      marketing: "Christer from LeadHive <christer@leadhive.tech>",
-      system: "LeadHive <system@leadhive.tech>",
+      marketing: "Christer from LeadHive <christer@leadhive.no>",
+      system: "LeadHive <system@leadhive.no>",
     },
-    support: "support@leadhive.tech",
-    unsubscribe: "https://leadhive.tech/unsubscribe",
+    support: "support@leadhive.no",
+    unsubscribe: "https://leadhive.no/unsubscribe",
     location: "Oslo, Norway",
     subjects: {
       welcome: "Welcome to LeadHive 👋",

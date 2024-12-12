@@ -22,22 +22,38 @@ export const sendEmail = async ({
   marketing?: boolean;
   test?: boolean;
 }) => {
+  console.log("🔧 Email configuration:", {
+    hasResendKey: !!resend,
+    to: test ? "delivered@resend.dev" : email,
+    subject: siteConfig.email.subjects[subject],
+    from: marketing
+      ? siteConfig.email.sender.marketing
+      : siteConfig.email.sender.system,
+  });
+
   if (!resend) {
-    console.log(
-      "Resend is not configured. You need to add a RESEND_API_KEY in your .env file for emails to work."
+    console.error(
+      "❌ Resend is not configured. You need to add a RESEND_API_KEY in your .env file for emails to work."
     );
     return Promise.resolve();
   }
 
-  return resend.emails.send({
-    from: marketing
-      ? siteConfig.email.sender.marketing
-      : siteConfig.email.sender.system,
-    to: test ? "delivered@resend.dev" : email,
-    subject: siteConfig.email.subjects[subject],
-    react,
-    headers: {
-      "X-Entity-Ref-ID": nanoid(),
-    },
-  });
+  try {
+    const result = await resend.emails.send({
+      from: marketing
+        ? siteConfig.email.sender.marketing
+        : siteConfig.email.sender.system,
+      to: test ? "delivered@resend.dev" : email,
+      subject: siteConfig.email.subjects[subject],
+      react,
+      headers: {
+        "X-Entity-Ref-ID": nanoid(),
+      },
+    });
+    console.log("✅ Email sent successfully:", result);
+    return result;
+  } catch (error) {
+    console.error("❌ Failed to send email:", error);
+    throw error;
+  }
 };

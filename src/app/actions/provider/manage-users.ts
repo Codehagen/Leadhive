@@ -14,77 +14,45 @@ export async function addUserToProvider(
   userId: string
 ): Promise<AddUserToProviderResponse> {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
-      return {
-        success: false,
-        error: "Unauthorized",
-      };
-    }
+    console.log("🔄 Attempting to add user to provider:", {
+      providerId,
+      userId,
+    });
 
-    // Check if the provider exists and the current user has access
-    const provider = await prisma.provider.findFirst({
-      where: {
-        id: providerId,
-        users: {
-          some: {
-            id: currentUser.id,
-          },
-        },
-      },
+    const provider = await prisma.provider.findUnique({
+      where: { id: providerId },
     });
 
     if (!provider) {
+      console.error("❌ Provider not found:", providerId);
       return {
         success: false,
-        error: "Provider not found or access denied",
+        error: "Provider not found",
       };
     }
 
-    // Add the user to the provider
-    const updatedProvider = await prisma.provider.update({
-      where: {
-        id: providerId,
-      },
+    // Update the user's role and connect to provider
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
       data: {
-        users: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-      include: {
-        users: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-          },
+        role: "PROVIDER",
+        providers: {
+          connect: { id: providerId },
         },
       },
     });
 
-    // Update user role to PROVIDER if not already
-    await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        role: "PROVIDER",
-      },
-    });
+    console.log("✅ Successfully added user to provider:", updatedUser);
 
     return {
       success: true,
-      data: updatedProvider,
+      data: updatedUser,
     };
   } catch (error) {
-    console.error("Error adding user to provider:", error);
+    console.error("❌ Error adding user to provider:", error);
     return {
       success: false,
       error: "Failed to add user to provider",
-      details: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }

@@ -18,7 +18,7 @@ interface LeadNotificationEmailProps {
   leadInfo?: {
     name: string;
     address: string;
-    zipCode: string;
+    postalCode: string;
     phoneNumber: string;
   };
   email: string;
@@ -29,10 +29,10 @@ export default function LeadNotificationEmail({
   leadInfo = {
     name: "John Doe",
     address: "123 Main Street",
-    zipCode: "12345",
+    postalCode: "12345",
     phoneNumber: "+1 (555) 123-4567",
   },
-  email = "user@leadhive.tech",
+  email = "user@leadhive.no",
 }: LeadNotificationEmailProps) {
   return (
     <Html>
@@ -61,7 +61,7 @@ export default function LeadNotificationEmail({
               the details:
             </Text>
 
-            <Section className="my-4 rounded-lg bg-gray-50 p-4">
+            <Section className="my-4 rounded-lg bg-blue-50 p-4">
               <Text className="mb-2 text-sm font-semibold text-black">
                 Lead Details:
               </Text>
@@ -72,7 +72,7 @@ export default function LeadNotificationEmail({
                 Address: {leadInfo.address}
               </Text>
               <Text className="ml-1 text-sm leading-6 text-gray-700">
-                Zip Code: {leadInfo.zipCode}
+                Postal Code: {leadInfo.postalCode}
               </Text>
               <Text className="ml-1 text-sm leading-6 text-gray-700">
                 Phone: {leadInfo.phoneNumber}

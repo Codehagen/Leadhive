@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "../user/get-current-user";
-import { addUserToProvider } from "./manage-users";
+import { findZoneByPostalCode } from "../zone/find-zone";
 
 export interface CreateProviderData {
   name: string;
@@ -11,7 +11,6 @@ export interface CreateProviderData {
   city: string;
   zip: string;
   industry?: string;
-  zoneIds: string[];
   categoryIds: string[];
   contactName: string;
   contactEmail: string;
@@ -27,17 +26,21 @@ export async function createProvider(data: CreateProviderData) {
       };
     }
 
-    // Update user details
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        name: data.contactName,
-        email: data.contactEmail,
-        role: "PROVIDER", // Update role immediately
-      },
-    });
+    console.log("🏢 Creating provider with data:", data);
 
-    // Create provider without users
+    // Find zone based on postal code
+    const zoneResult = await findZoneByPostalCode(data.zip);
+    console.log("🌍 Zone lookup result:", zoneResult);
+
+    if (!zoneResult.success || !zoneResult.data) {
+      console.error("❌ No zone found for postal code:", data.zip);
+      return {
+        success: false,
+        error: "No service zone found for this postal code",
+      };
+    }
+
+    // Create provider with automatic zone connection
     const provider = await prisma.provider.create({
       data: {
         name: data.name,
@@ -50,23 +53,34 @@ export async function createProvider(data: CreateProviderData) {
         contactEmail: data.contactEmail,
         status: "ACTIVE",
         zones: {
-          connect: data.zoneIds.map((id) => ({ id })),
+          connect: { id: zoneResult.data.id },
         },
         categories: {
           connect: data.categoryIds.map((id) => ({ id })),
+        },
+        users: {
+          connect: { id: user.id },
         },
       },
       include: {
         zones: true,
         categories: true,
+        users: true,
       },
     });
 
-    // Add the user to the provider using the separate action
-    const userResult = await addUserToProvider(provider.id, user.id);
-    if (!userResult.success) {
-      // Handle error if needed
-      console.error("Failed to add user to provider:", userResult.error);
+    console.log("✅ Provider created with zone:", provider);
+
+    // Update user role if needed
+    if (user.role !== "PROVIDER") {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          role: "PROVIDER",
+          name: data.contactName,
+          email: data.contactEmail,
+        },
+      });
     }
 
     return {
@@ -74,7 +88,7 @@ export async function createProvider(data: CreateProviderData) {
       data: provider,
     };
   } catch (error) {
-    console.error("Error creating provider:", error);
+    console.error("❌ Error creating provider:", error);
     return {
       success: false,
       error: "Failed to create provider",

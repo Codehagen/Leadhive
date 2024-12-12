@@ -17,7 +17,7 @@ import Footer from "./components/footer";
 
 export default function WelcomeEmail({
   name = "Christer",
-  email = "christer@leadhive.tech",
+  email = "christer@leadhive.no",
 }: {
   name: string | null;
   email: string;

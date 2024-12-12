@@ -265,12 +265,13 @@ model Zone {
 
 model Lead {
   id             String     @id @default(cuid())
-  providerId     String? // Made optional
-  provider       Provider?  @relation(fields: [providerId], references: [id]) // Made optional
+  providerId     String?
+  provider       Provider?  @relation(fields: [providerId], references: [id])
   customerName   String
-  customerEmail  String
+  customerEmail  String?
   customerPhone  String
   serviceDetails String
+  postalCode     String
   zoneId         String
   zone           Zone       @relation(fields: [zoneId], references: [id])
   status         LeadStatus @default(PENDING)
