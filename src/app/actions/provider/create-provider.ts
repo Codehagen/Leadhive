@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "../user/get-current-user";
+import { addUserToProvider } from "./manage-users";
 
 export interface CreateProviderData {
   name: string;
@@ -12,6 +13,8 @@ export interface CreateProviderData {
   industry?: string;
   zoneIds: string[];
   categoryIds: string[];
+  contactName: string;
+  contactEmail: string;
 }
 
 export async function createProvider(data: CreateProviderData) {
@@ -24,6 +27,17 @@ export async function createProvider(data: CreateProviderData) {
       };
     }
 
+    // Update user details
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: data.contactName,
+        email: data.contactEmail,
+        role: "PROVIDER", // Update role immediately
+      },
+    });
+
+    // Create provider without users
     const provider = await prisma.provider.create({
       data: {
         name: data.name,
@@ -32,19 +46,14 @@ export async function createProvider(data: CreateProviderData) {
         city: data.city,
         zip: data.zip,
         industry: data.industry,
+        contactName: data.contactName,
+        contactEmail: data.contactEmail,
         status: "ACTIVE",
         zones: {
           connect: data.zoneIds.map((id) => ({ id })),
         },
-        ...(data.categoryIds && {
-          categories: {
-            connect: data.categoryIds.map((id) => ({ id })),
-          },
-        }),
-        users: {
-          connect: {
-            id: user.id,
-          },
+        categories: {
+          connect: data.categoryIds.map((id) => ({ id })),
         },
       },
       include: {
@@ -53,12 +62,11 @@ export async function createProvider(data: CreateProviderData) {
       },
     });
 
-    // Update user role to PROVIDER if not already
-    if (user.role !== "PROVIDER") {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { role: "PROVIDER" },
-      });
+    // Add the user to the provider using the separate action
+    const userResult = await addUserToProvider(provider.id, user.id);
+    if (!userResult.success) {
+      // Handle error if needed
+      console.error("Failed to add user to provider:", userResult.error);
     }
 
     return {

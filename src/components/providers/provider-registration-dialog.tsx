@@ -35,16 +35,20 @@ interface FormData {
   zip: string;
   industry?: string;
   categoryIds: string[];
+  contactName: string;
+  contactEmail: string;
 }
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(2, "Company name must be at least 2 characters"),
   orgnr: z.string().min(9, "Organization number must be at least 9 characters"),
   address: z.string().min(5, "Address must be at least 5 characters"),
   city: z.string().min(2, "City must be at least 2 characters"),
   zip: z.string().min(4, "ZIP code must be at least 4 characters"),
   industry: z.string().optional(),
   categoryIds: z.array(z.string()).min(1, "Select at least one category"),
+  contactName: z.string().min(2, "Contact name must be at least 2 characters"),
+  contactEmail: z.string().email("Please enter a valid email address"),
 });
 
 export default function ProviderRegistrationDialog({
@@ -69,6 +73,8 @@ export default function ProviderRegistrationDialog({
       zip: "",
       industry: "",
       categoryIds: [],
+      contactName: "",
+      contactEmail: "",
     },
   });
 
@@ -130,122 +136,160 @@ export default function ProviderRegistrationDialog({
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="orgnr"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Organization Number</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="zip"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>ZIP Code</FormLabel>
-                  <FormControl>
-                    <div className="space-y-2">
+            <div className="space-y-4">
+              <h3 className="font-medium">Company Details</h3>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="orgnr"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Organization Number</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="zip"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>ZIP Code</FormLabel>
+                    <FormControl>
+                      <div className="space-y-2">
+                        <Input
+                          {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleZipChange(e.target.value);
+                          }}
+                        />
+                        {isCheckingZone && (
+                          <p className="text-sm text-muted-foreground">
+                            Checking service zone...
+                          </p>
+                        )}
+                        {zoneInfo && (
+                          <p className="text-sm text-green-600">
+                            Service zone: {zoneInfo.name}
+                          </p>
+                        )}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="industry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Industry (Optional)</FormLabel>
+                    <FormControl>
                       <Input
                         {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleZipChange(e.target.value);
-                        }}
+                        placeholder="e.g., Construction, Real Estate"
                       />
-                      {isCheckingZone && (
-                        <p className="text-sm text-muted-foreground">
-                          Checking service zone...
-                        </p>
-                      )}
-                      {zoneInfo && (
-                        <p className="text-sm text-green-600">
-                          Service zone: {zoneInfo.name}
-                        </p>
-                      )}
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="industry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Industry (Optional)</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="e.g., Construction, Real Estate"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="categoryIds"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Business Categories</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      selected={field.value}
-                      onChange={field.onChange}
-                      placeholder="Select your business categories"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="categoryIds"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Business Categories</FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        selected={field.value}
+                        onChange={field.onChange}
+                        placeholder="Select your business categories"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-medium">Contact Person</h3>
+              <FormField
+                control={form.control}
+                name="contactName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="John Doe" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="contactEmail"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        placeholder="john.doe@company.com"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <Button
               type="submit"
               className="w-full"
