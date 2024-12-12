@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createLeadRequest } from "@/app/actions/lead/create-contact-request";
-import { Textarea } from "@/components/ui/textarea";
+import { createContactRequest } from "@/app/actions/lead/create-contact-request";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
 import { Icons } from "../icons";
@@ -17,11 +16,6 @@ import confetti from "canvas-confetti";
 function validateNorwegianPhone(phone: string): boolean {
   const phoneRegex = /^(\+47|0047)?[2-9]\d{7}$/;
   return phoneRegex.test(phone.replace(/\s/g, ""));
-}
-
-function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
 }
 
 function validateNorwegianPostalCode(postalCode: string): boolean {
@@ -36,10 +30,10 @@ export function SignUpFormTemplate() {
   // Form state
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phone: "",
+    address: "",
     postalCode: "",
-    serviceDetails: "",
+    message: "", // This will be used for any additional details
   });
 
   // Add confetti effect function
@@ -80,23 +74,18 @@ export function SignUpFormTemplate() {
       return false;
     }
 
-    if (!validateEmail(formData.email)) {
-      toast.error("Vennligst oppgi en gyldig e-postadresse");
-      return false;
-    }
-
     if (!validateNorwegianPhone(formData.phone)) {
       toast.error("Vennligst oppgi et gyldig norsk telefonnummer");
       return false;
     }
 
-    if (!validateNorwegianPostalCode(formData.postalCode)) {
-      toast.error("Vennligst oppgi et gyldig postnummer");
+    if (!formData.address.trim()) {
+      toast.error("Adresse er påkrevd");
       return false;
     }
 
-    if (!formData.serviceDetails.trim()) {
-      toast.error("Vennligst fortell oss hva vi kan hjelpe deg med");
+    if (!validateNorwegianPostalCode(formData.postalCode)) {
+      toast.error("Vennligst oppgi et gyldig postnummer");
       return false;
     }
 
@@ -114,7 +103,13 @@ export function SignUpFormTemplate() {
         return;
       }
 
-      const response = await createLeadRequest(formData);
+      const response = await createContactRequest({
+        name: formData.name,
+        phone: formData.phone,
+        message: formData.message,
+        postalCode: formData.postalCode,
+        categoryIds: [], // You can add category selection if needed
+      });
 
       if (response.success) {
         setIsSubmitted(true);
@@ -179,20 +174,6 @@ export function SignUpFormTemplate() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">E-post</Label>
-            <Input
-              id="email"
-              placeholder="ola@example.no"
-              type="email"
-              required
-              disabled={isLoading}
-              value={formData.email}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, email: e.target.value }))
-              }
-            />
-          </div>
-          <div className="space-y-2">
             <Label htmlFor="phone">Telefon</Label>
             <Input
               id="phone"
@@ -207,6 +188,19 @@ export function SignUpFormTemplate() {
             />
           </div>
           <div className="space-y-2">
+            <Label htmlFor="address">Adresse</Label>
+            <Input
+              id="address"
+              placeholder="Gateadresse"
+              required
+              disabled={isLoading}
+              value={formData.address}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, address: e.target.value }))
+              }
+            />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="postal-code">Postnummer</Label>
             <Input
               id="postal-code"
@@ -217,22 +211,6 @@ export function SignUpFormTemplate() {
               value={formData.postalCode}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, postalCode: e.target.value }))
-              }
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="service-details">Hva kan vi hjelpe deg med?</Label>
-            <Textarea
-              id="service-details"
-              placeholder="Fortell oss om ditt prosjekt..."
-              required
-              disabled={isLoading}
-              value={formData.serviceDetails}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  serviceDetails: e.target.value,
-                }))
               }
             />
           </div>

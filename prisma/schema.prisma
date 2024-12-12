@@ -109,17 +109,19 @@ enum AuditAction {
 // -----------------------------
 
 model Provider {
-  id        String         @id @default(cuid())
-  name      String
-  orgnr     String         @unique
-  address   String
-  city      String
-  zip       String
-  maxUsers  Int            @default(5)
-  industry  String?
-  status    ProviderStatus @default(ACTIVE)
-  createdAt DateTime       @default(now()) @map(name: "created_at")
-  updatedAt DateTime       @default(now()) @map(name: "updated_at")
+  id           String         @id @default(cuid())
+  name         String
+  orgnr        String         @unique
+  address      String
+  city         String
+  zip          String
+  contactName  String
+  contactEmail String
+  maxUsers     Int            @default(5)
+  industry     String?
+  status       ProviderStatus @default(ACTIVE)
+  createdAt    DateTime       @default(now()) @map(name: "created_at")
+  updatedAt    DateTime       @default(now()) @map(name: "updated_at")
 
   users         User[]         @relation("UserProvider")
   zones         Zone[]         @relation("ProviderZones")
@@ -263,12 +265,13 @@ model Zone {
 
 model Lead {
   id             String     @id @default(cuid())
-  providerId     String? // Made optional
-  provider       Provider?  @relation(fields: [providerId], references: [id]) // Made optional
+  providerId     String?
+  provider       Provider?  @relation(fields: [providerId], references: [id])
   customerName   String
-  customerEmail  String
+  customerEmail  String?
   customerPhone  String
   serviceDetails String
+  postalCode     String
   zoneId         String
   zone           Zone       @relation(fields: [zoneId], references: [id])
   status         LeadStatus @default(PENDING)
