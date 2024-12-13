@@ -47,7 +47,7 @@ export default function Footer() {
           </span>
           <ul className="flex justify-start md:justify-end text-sm tracking-tight text-foreground">
             <li className="mr-3 md:mx-4">
-              <Link href="/personvern" rel="noopener noreferrer">
+              <Link href="/privacy" rel="noopener noreferrer">
                 Privacy Policy
               </Link>
             </li>

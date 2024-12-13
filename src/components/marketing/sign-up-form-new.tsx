@@ -12,14 +12,14 @@ import { Check } from "lucide-react";
 import { Icons } from "../icons";
 import confetti from "canvas-confetti";
 
-// Validation functions
+// Updated validation functions
 function validatePhone(phone: string): boolean {
-  const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+  const phoneRegex = /^(\+47|0047)?[2-9]\d{7}$/;
   return phoneRegex.test(phone.replace(/\s/g, ""));
 }
 
-function validateZipCode(zipCode: string): boolean {
-  return /^\d{5}(-\d{4})?$/.test(zipCode);
+function validateNorwegianPostalCode(postalCode: string): boolean {
+  return /^\d{4}$/.test(postalCode);
 }
 
 export function SignUpFormTemplate() {
@@ -27,14 +27,12 @@ export function SignUpFormTemplate() {
   const [agreed, setAgreed] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Form state
+  // Updated form state - removed propertyType and timeframe
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     address: "",
     zipCode: "",
-    propertyType: "",
-    timeframe: "",
     message: "",
   });
 
@@ -69,7 +67,7 @@ export function SignUpFormTemplate() {
     frame();
   };
 
-  // Form validation
+  // Form validation with English messages but Norwegian validation
   function validateForm() {
     if (!formData.name.trim()) {
       toast.error("Name is required");
@@ -86,7 +84,7 @@ export function SignUpFormTemplate() {
       return false;
     }
 
-    if (!validateZipCode(formData.zipCode)) {
+    if (!validateNorwegianPostalCode(formData.zipCode)) {
       toast.error("Please enter a valid ZIP code");
       return false;
     }
@@ -94,7 +92,7 @@ export function SignUpFormTemplate() {
     return true;
   }
 
-  // Handle form submission
+  // Updated handleSubmit with Norwegian success message
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsLoading(true);
@@ -131,6 +129,7 @@ export function SignUpFormTemplate() {
     }
   }
 
+  // Updated success message in Norwegian
   if (isSubmitted) {
     return (
       <div className="space-y-6 text-center">
@@ -161,6 +160,7 @@ export function SignUpFormTemplate() {
     );
   }
 
+  // Updated form labels and placeholders to Norwegian
   return (
     <div className="space-y-6">
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -182,7 +182,7 @@ export function SignUpFormTemplate() {
             <Label htmlFor="phone">Phone</Label>
             <Input
               id="phone"
-              placeholder="0412 345 678"
+              placeholder="999 99 999"
               type="tel"
               required
               disabled={isLoading}
@@ -209,8 +209,8 @@ export function SignUpFormTemplate() {
             <Label htmlFor="zip-code">ZIP Code</Label>
             <Input
               id="zip-code"
-              placeholder="12345"
-              maxLength={5}
+              placeholder="0000"
+              maxLength={4}
               required
               disabled={isLoading}
               value={formData.zipCode}
@@ -255,6 +255,7 @@ export function SignUpFormTemplate() {
           disabled={!agreed || isLoading}
         >
           {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          Get matched with agents
         </Button>
       </form>
 

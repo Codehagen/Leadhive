@@ -13,7 +13,7 @@ export default function PricingPage() {
     <>
       <Pricing />
       <Logos />
-      <PricingPlans />
+      {/* <PricingPlans /> */}
       <FAQ />
     </>
   );

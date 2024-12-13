@@ -18,10 +18,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { sendDiscordMessage } from "@/app/actions/discord/send-discord-message";
 import { toast } from "sonner";
 
+interface SendMessageProps {
+  name: string;
+  email: string;
+  message: string;
+}
+
 const formSchema = z.object({
-  name: z.string().min(2, "Navn må være minst 2 tegn"),
-  email: z.string().email("Ugyldig e-postadresse"),
-  message: z.string().min(10, "Meldingen må være minst 10 tegn"),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
 export function CustomerServiceForm() {
@@ -39,11 +45,20 @@ export function CustomerServiceForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsLoading(true);
-      await sendDiscordMessage(values);
-      toast.success("Melding sendt! Vi tar kontakt så fort som mulig.");
+
+      // Format the message for Discord
+      const discordMessage: SendMessageProps = {
+        name: values.name,
+        email: values.email,
+        message: values.message,
+      };
+
+      await sendDiscordMessage(discordMessage);
+      toast.success("Message sent! We'll get back to you as soon as possible.");
       form.reset();
     } catch (error) {
-      toast.error("Kunne ikke sende melding. Vennligst prøv igjen senere.");
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -57,9 +72,9 @@ export function CustomerServiceForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Navn</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Ditt navn" {...field} />
+                <Input placeholder="Your name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,9 +85,9 @@ export function CustomerServiceForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>E-post</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="din@epost.no" type="email" {...field} />
+                <Input placeholder="your@email.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,10 +98,10 @@ export function CustomerServiceForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Melding</FormLabel>
+              <FormLabel>Message</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Skriv din melding her..."
+                  placeholder="Write your message here..."
                   className="min-h-[120px]"
                   {...field}
                 />
@@ -96,7 +111,7 @@ export function CustomerServiceForm() {
           )}
         />
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Sender..." : "Send melding"}
+          {isLoading ? "Sending..." : "Send message"}
         </Button>
       </form>
     </Form>
