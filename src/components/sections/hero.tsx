@@ -132,7 +132,7 @@ function HeroImage() {
 export default function Hero() {
   return (
     <section id="hero" aria-label="Find Local Real Estate Agents">
-      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
+      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 pb-16 sm:px-6 sm:pt-40 md:pt-48 lg:px-8">
         <HeroPill />
         <HeroTitles />
         <HeroCTA />

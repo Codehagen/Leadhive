@@ -8,90 +8,99 @@ import { FaLinkedin } from "react-icons/fa";
 export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
-  name: "Fotovibe",
-  description: "Profesjonell bedriftsfotografering på abonnement",
+  name: "Leadhive",
+  description: "Get free proposals from top local real estate agents.",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  keywords: ["Bedriftsfoto", "Fotografering", "Abonnement", "Norge"],
+  keywords: [
+    "real estate agent finder",
+    "compare real estate agents",
+    "free agent proposals",
+    "find local realtor",
+    "best real estate agents",
+    "sell my house",
+    "home selling service",
+  ],
   links: {
-    email: "kontakt@fotovibe.as",
-    instagram: "https://instagram.com/fotovibe.as",
-    facebook: "https://facebook.com/fotovibe.as",
-    linkedin: "https://linkedin.com/company/fotovibe",
+    email: "kontakt@leadhive.no",
+    instagram: "https://instagram.com/leadhive.no",
+    facebook: "https://facebook.com/leadhive.no",
+    linkedin: "https://linkedin.com/company/leadhive",
   },
   header: [
     {
-      trigger: "Tjenester",
+      trigger: "Services",
       content: {
         main: {
           icon: <Icons.logo className="h-6 w-6" />,
-          title: "Bedriftsfotografering",
+          title: "Find Your Agent",
           description:
-            "Profesjonell foto og video på abonnement for din bedrift.",
-          href: "/",
+            "Get matched with top local real estate agents for free.",
+          href: "/property",
         },
         items: [
           {
-            href: "//stemningsbilder",
-            title: "Stemningsbilder",
-            description: "Fang den unike atmosfæren på arbeidsplassen din.",
+            href: "/property",
+            title: "Home Selling",
+            description:
+              "Get expert help selling your property for the best price.",
           },
           {
-            href: "//portrett",
-            title: "Portrettfotografering",
-            description: "Profesjonelle portretter av ansatte og ledelse.",
+            href: "/property",
+            title: "Agent Matching",
+            description: "Compare proposals from pre-screened local agents.",
           },
           {
-            href: "//lokaler",
-            title: "Lokaler og Fasiliteter",
-            description: "Vis frem bedriftens lokaler fra sin beste side.",
+            href: "/property",
+            title: "Market Analysis",
+            description: "Get detailed insights about your local market.",
           },
         ],
       },
     },
     {
-      trigger: "Løsninger",
+      trigger: "Solutions",
       content: {
         items: [
           {
-            title: "For Små Bedrifter",
-            href: "/losninger/sma-bedrifter",
-            description: "Skreddersydde fotopakker for voksende bedrifter.",
+            title: "For Home Sellers",
+            href: "/property",
+            description: "Find the perfect agent to sell your property.",
           },
           {
-            title: "For Store Bedrifter",
-            href: "/losninger/store-bedrifter",
-            description: "Omfattende løsninger for større organisasjoner.",
+            title: "For First-Time Sellers",
+            href: "/property",
+            description: "Expert guidance for your first home sale.",
           },
           {
-            title: "For Eiendomsmeglere",
-            href: "/losninger/eiendom",
-            description: "Spesialtilpasset for eiendomsfotografering.",
+            title: "For Luxury Properties",
+            href: "/property",
+            description: "Specialized agents for high-end real estate.",
           },
           {
-            title: "For Restauranter",
-            href: "/losninger/restaurant",
-            description: "Mat- og stemningsfotografering for serveringssteder.",
+            title: "For Quick Sales",
+            href: "/property",
+            description: "Fast-track your property sale with top agents.",
           },
           {
-            title: "For Hoteller",
-            href: "/losninger/hotell",
-            description: "Omfattende fotopakker for overnattingssteder.",
+            title: "For Investment Properties",
+            href: "/property",
+            description: "Expert agents for investment property sales.",
           },
           {
-            title: "For Butikker",
-            href: "/losninger/butikk",
-            description: "Visuelt innhold for fysiske og nettbaserte butikker.",
+            title: "For Real Estate Agents",
+            href: "/agents",
+            description: "Get more information about lead generation",
           },
         ],
       },
     },
     {
       href: "/customers",
-      label: "Kunder",
+      label: "Customers",
     },
     {
       href: "/pricing",
-      label: "Priser",
+      label: "Pricing",
     },
     {
       href: "/blog",
@@ -228,49 +237,58 @@ export const siteConfig = {
   ],
   footer: [
     {
-      title: "Tjenester",
+      title: "Services",
       links: [
-        { href: "#tjenester", text: "Stemningsbilder", icon: null },
-        { href: "#tjenester", text: "Portrettfotografering", icon: null },
-        { href: "#tjenester", text: "Lokaler og Fasiliteter", icon: null },
-        { href: "#tjenester", text: "Produkt og Tjenester", icon: null },
+        { href: "/property", text: "Find an Agent", icon: null },
+        { href: "/property", text: "Home Selling", icon: null },
+        { href: "/property", text: "Market Analysis", icon: null },
+        { href: "/property", text: "Agent Comparison", icon: null },
       ],
     },
     {
-      title: "Om Oss",
+      title: "Company",
       links: [
-        { href: "/", text: "Om Fotovibe", icon: null },
-        { href: "/photograph/sign-up", text: "Bli Fotograf", icon: null },
-        { href: "/blog", text: "Blogg", icon: null },
-        { href: "/kundeservice", text: "Kundeservice", icon: null },
+        { href: "/about", text: "About LeadHive", icon: null },
+        {
+          href: "/agents/",
+          text: "For Real Estate Agents",
+          icon: null,
+        },
+        { href: "/blog", text: "Blog", icon: null },
+        { href: "/contact", text: "Contact Us", icon: null },
       ],
     },
     {
-      title: "Ressurser",
+      title: "Resources",
       links: [
-        { href: "/help", text: "Hjelpesenter", icon: null },
-        { href: "/terms", text: "Vilkår og Betingelser", icon: null },
-        { href: "/", text: "Ofte Stilte Spørsmål", icon: null },
-        { href: "/kundeservice", text: "Kundeservice", icon: null },
+        { href: "/help", text: "Help Center", icon: null },
+        { href: "/terms", text: "Terms & Conditions", icon: null },
+        { href: "/faq", text: "FAQ", icon: null },
+        { href: "/privacy", text: "Privacy Policy", icon: null },
       ],
     },
     {
-      title: "Følg Oss",
+      title: "Follow Us",
       links: [
         {
-          href: "https://instagram.com/fotovibe.as",
+          href: "https://instagram.com/leadhive",
           text: "Instagram",
           icon: <RiInstagramFill />,
         },
         {
-          href: "https://facebook.com/fotovibe.as",
+          href: "https://facebook.com/leadhive",
           text: "Facebook",
           icon: <FaFacebook />,
         },
         {
-          href: "https://linkedin.com/company/fotovibe",
+          href: "https://linkedin.com/company/leadhive",
           text: "LinkedIn",
           icon: <FaLinkedin />,
+        },
+        {
+          href: "https://twitter.com/leadhive",
+          text: "Twitter",
+          icon: <FaTwitter />,
         },
       ],
     },

@@ -13,13 +13,13 @@ import { Icons } from "../icons";
 import confetti from "canvas-confetti";
 
 // Validation functions
-function validateNorwegianPhone(phone: string): boolean {
-  const phoneRegex = /^(\+47|0047)?[2-9]\d{7}$/;
+function validatePhone(phone: string): boolean {
+  const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
   return phoneRegex.test(phone.replace(/\s/g, ""));
 }
 
-function validateNorwegianPostalCode(postalCode: string): boolean {
-  return /^\d{4}$/.test(postalCode);
+function validateZipCode(zipCode: string): boolean {
+  return /^\d{5}(-\d{4})?$/.test(zipCode);
 }
 
 export function SignUpFormTemplate() {
@@ -32,8 +32,10 @@ export function SignUpFormTemplate() {
     name: "",
     phone: "",
     address: "",
-    postalCode: "",
-    message: "", // This will be used for any additional details
+    zipCode: "",
+    propertyType: "",
+    timeframe: "",
+    message: "",
   });
 
   // Add confetti effect function
@@ -70,22 +72,22 @@ export function SignUpFormTemplate() {
   // Form validation
   function validateForm() {
     if (!formData.name.trim()) {
-      toast.error("Navn er påkrevd");
+      toast.error("Name is required");
       return false;
     }
 
-    if (!validateNorwegianPhone(formData.phone)) {
-      toast.error("Vennligst oppgi et gyldig norsk telefonnummer");
+    if (!validatePhone(formData.phone)) {
+      toast.error("Please enter a valid phone number");
       return false;
     }
 
     if (!formData.address.trim()) {
-      toast.error("Adresse er påkrevd");
+      toast.error("Property address is required");
       return false;
     }
 
-    if (!validateNorwegianPostalCode(formData.postalCode)) {
-      toast.error("Vennligst oppgi et gyldig postnummer");
+    if (!validateZipCode(formData.zipCode)) {
+      toast.error("Please enter a valid ZIP code");
       return false;
     }
 
@@ -107,19 +109,23 @@ export function SignUpFormTemplate() {
         name: formData.name,
         phone: formData.phone,
         message: formData.message,
-        postalCode: formData.postalCode,
-        categoryIds: [], // You can add category selection if needed
+        postalCode: formData.zipCode,
+        categoryIds: [],
       });
 
       if (response.success) {
         setIsSubmitted(true);
-        toast.success("Takk for din henvendelse! Vi tar kontakt snart.");
+        toast.success(
+          "Thank you! We'll be in touch with agent proposals soon."
+        );
         triggerConfetti();
       } else {
-        toast.error(response.error || "Noe gikk galt. Vennligst prøv igjen.");
+        toast.error(
+          response.error || "Something went wrong. Please try again."
+        );
       }
     } catch (error) {
-      toast.error("En feil oppstod. Vennligst prøv igjen senere.");
+      toast.error("An error occurred. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -135,19 +141,19 @@ export function SignUpFormTemplate() {
             </div>
           </div>
           <h3 className="text-xl font-semibold mb-2">
-            Takk for din henvendelse!
+            Thanks for your submission!
           </h3>
           <p className="text-muted-foreground mb-4">
-            Vi har mottatt din forespørsel og vil ta kontakt med deg innen kort
-            tid.
+            We've received your request and will send you agent proposals within
+            24 hours.
           </p>
           <p className="text-sm text-muted-foreground">
-            Har du spørsmål i mellomtiden?{" "}
+            Have questions?{" "}
             <Link
-              href="/kundeservice"
+              href="/contact"
               className="text-primary underline-offset-4 hover:underline"
             >
-              Kontakt oss
+              Contact us
             </Link>
           </p>
         </div>
@@ -158,13 +164,12 @@ export function SignUpFormTemplate() {
   return (
     <div className="space-y-6">
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Contact Information */}
         <div className="grid gap-4">
           <div className="space-y-2">
-            <Label htmlFor="full-name">Fullt navn</Label>
+            <Label htmlFor="full-name">Full Name</Label>
             <Input
               id="full-name"
-              placeholder="Ola Nordmann"
+              placeholder="John Smith"
               required
               disabled={isLoading}
               value={formData.name}
@@ -174,10 +179,10 @@ export function SignUpFormTemplate() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phone">Telefon</Label>
+            <Label htmlFor="phone">Phone</Label>
             <Input
               id="phone"
-              placeholder="999 99 999"
+              placeholder="0412 345 678"
               type="tel"
               required
               disabled={isLoading}
@@ -188,10 +193,10 @@ export function SignUpFormTemplate() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="address">Adresse</Label>
+            <Label htmlFor="address">Street Address</Label>
             <Input
               id="address"
-              placeholder="Gateadresse"
+              placeholder="123 Main St"
               required
               disabled={isLoading}
               value={formData.address}
@@ -201,16 +206,16 @@ export function SignUpFormTemplate() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="postal-code">Postnummer</Label>
+            <Label htmlFor="zip-code">ZIP Code</Label>
             <Input
-              id="postal-code"
-              placeholder="0000"
-              maxLength={4}
+              id="zip-code"
+              placeholder="12345"
+              maxLength={5}
               required
               disabled={isLoading}
-              value={formData.postalCode}
+              value={formData.zipCode}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, postalCode: e.target.value }))
+                setFormData((prev) => ({ ...prev, zipCode: e.target.value }))
               }
             />
           </div>
@@ -227,19 +232,19 @@ export function SignUpFormTemplate() {
             htmlFor="terms"
             className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            Jeg godtar{" "}
+            I agree to the{" "}
             <Link
               href="/terms"
               className="text-primary underline-offset-4 hover:underline"
             >
-              vilkårene
+              Terms of Service
             </Link>{" "}
-            og{" "}
+            and{" "}
             <Link
-              href="/personvern"
+              href="/privacy"
               className="text-primary underline-offset-4 hover:underline"
             >
-              personvernerklæringen
+              Privacy Policy
             </Link>
           </label>
         </div>
@@ -250,18 +255,11 @@ export function SignUpFormTemplate() {
           disabled={!agreed || isLoading}
         >
           {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-          Send forespørsel
         </Button>
       </form>
 
       <p className="text-center text-sm text-muted-foreground">
-        Allerede kunde?{" "}
-        <Link
-          href="/login"
-          className="text-primary underline-offset-4 hover:underline"
-        >
-          Logg inn
-        </Link>
+        Find your perfect real estate agent
       </p>
     </div>
   );

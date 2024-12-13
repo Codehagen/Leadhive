@@ -2,6 +2,7 @@ import { SignUpFormTemplate } from "@/components/marketing/sign-up-form-new";
 import Footer from "@/components/sections/footer";
 import Header from "@/components/sections/header";
 import { BorderBeam } from "@/components/magicui/border-beam";
+import { siteConfig } from "@/lib/config";
 
 export default function SignUpPage() {
   return (
@@ -13,25 +14,26 @@ export default function SignUpPage() {
           <div className="space-y-6">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Vis frem bedriften din med Fotovibe
+                Find your perfect real estate agent
               </h1>
               <p className="text-xl text-muted-foreground">
-                Få profesjonelle bilder og videoer hver måned for din bedrift.
-                Fast fotograf, fast pris, ingen overraskelser.
+                Get free proposals from top local agents. Compare their
+                experience, strategies, and track record to find your perfect
+                match.
               </p>
             </div>
             <ul className="space-y-4 text-muted-foreground">
               <li className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-primary" />
-                Personlig fotograf som kjenner din bedrift
+                Pre-screened, experienced local agents
               </li>
               <li className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-primary" />
-                Månedlig levering av bilder og video
+                Multiple proposals within 24 hours
               </li>
               <li className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-primary" />
-                Ingen bindingstid eller skjulte kostnader
+                100% free service, no obligations
               </li>
             </ul>
           </div>
@@ -42,10 +44,10 @@ export default function SignUpPage() {
             <div className="relative bg-background/80 backdrop-blur-xl rounded-lg border shadow-lg p-6">
               <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold tracking-tight mb-2">
-                  Kom i gang i dag
+                  Get Started Today
                 </h2>
                 <p className="text-muted-foreground">
-                  Start med Fotovibe i dag.
+                  Tell us about your property to receive free agent proposals.
                 </p>
               </div>
               <SignUpFormTemplate />

@@ -1,12 +1,13 @@
 import Features from "@/components/features-horizontal";
 import Section from "@/components/section";
+import { siteConfig } from "@/lib/config";
 import { BadgeCheck, Clock, Coins, ShieldCheck } from "lucide-react";
 
 function FeaturesPill() {
   return (
     <div className="mx-auto mb-8 flex w-fit items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-primary/30">
       <p className="text-xs font-medium text-primary sm:text-sm">
-        ✨ Why Choose LeadHive
+        ✨ Why Choose {siteConfig.name}
       </p>
     </div>
   );
