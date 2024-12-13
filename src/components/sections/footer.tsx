@@ -47,13 +47,13 @@ export default function Footer() {
           </span>
           <ul className="flex justify-start md:justify-end text-sm tracking-tight text-foreground">
             <li className="mr-3 md:mx-4">
-              <Link href="/personvern" rel="noopener noreferrer">
-                Personvernerklæring
+              <Link href="/privacy" rel="noopener noreferrer">
+                Privacy Policy
               </Link>
             </li>
             <li className="mr-3 md:mx-4">
               <Link href="/terms" rel="noopener noreferrer">
-                Vilkår og Betingelser
+                Terms of Service
               </Link>
             </li>
           </ul>

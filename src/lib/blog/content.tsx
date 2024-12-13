@@ -19,20 +19,26 @@ import {
   Calendar,
 } from "lucide-react";
 
-export const BLOG_CATEGORIES: {
-  title: string;
-  slug: "company" | "education";
-  description: string;
-}[] = [
+export const BLOG_CATEGORIES = [
   {
-    title: "Selskapsnyheter",
+    title: "Company",
     slug: "company",
-    description: "Oppdateringer og kunngjøringer fra Fotovibe",
+    description: "Latest updates and announcements from Leadhive.",
   },
   {
-    title: "Utdanning",
-    slug: "education",
-    description: "Lær mer om profesjonell bedriftsfotografering",
+    title: "Agents",
+    slug: "agents",
+    description: "Guides and resources for real estate agents using Leadhive.",
+  },
+  {
+    title: "Guides",
+    slug: "guides",
+    description: "Comprehensive guides for property sellers and buyers.",
+  },
+  {
+    title: "Stories",
+    slug: "stories",
+    description: "Real stories from agents and sellers who've used Leadhive.",
   },
 ];
 

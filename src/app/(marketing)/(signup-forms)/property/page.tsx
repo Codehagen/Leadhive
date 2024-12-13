@@ -1,9 +1,10 @@
+import { SignUpFormTemplate } from "@/components/marketing/sign-up-form-new";
 import Footer from "@/components/sections/footer";
 import Header from "@/components/sections/header";
 import { BorderBeam } from "@/components/magicui/border-beam";
-import { CustomerServiceForm } from "@/components/marketing/customer-service-form";
+import { siteConfig } from "@/lib/config";
 
-export default function CustomerServicePage() {
+export default function SignUpPage() {
   return (
     <div className="relative min-h-screen flex flex-col">
       <Header />
@@ -13,42 +14,43 @@ export default function CustomerServicePage() {
           <div className="space-y-6">
             <div className="space-y-4">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Kundeservice
+                Find your perfect real estate agent
               </h1>
               <p className="text-xl text-muted-foreground">
-                Trenger du hjelp? Send oss en melding, så svarer vi så fort vi
-                kan.
+                Get free proposals from top local agents. Compare their
+                experience, strategies, and track record to find your perfect
+                match.
               </p>
             </div>
             <ul className="space-y-4 text-muted-foreground">
               <li className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-primary" />
-                Rask responstid
+                Pre-screened, experienced local agents
               </li>
               <li className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-primary" />
-                Personlig oppfølging
+                Multiple proposals within 24 hours
               </li>
               <li className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-primary" />
-                Profesjonell support
+                100% free service, no obligations
               </li>
             </ul>
           </div>
 
-          {/* Right side - Contact form */}
+          {/* Right side - Sign up form */}
           <div className="relative">
             <BorderBeam className="absolute inset-0 opacity-40" />
             <div className="relative bg-background/80 backdrop-blur-xl rounded-lg border shadow-lg p-6">
               <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold tracking-tight mb-2">
-                  Send oss en melding
+                  Get Started Today
                 </h2>
                 <p className="text-muted-foreground">
-                  Vi svarer normalt innen 24 timer
+                  Tell us about your property to receive free agent proposals.
                 </p>
               </div>
-              <CustomerServiceForm />
+              <SignUpFormTemplate />
             </div>
           </div>
         </div>

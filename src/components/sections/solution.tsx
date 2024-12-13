@@ -9,40 +9,40 @@ import { motion } from "framer-motion";
 
 const features = [
   {
-    title: "Advanced AI Algorithms",
+    title: "Easy Property Submission",
     description:
-      "Our platform utilizes cutting-edge AI algorithms to provide accurate and efficient solutions for your business needs.",
-    className: "hover:bg-red-500/10 transition-all duration-500 ease-out",
+      "Share your property details in minutes through our simple form. No complicated processes, just the essential information needed to match you with the right agents.",
+    className: "hover:bg-blue-500/10 transition-all duration-500 ease-out",
     content: (
       <>
         <Safari
           src={`/dashboard.png`}
-          url="https://fotovibe"
+          url="https://leadhive.com/submit"
           className="-mb-32 mt-4 max-h-64 w-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-y-[-10px] transition-all duration-300"
         />
       </>
     ),
   },
   {
-    title: "Secure Data Handling",
+    title: "Multiple Free Proposals",
     description:
-      "We prioritize your data security with state-of-the-art encryption and strict privacy protocols, ensuring your information remains confidential.",
+      "Receive proposals from several local agents without any cost. Compare different approaches and choose the one that best matches your needs.",
     className:
-      "order-3 xl:order-none hover:bg-blue-500/10 transition-all duration-500 ease-out",
+      "order-3 xl:order-none hover:bg-green-500/10 transition-all duration-500 ease-out",
     content: (
       <Safari
         src={`/dashboard.png`}
-        url="https://fotovibe"
+        url="https://leadhive.com/proposals"
         className="-mb-32 mt-4 max-h-64 w-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-y-[-10px] transition-all duration-300"
       />
     ),
   },
   {
-    title: "Seamless Integration",
+    title: "Local Market Experts",
     description:
-      "Easily integrate our AI solutions into your existing workflows and systems for a smooth and efficient operation.",
+      "Get connected with agents who know your neighborhood inside out. Our network includes experienced professionals with proven success in your local market.",
     className:
-      "md:row-span-2 hover:bg-orange-500/10 transition-all duration-500 ease-out",
+      "md:row-span-2 hover:bg-purple-500/10 transition-all duration-500 ease-out",
     content: (
       <>
         <FlickeringGrid
@@ -57,24 +57,24 @@ const features = [
         />
         <Safari
           src={`/dashboard.png`}
-          url="https://fotovibe"
+          url="https://leadhive.com/experts"
           className="-mb-48 ml-12 mt-16 h-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-x-[-10px] transition-all duration-300"
         />
       </>
     ),
   },
   {
-    title: "Customizable Solutions",
+    title: "No-Pressure Process",
     description:
-      "Tailor our AI services to your specific needs with flexible customization options, allowing you to get the most out of our platform.",
+      "Take your time to review proposals and make decisions. There's no obligation to choose any agent, and you're in control of the entire process.",
     className:
-      "flex-row order-4 md:col-span-2 md:flex-row xl:order-none hover:bg-green-500/10 transition-all duration-500 ease-out",
+      "flex-row order-4 md:col-span-2 md:flex-row xl:order-none hover:bg-orange-500/10 transition-all duration-500 ease-out",
     content: (
       <>
         <Ripple className="absolute -bottom-full" />
         <Safari
           src={`/dashboard.png`}
-          url="https://fotovibe"
+          url="https://leadhive.com/how-it-works"
           className="-mb-32 mt-4 max-h-64 w-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-y-[-10px] transition-all duration-300"
         />
       </>
@@ -82,12 +82,12 @@ const features = [
   },
 ];
 
-export default function Component() {
+export default function SolutionSection() {
   return (
     <Section
-      title="Solution"
-      subtitle="Empower Your Business with AI Workflows"
-      description="Generic AI tools won't suffice. Our platform is purpose-built to provide exceptional AI-driven solutions for your unique business needs."
+      title="Platform Features"
+      subtitle="Everything you need to find your perfect agent"
+      description="Our platform streamlines the agent selection process with powerful features designed to help you make the best choice for your property."
       className="bg-neutral-100 dark:bg-neutral-900"
     >
       <div className="mx-auto mt-16 grid max-w-sm grid-cols-1 gap-6 text-gray-500 md:max-w-3xl md:grid-cols-2 xl:grid-rows-2 md:grid-rows-3 xl:max-w-6xl xl:auto-rows-fr xl:grid-cols-3">

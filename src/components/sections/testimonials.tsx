@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { siteConfig } from "@/lib/config";
 
 export const Highlight = ({
   children,
@@ -84,184 +85,149 @@ export const TestimonialCard = ({
 
 const testimonials = [
   {
-    name: "Alex Rivera",
-    role: "CTO at InnovateTech",
-    img: "https://randomuser.me/api/portraits/men/91.jpg",
-    description: (
-      <p>
-        The AI-driven analytics from #QuantumInsights have revolutionized our
-        product development cycle.
-        <Highlight>
-          Insights are now more accurate and faster than ever.
-        </Highlight>{" "}
-        A game-changer for tech companies.
-      </p>
-    ),
-  },
-  {
-    name: "Samantha Lee",
-    role: "Marketing Director at NextGen Solutions",
+    name: "Sarah Johnson",
+    role: "Home Seller in Boston",
     img: "https://randomuser.me/api/portraits/women/12.jpg",
     description: (
       <p>
-        Implementing #AIStream&apos;s customer prediction model has drastically
-        improved our targeting strategy.
-        <Highlight>Seeing a 50% increase in conversion rates!</Highlight> Highly
-        recommend their solutions.
+        Using {siteConfig.name} to find an agent was so easy.
+        <Highlight>I received 3 proposals within 24 hours</Highlight> and found
+        the perfect agent for my property. Sold above asking price!
       </p>
     ),
   },
   {
-    name: "Raj Patel",
-    role: "Founder & CEO at StartUp Grid",
-    img: "https://randomuser.me/api/portraits/men/45.jpg",
-    description: (
-      <p>
-        As a startup, we need to move fast and stay ahead. #CodeAI&apos;s
-        automated coding assistant helps us do just that.
-        <Highlight>Our development speed has doubled.</Highlight> Essential tool
-        for any startup.
-      </p>
-    ),
-  },
-  {
-    name: "Emily Chen",
-    role: "Product Manager at Digital Wave",
+    name: "Emma Rodriguez",
+    role: "First-time Home Seller",
     img: "https://randomuser.me/api/portraits/women/83.jpg",
     description: (
       <p>
-        #VoiceGen&apos;s AI-driven voice synthesis has made creating global
-        products a breeze.
-        <Highlight>Localization is now seamless and efficient.</Highlight> A
-        must-have for global product teams.
+        I was nervous about selling my first home, but {siteConfig.name} made it
+        simple. <Highlight>The agents were patient and knowledgeable</Highlight>{" "}
+        and helped me understand every step of the process.
       </p>
     ),
   },
   {
-    name: "Michael Brown",
-    role: "Data Scientist at FinTech Innovations",
+    name: "David Thompson",
+    role: "Home Seller in Miami",
     img: "https://randomuser.me/api/portraits/men/1.jpg",
     description: (
       <p>
-        Leveraging #DataCrunch&apos;s AI for our financial models has given us
-        an edge in predictive accuracy.
-        <Highlight>
-          Our investment strategies are now powered by real-time data analytics.
-        </Highlight>{" "}
-        Transformative for the finance industry.
+        {siteConfig.name} matched me with the perfect local agent.
+        <Highlight>My house sold within two weeks</Highlight> and the whole
+        process was completely stress-free.
       </p>
     ),
   },
   {
-    name: "Linda Wu",
-    role: "VP of Operations at LogiChain Solutions",
-    img: "https://randomuser.me/api/portraits/women/5.jpg",
+    name: "Jennifer Chen",
+    role: "Home Seller in Seattle",
+    img: "https://randomuser.me/api/portraits/women/45.jpg",
     description: (
       <p>
-        #LogiTech&apos;s supply chain optimization tools have drastically
-        reduced our operational costs.
-        <Highlight>
-          Efficiency and accuracy in logistics have never been better.
-        </Highlight>{" "}
+        Comparing different agents through {siteConfig.name} was eye-opening.
+        <Highlight>Each proposal offered unique strategies</Highlight> for
+        selling my home. Found exactly what I was looking for.
       </p>
     ),
   },
   {
-    name: "Carlos Gomez",
-    role: "Head of R&D at EcoInnovate",
+    name: "Robert Miller",
+    role: "Home Seller in Chicago",
+    img: "https://randomuser.me/api/portraits/men/32.jpg",
+    description: (
+      <p>
+        The best part about {siteConfig.name}?{" "}
+        <Highlight>No pressure or endless phone calls</Highlight>. I could
+        review proposals at my own pace and choose the agent I felt most
+        comfortable with.
+      </p>
+    ),
+  },
+  {
+    name: "Maria Garcia",
+    role: "Home Seller in Austin",
+    img: "https://randomuser.me/api/portraits/women/28.jpg",
+    description: (
+      <p>
+        After trying to sell on my own, I turned to {siteConfig.name}.
+        <Highlight>Within days, I had multiple qualified agents</Highlight>{" "}
+        competing for my listing. Best decision I could have made.
+      </p>
+    ),
+  },
+  {
+    name: "James Wilson",
+    role: "Home Seller in Denver",
     img: "https://randomuser.me/api/portraits/men/14.jpg",
     description: (
       <p>
-        By integrating #GreenTech&apos;s sustainable energy solutions,
-        we&apos;ve seen a significant reduction in carbon footprint.
+        The quality of agents on {siteConfig.name} impressed me.
+        <Highlight>Every proposal was professional and detailed</Highlight>.
+        Made choosing the right agent much easier than expected.
+      </p>
+    ),
+  },
+  {
+    name: "Patricia Lee",
+    role: "Home Seller in Portland",
+    img: "https://randomuser.me/api/portraits/women/67.jpg",
+    description: (
+      <p>
+        {siteConfig.name} saved me so much time.
+        <Highlight>Instead of researching dozens of agents</Highlight>, I got
+        matched with pre-screened professionals who knew my neighborhood well.
+      </p>
+    ),
+  },
+  {
+    name: "Michael Scott",
+    role: "Home Seller in Phoenix",
+    img: "https://randomuser.me/api/portraits/men/68.jpg",
+    description: (
+      <p>
+        Selling a home is stressful, but {siteConfig.name} made it manageable.
+        <Highlight>The agent they matched me with was fantastic</Highlight> and
+        got me more than I expected for my home.
+      </p>
+    ),
+  },
+  {
+    name: "Linda Martinez",
+    role: "Home Seller in San Diego",
+    img: "https://randomuser.me/api/portraits/women/91.jpg",
+    description: (
+      <p>
+        What a great service! {siteConfig.name} helped me find an agent who
+        <Highlight>sold my house $30,000 above asking price</Highlight>. The
+        whole process was smooth and professional.
+      </p>
+    ),
+  },
+  {
+    name: "Thomas Anderson",
+    role: "Home Seller in Atlanta",
+    img: "https://randomuser.me/api/portraits/men/92.jpg",
+    description: (
+      <p>
+        I appreciated how {siteConfig.name} vetted the agents first.
+        <Highlight>Every proposal I received was high-quality</Highlight> and
+        showed deep market knowledge. Excellent service!
+      </p>
+    ),
+  },
+  {
+    name: "Susan Taylor",
+    role: "Home Seller in Nashville",
+    img: "https://randomuser.me/api/portraits/women/89.jpg",
+    description: (
+      <p>
+        From start to finish, {siteConfig.name} exceeded my expectations.
         <Highlight>
-          Leading the way in eco-friendly business practices.
-        </Highlight>{" "}
-        Pioneering change in the industry.
-      </p>
-    ),
-  },
-  {
-    name: "Aisha Khan",
-    role: "Chief Marketing Officer at Fashion Forward",
-    img: "https://randomuser.me/api/portraits/women/56.jpg",
-    description: (
-      <p>
-        #TrendSetter&apos;s market analysis AI has transformed how we approach
-        fashion trends.
-        <Highlight>
-          Our campaigns are now data-driven with higher customer engagement.
-        </Highlight>{" "}
-        Revolutionizing fashion marketing.
-      </p>
-    ),
-  },
-  {
-    name: "Tom Chen",
-    role: "Director of IT at HealthTech Solutions",
-    img: "https://randomuser.me/api/portraits/men/18.jpg",
-    description: (
-      <p>
-        Implementing #MediCareAI in our patient care systems has improved
-        patient outcomes significantly.
-        <Highlight>
-          Technology and healthcare working hand in hand for better health.
-        </Highlight>{" "}
-        A milestone in medical technology.
-      </p>
-    ),
-  },
-  {
-    name: "Sofia Patel",
-    role: "CEO at EduTech Innovations",
-    img: "https://randomuser.me/api/portraits/women/73.jpg",
-    description: (
-      <p>
-        #LearnSmart&apos;s AI-driven personalized learning plans have doubled
-        student performance metrics.
-        <Highlight>
-          Education tailored to every learner&apos;s needs.
-        </Highlight>{" "}
-        Transforming the educational landscape.
-      </p>
-    ),
-  },
-  {
-    name: "Jake Morrison",
-    role: "CTO at SecureNet Tech",
-    img: "https://randomuser.me/api/portraits/men/25.jpg",
-    description: (
-      <p>
-        With #CyberShield&apos;s AI-powered security systems, our data
-        protection levels are unmatched.
-        <Highlight>Ensuring safety and trust in digital spaces.</Highlight>{" "}
-        Redefining cybersecurity standards.
-      </p>
-    ),
-  },
-  {
-    name: "Nadia Ali",
-    role: "Product Manager at Creative Solutions",
-    img: "https://randomuser.me/api/portraits/women/78.jpg",
-    description: (
-      <p>
-        #DesignPro&apos;s AI has streamlined our creative process, enhancing
-        productivity and innovation.
-        <Highlight>Bringing creativity and technology together.</Highlight> A
-        game-changer for creative industries.
-      </p>
-    ),
-  },
-  {
-    name: "Omar Farooq",
-    role: "Founder at Startup Hub",
-    img: "https://randomuser.me/api/portraits/men/54.jpg",
-    description: (
-      <p>
-        #VentureAI&apos;s insights into startup ecosystems have been invaluable
-        for our growth and funding strategies.
-        <Highlight>Empowering startups with data-driven decisions.</Highlight> A
-        catalyst for startup success.
+          Found an amazing agent who sold my home in just 5 days
+        </Highlight>
+        . Couldn't ask for a better experience.
       </p>
     ),
   },
@@ -272,13 +238,13 @@ export default function Testimonials() {
     <Section>
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Våre kunder lykkes{" "}
-          <span className="block">med profesjonelt innhold</span>
+          What people are saying{" "}
+          <span className="block">about {siteConfig.name}</span>
         </h2>
         <p className="text-muted-foreground text-lg">
-          Se hva våre fornøyde kunder sier om samarbeidet med Fotovibe
+          Join thousands of happy home sellers
           <br />
-          og hvordan vi har hjulpet dem med å styrke deres visuelle profil.
+          who found their perfect real estate agent through our platform
         </p>
       </div>
       <div className="relative mt-6 max-h-screen overflow-hidden">

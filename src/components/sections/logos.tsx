@@ -2,32 +2,32 @@ import Marquee from "@/components/magicui/marquee";
 import Image from "next/image";
 
 const companies = [
-  "Google",
-  "Microsoft",
-  "Amazon",
-  "Netflix",
-  "YouTube",
-  "Instagram",
-  "Uber",
-  "Spotify",
+  "TheNewYorkTimes",
+  "TheWashingtonPost",
+  "Forbes",
+  "Bloomberg",
+  "BusinessInsider",
+  "TechCrunch",
+  "TheGuardian",
+  "Wired",
 ];
 
 export default function Logos() {
   return (
-    <section id="logos">
+    <section id="logos" className="">
       <div className="container mx-auto px-4 md:px-8 py-12">
-        <h3 className="text-center text-sm font-semibold text-gray-500">
-          NOEN AV VÅRE KUNDER
+        <h3 className="text-center text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+          Featured In
         </h3>
-        <div className="relative mt-6">
+        <div className="relative mt-8">
           <Marquee className="max-w-full [--duration:40s]">
             {companies.map((logo, idx) => (
               <Image
                 key={idx}
                 width={112}
                 height={40}
-                src={`https://cdn.magicui.design/companies/${logo}.svg`}
-                className="h-10 w-28 dark:brightness-0 dark:invert grayscale opacity-30"
+                src={`https://cdn.magicui.design/press/${logo}.svg`}
+                className="h-10 w-28 dark:brightness-0 dark:invert grayscale opacity-30 hover:opacity-60 transition-opacity"
                 alt={logo}
               />
             ))}

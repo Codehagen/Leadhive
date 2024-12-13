@@ -14,6 +14,7 @@ import {
 } from "@react-email/components";
 import { Icons } from "@/components/icons";
 import Footer from "./components/footer";
+import { siteConfig } from "@/lib/config";
 
 export default function WelcomeEmail({
   name = "Christer",
@@ -25,7 +26,7 @@ export default function WelcomeEmail({
   return (
     <Html>
       <Head />
-      <Preview>Welcome to LeadHive</Preview>
+      <Preview>Welcome to {siteConfig.name}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-10 max-w-[500px] rounded border border-solid border-gray-200 px-10 py-5">
@@ -35,16 +36,16 @@ export default function WelcomeEmail({
               </div>
             </Section>
             <Heading className="mx-0 my-7 p-0 text-center text-xl font-semibold text-black">
-              Welcome to LeadHive
+              Welcome to {siteConfig.name}
             </Heading>
             <Section className="my-8"></Section>
             <Text className="text-sm leading-6 text-black">
               Thanks for signing up{name && `, ${name}`}!
             </Text>
             <Text className="text-sm leading-6 text-black">
-              My name is Christer, and I'm the founder of Leadhive - the best
-              way to get your leads for the mordern business. I'm excited to
-              have you on board!
+              My name is Christer, and I'm the founder of {siteConfig.name} -
+              the best way to get your leads for the mordern business. I'm
+              excited to have you on board!
             </Text>
             <Text className="text-sm leading-6 text-black">
               Here's what happens next:
@@ -83,7 +84,7 @@ export default function WelcomeEmail({
               here to help!
             </Text>
             <Text className="text-sm font-light leading-6 text-gray-400">
-              Christer from Leadhive
+              Christer from {siteConfig.name}
             </Text>
 
             <Footer email={email} marketing />

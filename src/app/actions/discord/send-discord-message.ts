@@ -6,15 +6,12 @@ interface SendMessageProps {
   message: string;
 }
 
-export async function sendDiscordMessage({
-  name,
-  email,
-  message,
-}: SendMessageProps) {
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+export async function sendDiscordMessage(data: SendMessageProps) {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_CUSTOMER_SERVICE;
 
   if (!webhookUrl) {
-    throw new Error("Discord webhook URL is not configured");
+    console.error("Discord webhook URL is not configured");
+    throw new Error("Internal server error");
   }
 
   try {
@@ -24,26 +21,31 @@ export async function sendDiscordMessage({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        username: "LeadHive Customer Service",
+        avatar_url: "https://your-leadhive-logo-url.com/logo.png", // Optional: Add your logo URL
         embeds: [
           {
-            title: "Ny kundeservice henvendelse",
-            color: 0x00ff00,
+            title: "📨 New Customer Service Message",
+            color: 0x00ff00, // Green color
             fields: [
               {
-                name: "Navn",
-                value: name,
+                name: "Name",
+                value: data.name,
                 inline: true,
               },
               {
                 name: "Email",
-                value: email,
+                value: data.email,
                 inline: true,
               },
               {
-                name: "Melding",
-                value: message,
+                name: "Message",
+                value: data.message,
               },
             ],
+            footer: {
+              text: "LeadHive Customer Service Bot",
+            },
             timestamp: new Date().toISOString(),
           },
         ],
@@ -51,12 +53,12 @@ export async function sendDiscordMessage({
     });
 
     if (!response.ok) {
-      throw new Error("Failed to send message to Discord");
+      throw new Error(`Discord API error: ${response.statusText}`);
     }
 
     return { success: true };
   } catch (error) {
-    console.error("Error sending message to Discord:", error);
+    console.error("Error sending Discord message:", error);
     throw new Error("Failed to send message");
   }
 }

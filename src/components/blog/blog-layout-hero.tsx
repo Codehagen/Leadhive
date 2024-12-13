@@ -24,14 +24,13 @@ export default function BlogLayoutHero() {
       <MaxWidthWrapper>
         <div className="max-w-screen-sm py-16">
           <h1 className="font-display text-3xl font-extrabold text-foreground sm:text-4xl">
-            {data?.title || "Blogg"}
+            {data?.title || "Blog"}
           </h1>
           <p className="mt-4 text-xl text-muted-foreground">
-            {data?.description ||
-              "Siste nyheter og oppdateringer fra Fotovibe."}
+            {data?.description || "Latest insights and updates from Leadhive."}
           </p>
           <nav className="mt-6 hidden w-fit items-center space-x-2 rounded-full border border-border bg-background p-2 md:flex">
-            <CategoryLink title="Oversikt" href="/blog" active={!slug} />
+            <CategoryLink title="Overview" href="/blog" active={!slug} />
             {BLOG_CATEGORIES.map((category) => (
               <CategoryLink
                 key={category.slug}
@@ -40,8 +39,7 @@ export default function BlogLayoutHero() {
                 active={category.slug === slug}
               />
             ))}
-            <CategoryLink title="Kundehistorier" href="/customers" />
-            <CategoryLink title="Endringslogg" href="/changelog" />
+            <CategoryLink title="Customers" href="/customers" />
           </nav>
         </div>
       </MaxWidthWrapper>
@@ -49,7 +47,7 @@ export default function BlogLayoutHero() {
         content={
           <div className="w-full p-4">
             <CategoryLink
-              title="Oversikt"
+              title="Overview"
               href="/blog"
               active={!slug}
               mobile
@@ -65,8 +63,18 @@ export default function BlogLayoutHero() {
                 setOpenPopover={setOpenPopover}
               />
             ))}
-            <CategoryLink title="Kundehistorier" href="/customers" mobile />
-            <CategoryLink title="Endringslogg" href="/changelog" mobile />
+            <CategoryLink
+              title="Success Stories"
+              href="/customers"
+              mobile
+              setOpenPopover={setOpenPopover}
+            />
+            <CategoryLink
+              title="Updates"
+              href="/changelog"
+              mobile
+              setOpenPopover={setOpenPopover}
+            />
           </div>
         }
         openPopover={openPopover}
@@ -80,7 +88,7 @@ export default function BlogLayoutHero() {
           className="flex w-full items-center space-x-2 border-t border-border px-2.5 py-4 text-sm text-foreground"
         >
           <List size={16} />
-          <p>Kategorier</p>
+          <p>Categories</p>
         </button>
       </Popover>
     </>

@@ -6,23 +6,24 @@ import HeroVideoDialog from "@/components/magicui/hero-video";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Search } from "lucide-react";
 
 const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
   return (
     <motion.a
-      href="/blog/introduserer-fotovibe"
+      href="/how-it-works"
       className="flex w-auto items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-pre"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease }}
     >
       <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-center text-xs font-medium text-primary sm:text-sm">
-        🎉 Nyhet
+        ✨ Free Service
       </div>
       <p className="text-xs font-medium text-primary sm:text-sm">
-        Lansering av Fotovibe
+        Compare Top Local Agents
       </p>
       <svg
         width="12"
@@ -53,9 +54,9 @@ function HeroTitles() {
           ease,
         }}
       >
-        <span className="block font-semibold">Profesjonelt Bedriftsfoto</span>
+        <span className="block font-semibold">Find a expert</span>
         <span className="block text-3xl sm:text-4xl md:text-5xl mt-2 text-muted-foreground">
-          på abonnement
+          Get Free Proposals Today
         </span>
       </motion.h1>
       <motion.p
@@ -68,8 +69,7 @@ function HeroTitles() {
           ease,
         }}
       >
-        Få profesjonelle bilder og videoer hver måned for din bedrift. Fast
-        fotograf, fast pris, ingen overraskelser.
+        No cost, no obligation - just expert help for your property journey.
       </motion.p>
     </div>
   );
@@ -91,8 +91,8 @@ function HeroCTA() {
             "w-full sm:w-auto text-background flex gap-2"
           )}
         >
-          <Icons.logo className="h-6 w-6" />
-          Bli kontaktet
+          <Search className="h-6 w-6" />
+          Get Free Agent Proposals
         </Link>
       </motion.div>
       <motion.p
@@ -101,12 +101,14 @@ function HeroCTA() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.0, duration: 0.8 }}
       >
-        Ingen bindingstid. Ingen kredittkort nødvendig.
+        Join 10,000+ homeowners who found their perfect agent through LeadHive
       </motion.p>
     </>
   );
 }
 
+// Comment out or remove HeroImage function
+/*
 function HeroImage() {
   return (
     <motion.div
@@ -125,16 +127,16 @@ function HeroImage() {
     </motion.div>
   );
 }
+*/
 
 export default function Hero() {
   return (
-    <section id="hero" aria-label="Bedriftsfoto og Video Tjenester">
-      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
+    <section id="hero" aria-label="Find Local Real Estate Agents">
+      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 pb-16 sm:px-6 sm:pt-40 md:pt-48 lg:px-8">
         <HeroPill />
         <HeroTitles />
         <HeroCTA />
-        <HeroImage />
-        <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
+        {/* Remove the gradient div */}
       </div>
     </section>
   );
