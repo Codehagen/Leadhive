@@ -1,0 +1,454 @@
+# Content Generation Prompt for Leadhive
+
+## Context
+You are tasked with generating content for Leadhive. Content should follow these established patterns:
+
+## Content Types and Structure
+
+### 1. Blog Posts
+title: [Title in Norwegian]
+publishedAt: [YYYY-MM-DD]
+summary: [1-2 sentence summary in Norwegian]
+image: [CDN URL from imagedelivery.net]
+author: codehagen
+categories:
+[category]
+related:
+[related-slug]
+slug: [url-friendly-slug]
+
+Example blog structure:
+- Introduction (2-3 paragraphs)
+- 2-3 main sections with h2 headings
+- Use <Image> components for visuals
+- Use <Note> for important callouts
+- Use <Quote> for testimonials
+- Conclusion with call-to-action
+
+### 2. Help Articles
+
+title: [How-to title in Norwegian]
+updatedAt: [YYYY-MM-DD]
+summary: [1-2 sentence summary in Norwegian]
+image: [CDN URL from imagedelivery.net]
+author: codehagen
+categories:
+[category from HELP_CATEGORIES]
+related:
+[related-help-article-slugs]
+slug: [url-friendly-slug]
+
+xample help article structure:
+- Use <Prerequisites> at start if needed
+- Step-by-step instructions
+- Use <Note> for warnings/tips
+- Include screenshots with <Image>
+- End with troubleshooting or next steps
+
+### 3. Integration Documentation
+
+title: [Integration title in Norwegian]
+slug: [integration-name]
+publishedAt: [YYYY-MM-DD]
+summary: [1-2 sentence summary]
+integrationDescription: [One-line description]
+image: [CDN URL]
+company: [Company name]
+companyLogo: [CDN URL]
+companyUrl: [Company website]
+companyDescription: [2-3 sentences about company]
+integrationType: [Type of integration]
+companyIndustry: [Industry]
+compatibility: [Fotovibe plan compatibility]
+lastUpdated: [YYYY-MM-DD]
+
+Example integration structure:
+- Introduction about partner
+- Challenge section
+- Solution section with bullet points
+- Results/Benefits section
+- Include <Quote> from customer/partner
+- Implementation steps if applicable
+
+## Style Guidelines
+
+1. Language:
+- Write in English
+- Use professional but accessible language
+- Active voice preferred
+- Short paragraphs (2-4 sentences)
+
+2. Components to Use:
+
+<Note variant="warning|info|success">
+[Important information]
+</Note>
+
+<Prerequisites>
+[List of requirements]
+</Prerequisites>
+
+<Quote
+author="[Name]"
+authorSrc="[Image URL]"
+title="[Title]"
+company="[Company]"
+companySrc="[Logo URL]"
+text="[Quote text]"
+/>
+
+<Image
+alt="[Descriptive text]"
+src="[CDN URL]"
+width={[width]}
+height={[height]}
+/>
+
+<HelpArticles
+  articles={["introduserer-leadhive", "introduserer-leadhive", "introduserer-leadhive"]}
+/>
+
+List:
+1. **Oversikt**: Lær om Leadhive-plattformen og hvordan den kan hjelpe deg.
+2. **Kom i gang**: Kom i gang med Leadhive med våre omfattende guider.
+3. **Eiendomsadministrasjon**: Lær hvordan du effektivt administrerer dine eiendommer.
+4. **Analyse og rapportering**: Utnytt Leadhives analyseverktøy for å se hvordan dine eiendommer presterer.
+5. **Integrasjoner**: Lær hvordan du integrerer Leadhive med andre systemer.
+
+
+
+Also here is a list for the changelog:
+| Snarvei | Funksjon                      | Global |
+| ------- | ----------------------------- | ------ |
+| n     | Opprett ny eiendom            | Ja     |
+| s     | Søk etter eiendommer          | Ja     |
+| p     | Gå til profil                 | Ja     |
+| k     | Åpne hjelpesenteret           | Ja     |
+| /     | Fokuser på søkefeltet         | Ja     |
+| e     | Rediger valgt eiendom         | Nei    |
+| d     | Dupliser valgt eiendom        | Nei    |
+| a     | Arkiver valgt eiendom         | Nei    |
+| x     | Slett valgt eiendom           | Nei    |
+
+
+3. Common Categories:
+- Blog: company, product, tutorials
+- Help: starter, oversikt, integrasjoner, eiendomsforvaltning
+- Integrations: regnskapssystem, eiendomsdata, digital signering
+
+## Example Request
+
+"Please create a help article about [topic] that:
+- Targets Norwegian property managers
+- Includes prerequisites and step-by-step instructions
+- Uses appropriate components for warnings and tips
+- Follows the established metadata structure
+- Integrates with existing related content [list relevant slugs]
+- Maintains professional but accessible tone
+- Includes placeholders for relevant images"
+
+
+
+
+
+Example on help article integration:
+---
+title: Hvordan sende faktura via Fiken
+updatedAt: 2024-08-18
+summary: Lær hvordan du enkelt kan sende fakturaer direkte fra Leadhive ved hjelp av Fiken-integrasjonen.
+image: https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/send-invoice-fiken/public
+author: codehagen
+categories:
+  - integrasjoner
+related:
+  - integrere-med-fiken
+  - fakturering-oversikt
+slug: hvordan-sende-faktura-fiken
+---
+
+Leadhive gjør det enkelt å sende fakturaer direkte fra plattformen ved hjelp av Fiken-integrasjonen. Følg denne veiledningen for å sende din første faktura.
+
+<Prerequisites>
+
+Før du begynner, sørg for at du har:
+
+- En aktiv Leadhive-konto
+- Fullført [integrasjonen med Fiken](integrere-med-fiken)
+
+</Prerequisites>
+
+## Steg 1: Gå til Leietaker-seksjonen
+
+1. Logg inn på din Leadhive-konto.
+2. Naviger til **Leietaker**-seksjonen i hovedmenyen.
+
+<Image
+  alt="Leietaker-seksjonen i Leadhive"
+ src="https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/84d87b75-d579-4284-5792-b3e056649200/public"
+  width={1200}
+  height={675}
+/>
+
+## Steg 2: Velg Faktura-funksjonen
+
+I Leietaker-seksjonen, finn og klikk på **Faktura**-knappen.
+
+<Image
+  alt="Faktura-knappen i Leietaker-seksjonen"
+  src="https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/c5227db5-80c9-4338-db79-7af0a381ea00/public"
+  width={800}
+  height={400}
+/>
+
+## Steg 3: Velg kunde og produkt
+
+1. Du vil nå se en liste over kunder hentet direkte fra Fiken.
+2. Velg ønsket kunde fra listen.
+3. Velg produktet eller tjenesten du vil fakturere for.
+
+<Image
+  alt="Velg kunde og produkt for fakturering"
+  src="https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/54883adb-75c6-4054-c1a7-5a1fd8c49f00/public"
+  width={1000}
+  height={600}
+/>
+
+## Steg 4: Fyll ut fakturadetaljer
+
+1. Angi forfallsdato for fakturaen.
+2. Fyll ut eventuelle andre nødvendige detaljer.
+
+<Image
+  alt="Fyll ut fakturadetaljer"
+  src="https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/4fd43369-170e-4cf4-0d0c-a6b3e80cdf00/public"
+  width={1000}
+  height={600}
+/>
+
+## Steg 5: Send fakturaen
+
+Når du har fylt ut all nødvendig informasjon, klikk på **Send faktura**-knappen.
+
+<Image
+  alt="Send faktura-knappen"
+  src="https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/b2e0ea90-973c-438e-3b11-0d98806ffe00/public"
+  width={800}
+  height={400}
+/>
+
+<Note variant="success">
+  Gratulerer! Du har nå sendt en faktura via Leadhive og Fiken.
+</Note>
+
+## Verifisere sendt faktura
+
+For å bekrefte at fakturaen er sendt og registrert korrekt:
+
+1. Logg inn på din Fiken-konto.
+2. Naviger til fakturamodulen.
+3. Du skal nå se den nylig sendte fakturaen i listen over sendte fakturaer.
+
+<Image
+  alt="Verifisere sendt faktura i Fiken"
+  src="https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/4bdf2131-c57f-4b69-bd3e-f0a273164000/public"
+  width={1200}
+  height={675}
+/>
+
+Hvis du støter på problemer eller har spørsmål om fakturering, ikke nøl med å [kontakte vår support](mailto:support@leadhive.no).
+
+
+Example on integration documentation:
+---
+title: Hvordan Leadhive integrerer med Brønnøysundregistrene for innhenting av bedriftsinformasjon
+slug: brreg
+publishedAt: 2024-08-11
+summary: Lær hvordan Leadhives integrasjon med Brønnøysundregistrene forenkler prosessen med å finne og verifisere bedriftsinformasjon for eiendomsforvaltere.
+integrationDescription: Hent oppdatert bedriftsinformasjon direkte fra Brønnøysundregistrene i Leadhive
+image: https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/6059d775-2f64-4c05-1e25-1f776cc89500/public
+company: Brønnøysundregistrene
+companyLogo: https://imagedelivery.net/r-6-yk-gGPtjfbIST9-8uA/3d567440-f3e1-4ed8-6f91-6572b2674300/public
+companyUrl: https://www.brreg.no/
+companyDescription: Brønnøysundregistrene er en statlig etat under Nærings- og fiskeridepartementet som driver og utvikler mange av landets viktigste registre og digitale løsninger.
+integrationType: Offentlig register
+companyIndustry: Offentlig sektor
+compatibility: Alle Leadhive-planer
+lastUpdated: 2024-08-11
+---
+
+# Effektiv bedriftsidentifisering med Brønnøysundregistrene
+
+I eiendomsbransjen er presis og oppdatert bedriftsinformasjon avgjørende. Leadhives integrasjon med Brønnøysundregistrene (Brreg) gir deg umiddelbar tilgang til Norges mest pålitelige kilde for bedriftsdata, direkte i vår plattform.
+
+## Hva er Brønnøysundregistrene?
+
+Brønnøysundregistrene er Norges sentrale registeretat, ansvarlig for å forvalte en rekke nasjonale kontroll- og registreringsordninger for næringslivet. Dette inkluderer Enhetsregisteret og Foretaksregisteret, som inneholder grunndata om norske virksomheter.
+
+## Hvordan fungerer integrasjonen?
+
+Leadhive kobler seg direkte til Brønnøysundregistrenes API, noe som gir våre brukere tilgang til:
+
+1. **Sanntidssøk**: Finn bedrifter raskt ved å søke på navn, organisasjonsnummer eller adresse.
+2. **Automatisk datafylling**: Relevante bedriftsopplysninger hentes automatisk inn i Leadhive-skjemaer.
+3. **Oppdatert informasjon**: Bedriftsdata synkroniseres regelmessig for å sikre at du alltid har den nyeste informasjonen.
+
+
+## Fordeler for eiendomsforvaltere
+
+- **Spar tid**: Eliminer behovet for manuell søking og inntasting av bedriftsinformasjon.
+- **Reduser feil**: Automatisk datafylling minimerer risikoen for feilregistreringer.
+- **Økt sikkerhet**: Verifiser enkelt at du har riktig juridisk enhet for kontrakter og fakturering.
+- **Bedre kundeservice**: Rask tilgang til oppdatert informasjon gir mer effektiv kommunikasjon med kunder og partnere.
+
+
+Med Leadhives integrasjon med Brønnøysundregistrene får du en sømløs, effektiv og pålitelig måte å håndtere bedriftsinformasjon på. Dette er bare én av mange måter Leadhive jobber for å forenkle og effektivisere eiendomsforvaltning i Norge.
+
+
+
+# Content Generation Rules for Leadhive
+
+## Available Components
+
+### 1. Basic Components
+
+// Image component for visuals
+<Image
+alt="Descriptive alt text"
+src="https://imagedelivery.net/[your-image-id]"
+width={number}
+height={number}
+/>
+
+// Note component for callouts
+
+<Note variant="warning | info | success">
+Your important message here
+</Note>
+
+// Prerequisites component for requirements
+<Prerequisites>
+Requirement 1
+Requirement 2
+</Prerequisites>
+
+// Quote component for testimonials
+<Quote
+author="Name"
+authorSrc="https://imagedelivery.net/[author-image]"
+title="Title"
+company="Company Name"
+companySrc="https://imagedelivery.net/[company-logo]"
+text="Quote text here"
+/>
+
+// Code component for code examples
+<Code title="Optional title" language="language-id">
+{"your code here"}
+</Code>
+
+// Related help articles
+<HelpArticles
+articles={["article-slug-1", "article-slug-2", "article-slug-3"]}
+/>
+
+### 2. Content Types and Metadata
+
+### Blog Posts
+
+title: [Title in Norwegian]
+publishedAt: [YYYY-MM-DD]
+summary: [1-2 sentence summary in Norwegian]
+image: [CDN URL]
+author: codehagen
+categories: [category]
+related: [related-slug]
+slug: [url-friendly-slug]
+
+#### Help Articles
+title: [How-to title in Norwegian]
+updatedAt: [YYYY-MM-DD]
+summary: [1-2 sentence summary in Norwegian]
+image: [CDN URL]
+author: codehagen
+categories: [category from HELP_CATEGORIES]
+related: [related-help-article-slugs]
+slug: [url-friendly-slug]
+
+#### Integration Documentation
+itle: [Integration title in Norwegian]
+slug: [integration-name]
+publishedAt: [YYYY-MM-DD]
+summary: [1-2 sentence summary]
+integrationDescription: [One-line description]
+image: [CDN URL]
+company: [Company name]
+companyLogo: [CDN URL]
+companyUrl: [Company website]
+companyDescription: [2-3 sentences about company]
+integrationType: [Type of integration]
+companyIndustry: [Industry]
+compatibility: [Leadhive plan compatibility]
+lastUpdated: [YYYY-MM-DD]
+
+### 3. Content Structure Guidelines
+
+#### Blog Posts
+1. Introduction (2-3 paragraphs)
+2. 2-3 main sections with h2 headings
+3. Use `<Image>` for visuals
+4. Use `<Note>` for important callouts
+5. Use `<Quote>` for testimonials
+6. Conclusion with call-to-action
+
+#### Help Articles
+1. Use `<Prerequisites>` at start if needed
+2. Step-by-step instructions
+3. Use `<Note>` for warnings/tips
+4. Include screenshots with `<Image>`
+5. End with troubleshooting or next steps
+
+#### Integration Documentation
+1. Introduction about partner
+2. Challenge section
+3. Solution section with bullet points
+4. Results/Benefits section
+5. Include `<Quote>` from customer/partner
+6. Implementation steps if applicable
+
+### 4. Categories
+
+#### Blog Categories
+- company
+- product
+- tutorials
+
+#### Help Categories
+- starter
+- oversikt
+- integrasjoner
+- eiendomsforvaltning
+
+#### Integration Types
+- regnskapssystem
+- eiendomsdata
+- digital signering
+
+### 5. Style Guidelines
+
+1. Language:
+- Write in Norwegian (Bokmål)
+- Use professional but accessible language
+- Active voice preferred
+- Short paragraphs (2-4 sentences)
+
+2. Images:
+- Use WebP format
+- Include descriptive alt text
+- Specify dimensions
+- Host on imagedelivery.net CDN
+
+3. Formatting:
+- Use h2 for main sections
+- Keep paragraphs concise
+- Include relevant links
+- Use bullet points for lists

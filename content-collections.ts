@@ -56,7 +56,7 @@ const BlogPost = defineCollection({
   schema: (z) => ({
     title: z.string(),
     categories: z
-      .array(z.enum(["company", "engineering", "education", "customers"]))
+      .array(z.enum(["company", "agents", "guides", "success-stories"]))
       .default(["company"]),
     publishedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     featured: z.boolean().default(false),
