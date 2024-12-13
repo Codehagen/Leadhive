@@ -22,10 +22,10 @@ export default function Home() {
       <Logos />
       <Problem />
       {/* <PhotoBlur /> */}
-      {/* <Solution /> */}
+      <Solution />
       {/* <HowItWorks /> */}
       {/* <TestimonialsCarousel /> */}
-      <Features />
+      {/* <Features /> */}
       <Testimonials />
       <Pricing />
       <FAQ />

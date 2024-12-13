@@ -8,29 +8,34 @@ import {
 
 const faqs = [
   {
-    question: "Hvordan fungerer fotograf-abonnementet?",
+    question: "How does LeadHive work for home sellers?",
     answer:
-      "Med vårt abonnement får du tilgang til profesjonell fotografering hver måned. Vi sørger for alt fra planlegging til levering av ferdig redigerte bilder. Du får en dedikert fotograf som blir kjent med din bedrift og forstår dine behov.",
+      "LeadHive connects you with top local real estate agents for free. Simply share your property details through our form, and we'll match you with experienced agents who specialize in your area. You'll receive multiple proposals to compare and choose from, with no obligation.",
   },
   {
-    question: "Hva er inkludert i abonnementet?",
+    question: "Is there any cost for homeowners?",
     answer:
-      "Abonnementet inkluderer månedlig fotografering, profesjonell bilderedigering, digital levering av høyoppløselige bilder, og rettigheter til å bruke bildene i all markedsføring. Vi tilbyr også rådgivning om hvordan bildene best kan brukes.",
+      "No, our service is completely free for homeowners. We only charge real estate agents when they receive qualified leads. You can get multiple proposals from top agents without any cost or commitment.",
   },
   {
-    question: "Hvor lang tid tar det før vi får bildene?",
+    question: "How do you select real estate agents?",
     answer:
-      "Normalt leverer vi ferdig redigerte bilder innen 5 virkedager etter fotografering. Ved hasteoppdrag kan vi levere raskere etter avtale.",
+      "We partner with experienced agents who have proven track records in their local markets. We evaluate their performance, customer satisfaction, and local market knowledge to ensure you're connected with qualified professionals.",
   },
   {
-    question: "Kan vi bruke samme fotograf hver gang?",
+    question: "How long does it take to receive agent proposals?",
     answer:
-      "Ja, det er nettopp det som er en av fordelene med vårt abonnement. Du får en dedikert fotograf som blir kjent med din bedrift og deres behov over tid.",
+      "Most homeowners receive their first proposal within 24 hours of submitting their property details. You can typically expect multiple proposals within 48 hours, allowing you to compare different agents and their approaches.",
   },
   {
-    question: "Hva hvis vi trenger ekstra fotografering en måned?",
+    question: "For agents: How does lead pricing work?",
     answer:
-      "Som abonnent får du prioritert tilgang og rabatterte priser på ekstra fotografering. Kontakt din dedikerte fotograf for tilbud på tilleggstjenester.",
+      "Agents only pay for qualified leads that match their criteria. The cost per lead varies based on your subscription tier, ranging from $40-50 per lead. You can choose how many leads you want to receive monthly, and there are no hidden fees or long-term commitments.",
+  },
+  {
+    question: "What information is included in each lead?",
+    answer:
+      "Each lead includes essential property details, seller timeline, preferred contact method, and specific requirements. Premium tiers receive additional insights and priority access to help you better serve potential clients.",
   },
 ];
 
@@ -39,12 +44,12 @@ export default function FAQ() {
     <Section>
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Ofte stilte spørsmål
+          Frequently Asked Questions
         </h2>
         <p className="text-muted-foreground text-lg">
-          Alt du lurer på om Fotovibe
+          Everything you need to know about LeadHive
           <br />
-          og hvordan vi kan hjelpe deg.
+          and how we can help you succeed.
         </p>
       </div>
       <div className="mx-auto my-12 md:max-w-[800px]">
@@ -68,9 +73,9 @@ export default function FAQ() {
         </Accordion>
       </div>
       <h4 className="mb-12 text-center text-sm font-medium tracking-tight text-foreground/80">
-        Har du flere spørsmål? Send oss en e-post på{" "}
-        <a href="mailto:kontakt@fotovibe.as" className="underline">
-          kontakt@fotovibe.as
+        Have more questions? Email us at{" "}
+        <a href="mailto:support@leadhive.no" className="underline">
+          support@leadhive.no
         </a>
       </h4>
     </Section>

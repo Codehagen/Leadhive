@@ -50,17 +50,16 @@ export default function PricingSection() {
     <Section>
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Forutsigbare, <span className="block">og rimelige priser</span>
+          Simple, transparent <span className="block">pricing for agents</span>
         </h2>
         <p className="text-muted-foreground text-lg">
-          Finn en plan som passer dine behov.
+          Only pay for the leads you receive.
           <br />
-          Start gratis, ingen kredittkort nødvendig.
+          No monthly fees, no hidden costs.
         </p>
       </div>
 
       <div className="flex justify-center mb-10">
-        {/* <span className="mr-2 font-semibold">Monthly</span> */}
         <label className="relative inline-flex items-center cursor-pointer">
           <Label>
             <Switch
@@ -72,11 +71,68 @@ export default function PricingSection() {
           </Label>
         </label>
         <span className="ml-2 font-semibold">
-          Årlig rabatt <span className="text-primary">(2 måneder gratis)</span>
+          Annual billing <span className="text-primary">(Save 20%)</span>
         </span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 sm:2 gap-4">
-        {siteConfig.pricing.map((plan, index) => (
+        {[
+          {
+            name: "STARTER",
+            price: "50",
+            yearlyPrice: "40",
+            period: "per lead",
+            features: [
+              "Up to 10 leads per month",
+              "Basic lead information",
+              "Email notifications",
+              "Standard support",
+              "Basic analytics",
+            ],
+            description: "Perfect for individual agents starting out",
+            buttonText: "Start Free Trial",
+            href: "/agent/sign-up",
+            isPopular: false,
+          },
+          {
+            name: "PROFESSIONAL",
+            price: "45",
+            yearlyPrice: "36",
+            period: "per lead",
+            features: [
+              "Up to 30 leads per month",
+              "Detailed lead information",
+              "Priority lead matching",
+              "Phone & email notifications",
+              "Advanced analytics",
+              "Priority support",
+              "Lead management tools",
+            ],
+            description: "Ideal for established agents and small teams",
+            buttonText: "Get Started",
+            href: "/agent/sign-up",
+            isPopular: true,
+          },
+          {
+            name: "AGENCY",
+            price: "40",
+            yearlyPrice: "32",
+            period: "per lead",
+            features: [
+              "Unlimited leads",
+              "Premium lead information",
+              "First access to new leads",
+              "Custom lead routing",
+              "Team management",
+              "API access",
+              "Dedicated account manager",
+              "White-label options",
+            ],
+            description: "For large teams and agencies",
+            buttonText: "Contact Sales",
+            href: "/agent/contact-sales",
+            isPopular: false,
+          },
+        ].map((plan, index) => (
           <motion.div
             key={index}
             initial={{ y: 50, opacity: 1 }}
@@ -89,8 +145,8 @@ export default function PricingSection() {
                       index === siteConfig.pricing.length - 1
                         ? -30
                         : index === 0
-                        ? 30
-                        : 0,
+                          ? 30
+                          : 0,
                     scale:
                       index === 0 || index === siteConfig.pricing.length - 1
                         ? 0.94
@@ -133,13 +189,11 @@ export default function PricingSection() {
                 <span className="text-5xl font-bold tracking-tight text-foreground">
                   <NumberFlow
                     value={
-                      isMonthly
-                        ? Number(plan.price.replace(/[^0-9]/g, ""))
-                        : Number(plan.yearlyPrice.replace(/[^0-9]/g, ""))
+                      isMonthly ? Number(plan.price) : Number(plan.yearlyPrice)
                     }
                     format={{
                       style: "currency",
-                      currency: "NOK",
+                      currency: "USD",
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0,
                     }}

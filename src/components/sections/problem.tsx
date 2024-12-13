@@ -1,7 +1,7 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import Section from "@/components/section";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle, CalendarRange, Camera } from "lucide-react";
+import { ClipboardCheck, CalendarRange, Handshake } from "lucide-react";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -9,7 +9,7 @@ function ProcessPill() {
   return (
     <div className="mx-auto mb-8 flex w-fit items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-primary/30">
       <p className="text-xs font-medium text-primary sm:text-sm">
-        ✨ Slik fungerer det
+        ✨ How It Works
       </p>
     </div>
   );
@@ -17,22 +17,22 @@ function ProcessPill() {
 
 const steps = [
   {
-    title: "1. Fortell oss hva du har bruk for",
+    title: "1. Tell us about your needs",
     description:
-      "Ta kontakt med oss for en uforpliktende prat om bedriften din og hva du ønsker å formidle gjennom bedriftsfoto. Jo bedre vi forstår din virksomhet, desto bedre kan vi tilpasse bildene til å speile det unike ved bedriften din.",
-    icon: MessageCircle,
+      "Share basic details about your property and what you're looking to achieve. It takes less than 2 minutes.",
+    icon: ClipboardCheck,
   },
   {
-    title: "2. Vi planlegger bedriftsfotografering",
+    title: "2. Get matched with agents",
     description:
-      "Våre fotografer utarbeider en grundig plan for hvordan vi best kan fange essensen av arbeidsplassen, de ansatte og bedriftens kultur. Vi diskuterer dine ønsker og behov for bedriftsfoto, og sender et tilpasset tilbud.",
+      "We'll connect you with top local agents who specialize in your area and property type.",
     icon: CalendarRange,
   },
   {
-    title: "3. Vi leverer bilde og video",
+    title: "3. Compare and choose",
     description:
-      "Når fotograferingen starter, sørger vi for at du blir involvert i prosessen, slik at resultatet samsvarer med din visjon. Vi leverer bilder og videoer som personifiserer bedriften din og etterlater et varig inntrykk.",
-    icon: Camera,
+      "Review personalized proposals from agents and choose the best fit for your needs. No pressure, no obligations.",
+    icon: Handshake,
   },
 ];
 
@@ -42,13 +42,13 @@ export default function ProcessSection() {
       <ProcessPill />
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Med Fotovibe{" "}
-          <span className="block">slipper du å tenke på innhold</span>
+          Find your perfect agent{" "}
+          <span className="block">in three simple steps</span>
         </h2>
         <p className="text-muted-foreground text-lg">
-          Enkel prosess, med profesjonelle resultater
+          Quick, easy, and completely free
           <br />
-          Med Fotovibe gjør vi bedriftsfoto enkelt
+          No commitment required
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
