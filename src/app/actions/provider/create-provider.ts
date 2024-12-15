@@ -4,6 +4,8 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "../user/get-current-user";
 import { findZoneByPostalCode } from "../zone/find-zone";
 import { setupProviderPayment } from "@/app/actions/stripe/setup-provider-payment";
+import { sendEmail } from "emails";
+import ProviderSetupEmail from "emails/provider-setup-email";
 
 export interface CreateProviderData {
   name: string;
@@ -90,6 +92,24 @@ export async function createProvider(data: CreateProviderData) {
       };
     }
 
+    // Send setup email
+    try {
+      await sendEmail({
+        email: provider.contactEmail,
+        subject: "providerSetup",
+        react: ProviderSetupEmail({
+          providerName: provider.name,
+          recipientName: provider.contactName,
+          setupUrl: stripeSetupResult.url!,
+          email: provider.contactEmail,
+        }),
+      });
+      console.log("📤 Setup email sent to provider");
+    } catch (emailError) {
+      console.error("Failed to send setup email:", emailError);
+      // Continue even if email fails
+    }
+
     // Update user role if needed
     if (user.role !== "PROVIDER") {
       await prisma.user.update({
@@ -105,7 +125,6 @@ export async function createProvider(data: CreateProviderData) {
     return {
       success: true,
       data: provider,
-      stripeUrl: stripeSetupResult.url,
     };
   } catch (error) {
     console.error("❌ Error creating provider:", error);

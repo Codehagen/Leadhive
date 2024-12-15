@@ -114,15 +114,17 @@ export default function ProviderRegistrationDialog({
         zoneIds: [zoneInfo.id],
       });
 
-      if (result.success && result.stripeUrl) {
+      if (result.success) {
         toast.success(
-          "Provider registered successfully. Redirecting to payment setup..."
+          "Provider registered successfully. Check your email for payment setup instructions."
         );
-        // Redirect to Stripe setup page
-        window.location.href = result.stripeUrl;
+        setOpen(false); // Close the dialog
       } else {
         toast.error(result.error || "Failed to register provider");
       }
+    } catch (error) {
+      console.error("Error registering provider:", error);
+      toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
     }
