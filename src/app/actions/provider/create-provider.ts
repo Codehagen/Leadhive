@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "../user/get-current-user";
 import { findZoneByPostalCode } from "../zone/find-zone";
+import { setupProviderPayment } from "@/app/actions/stripe/setup-provider-payment";
 
 export interface CreateProviderData {
   name: string;
@@ -40,7 +41,7 @@ export async function createProvider(data: CreateProviderData) {
       };
     }
 
-    // Create provider with automatic zone connection
+    // Create provider with PENDING_ONBOARDING status
     const provider = await prisma.provider.create({
       data: {
         name: data.name,
@@ -51,7 +52,7 @@ export async function createProvider(data: CreateProviderData) {
         industry: data.industry,
         contactName: data.contactName,
         contactEmail: data.contactEmail,
-        status: "ACTIVE",
+        status: "PENDING_ONBOARDING",
         zones: {
           connect: { id: zoneResult.data.id },
         },
@@ -61,15 +62,33 @@ export async function createProvider(data: CreateProviderData) {
         users: {
           connect: { id: user.id },
         },
+        paymentInfo: {
+          create: {
+            paymentProvider: "stripe",
+            accountId: "",
+            accountStatus: "pending",
+            hasPaymentMethod: false,
+          },
+        },
       },
       include: {
         zones: true,
         categories: true,
         users: true,
+        paymentInfo: true,
       },
     });
 
     console.log("✅ Provider created with zone:", provider);
+
+    // Generate Stripe setup link
+    const stripeSetupResult = await setupProviderPayment(provider.id);
+    if (!stripeSetupResult.success) {
+      return {
+        success: false,
+        error: "Failed to setup payment processing",
+      };
+    }
 
     // Update user role if needed
     if (user.role !== "PROVIDER") {
@@ -86,6 +105,7 @@ export async function createProvider(data: CreateProviderData) {
     return {
       success: true,
       data: provider,
+      stripeUrl: stripeSetupResult.url,
     };
   } catch (error) {
     console.error("❌ Error creating provider:", error);

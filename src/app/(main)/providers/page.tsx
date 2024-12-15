@@ -2,8 +2,8 @@ import { getCurrentUser } from "@/app/actions/user/get-current-user";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import { prisma } from "@/lib/db";
 import ProviderRegistrationDialog from "@/components/providers/provider-registration-dialog";
+import { SetupStatusMessage } from "@/components/providers/setup-status-message";
 
 export default async function ProvidersPage() {
   const user = await getCurrentUser();
@@ -12,6 +12,7 @@ export default async function ProvidersPage() {
   try {
     return (
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <SetupStatusMessage />
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">
             Hey {user?.name?.split(" ")[0]}, Welcome back 👋
