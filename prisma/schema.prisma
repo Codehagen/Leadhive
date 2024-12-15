@@ -354,8 +354,9 @@ model Country {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  zones     Zone[]
-  providers Provider[]
+  zones           Zone[]
+  providers       Provider[]
+  paymentSettings PaymentSettings?
 
   @@map(name: "countries")
 }
@@ -425,4 +426,18 @@ model DailyStats {
   createdAt    DateTime @default(now())
 
   @@map(name: "daily_stats")
+}
+
+// Add this new model for payment settings
+model PaymentSettings {
+  id            String   @id @default(cuid())
+  countryId     String
+  country       Country  @relation(fields: [countryId], references: [id])
+  leadPrice     Float    @default(50.00)  // Default $50.00
+  currency      String   @default("USD")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([countryId])
+  @@map(name: "payment_settings")
 }

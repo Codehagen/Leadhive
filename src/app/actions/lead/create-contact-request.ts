@@ -21,6 +21,7 @@ import LeadNotificationEmail from "emails/lead-notification-email";
 import { findZoneByPostalCode } from "../zone/find-zone";
 import { createAuditLog } from "../audit/create-audit-log";
 import { sendDiscordNotification } from "../discord/send-discord-notification";
+import { chargeForLead } from "../stripe/charge-for-lead";
 
 interface CreateContactRequestData {
   name: string;
@@ -252,47 +253,78 @@ export async function createContactRequest(data: CreateContactRequestData) {
         }
       }
 
-      // Send email notifications to providers
-      console.log("📧 Attempting to send emails to providers...");
-      const emailPromises = providers.flatMap((provider) =>
-        provider.users.map(async (user) => {
-          // Use provider's contact email instead of user email
-          const recipientEmail = provider.contactEmail;
+      // Process each provider
+      console.log("🔄 Processing providers...");
+      for (const provider of providers) {
+        try {
+          console.log(
+            `📝 Creating lead connection for provider: ${provider.id}`
+          );
+          // Create lead-provider connection
+          const leadProvider = await prisma.leadProvider.create({
+            data: {
+              leadId: lead.id,
+              providerId: provider.id,
+              status: "SENT",
+            },
+          });
+          console.log("✅ Lead connection created:", leadProvider);
 
-          if (!recipientEmail) {
-            console.warn("⚠️ Provider missing contact email:", provider.id);
-            return;
-          }
-
-          try {
-            const emailResult = await sendEmail({
-              email: recipientEmail, // Send to provider's contact email
-              subject: "newLead",
-              react: LeadNotificationEmail({
-                recipientName: provider.contactName, // Use provider's contact name
-                leadInfo: {
-                  name: lead.customerName,
-                  address: `${zone.name}, ${zone.country.name}`,
-                  postalCode: lead.postalCode,
-                  phoneNumber: lead.customerPhone,
-                },
-                email: recipientEmail,
-              }),
-            });
-            console.log(`✉️ Email sent to ${recipientEmail}:`, emailResult);
-            return emailResult;
-          } catch (error) {
+          // Charge the provider
+          console.log(`💰 Charging provider ${provider.id} for lead...`);
+          const chargeResult = await chargeForLead(provider.id, lead.id);
+          if (!chargeResult.success) {
             console.error(
-              `❌ Failed to send email to ${recipientEmail}:`,
-              error
+              `❌ Failed to charge provider ${provider.id}:`,
+              chargeResult.error
             );
-            return null;
+            continue;
           }
-        })
-      );
+          console.log(
+            `✅ Successfully charged provider ${provider.id}:`,
+            chargeResult
+          );
 
-      const emailResults = await Promise.all(emailPromises);
-      console.log("📨 Email sending results:", emailResults);
+          // Send email notification
+          console.log(`📧 Sending email to provider ${provider.id}...`);
+          if (provider.contactEmail) {
+            try {
+              const emailResult = await sendEmail({
+                email: provider.contactEmail,
+                subject: "newLead",
+                react: LeadNotificationEmail({
+                  recipientName: provider.contactName,
+                  leadInfo: {
+                    name: lead.customerName,
+                    address: `${zone.name}, ${zone.country.name}`,
+                    postalCode: lead.postalCode,
+                    phoneNumber: lead.customerPhone,
+                  },
+                  email: provider.contactEmail,
+                }),
+              });
+              console.log(
+                `✉️ Email sent to ${provider.contactEmail}:`,
+                emailResult
+              );
+            } catch (emailError) {
+              console.error(
+                `❌ Failed to send email to ${provider.contactEmail}:`,
+                emailError
+              );
+            }
+          } else {
+            console.warn(`⚠️ Provider ${provider.id} missing contact email`);
+          }
+        } catch (providerError) {
+          console.error(
+            `❌ Error processing provider ${provider.id}:`,
+            providerError
+          );
+          // Continue with other providers
+        }
+      }
+      console.log("✅ Finished processing all providers");
     }
 
     // Create audit log
