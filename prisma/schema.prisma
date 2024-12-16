@@ -101,6 +101,16 @@ enum AuditAction {
   PROCESS_PAYMENT
   REFUND_PAYMENT
   UPDATE_PROFILE
+  CREATE_PROVIDER
+  UPDATE_PROVIDER
+  DELETE_PROVIDER
+  CREATE_ZONE
+  UPDATE_ZONE
+  DELETE_ZONE
+  CREATE_CATEGORY
+  UPDATE_CATEGORY
+  DELETE_CATEGORY
+  REFUND_TRANSACTION
   // Add other actions as needed
 }
 
@@ -142,6 +152,7 @@ model Provider {
 }
 
 enum ProviderStatus {
+  PENDING_ONBOARDING
   ACTIVE
   INACTIVE
   SUSPENDED
@@ -152,14 +163,17 @@ enum ProviderStatus {
 // -----------------------------
 
 model PaymentInfo {
-  id              String   @id @default(cuid())
-  providerId      String   @unique
-  provider        Provider @relation(fields: [providerId], references: [id])
-  paymentProvider String // e.g., Stripe, PayPal
-  accountId       String // Provider-specific account identifier
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
+  id               String   @id @default(cuid())
+  providerId       String   @unique
+  provider         Provider @relation(fields: [providerId], references: [id])
+  paymentProvider  String // "stripe"
+  accountId        String // Stripe Customer ID
+  accountStatus    String? // "active" or "inactive"
+  hasPaymentMethod Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
 
+  @@index([accountId])
   @@map(name: "payment_info")
 }
 
@@ -168,17 +182,21 @@ model PaymentInfo {
 // -----------------------------
 
 model Transaction {
-  id            String            @id @default(cuid())
-  providerId    String
-  provider      Provider          @relation(fields: [providerId], references: [id])
-  leadId        String
-  lead          Lead              @relation(fields: [leadId], references: [id])
-  amount        Float             @default(500)
-  currency      String            @default("USD")
-  status        TransactionStatus @default(PENDING)
-  paymentMethod String? // e.g., credit card, PayPal
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @default(now()) @updatedAt
+  id                    String            @id @default(cuid())
+  providerId            String
+  provider              Provider          @relation(fields: [providerId], references: [id])
+  leadId                String
+  lead                  Lead              @relation(fields: [leadId], references: [id])
+  amount                Float             @default(500)
+  currency              String            @default("USD")
+  status                TransactionStatus @default(PENDING)
+  paymentMethod         String? // e.g., credit card, PayPal
+  stripePaymentIntentId String? // Stripe payment intent ID
+  stripeChargeId        String? // Stripe charge ID
+  refundId              String? // Stripe refund ID
+  refundedAt            DateTime? // When the transaction was refunded
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @default(now()) @updatedAt
 
   @@index([providerId])
   @@index([leadId])
@@ -350,8 +368,9 @@ model Country {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  zones     Zone[]
-  providers Provider[]
+  zones           Zone[]
+  providers       Provider[]
+  paymentSettings PaymentSettings?
 
   @@map(name: "countries")
 }
@@ -421,4 +440,18 @@ model DailyStats {
   createdAt    DateTime @default(now())
 
   @@map(name: "daily_stats")
+}
+
+// Add this new model for payment settings
+model PaymentSettings {
+  id        String   @id @default(cuid())
+  countryId String
+  country   Country  @relation(fields: [countryId], references: [id])
+  leadPrice Float    @default(50.00) // Default $50.00
+  currency  String   @default("USD")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([countryId])
+  @@map(name: "payment_settings")
 }

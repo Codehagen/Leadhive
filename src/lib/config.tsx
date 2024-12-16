@@ -312,6 +312,7 @@ export const siteConfig = {
       paymentSuccess: "Payment Successful 💳",
       paymentFailed: "Payment Failed ❌",
       weeklyReport: "Your Weekly Lead Report 📈",
+      providerSetup: "Complete Your LeadHive Provider Setup",
     },
     footer: {
       marketing: {

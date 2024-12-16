@@ -3,6 +3,9 @@
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "../user/get-current-user";
 import { findZoneByPostalCode } from "../zone/find-zone";
+import { setupProviderPayment } from "@/app/actions/stripe/setup-provider-payment";
+import { sendEmail } from "emails";
+import ProviderSetupEmail from "emails/provider-setup-email";
 
 export interface CreateProviderData {
   name: string;
@@ -40,7 +43,7 @@ export async function createProvider(data: CreateProviderData) {
       };
     }
 
-    // Create provider with automatic zone connection
+    // Create provider with PENDING_ONBOARDING status
     const provider = await prisma.provider.create({
       data: {
         name: data.name,
@@ -51,7 +54,7 @@ export async function createProvider(data: CreateProviderData) {
         industry: data.industry,
         contactName: data.contactName,
         contactEmail: data.contactEmail,
-        status: "ACTIVE",
+        status: "PENDING_ONBOARDING",
         zones: {
           connect: { id: zoneResult.data.id },
         },
@@ -61,15 +64,51 @@ export async function createProvider(data: CreateProviderData) {
         users: {
           connect: { id: user.id },
         },
+        paymentInfo: {
+          create: {
+            paymentProvider: "stripe",
+            accountId: "",
+            accountStatus: "pending",
+            hasPaymentMethod: false,
+          },
+        },
       },
       include: {
         zones: true,
         categories: true,
         users: true,
+        paymentInfo: true,
       },
     });
 
     console.log("✅ Provider created with zone:", provider);
+
+    // Generate Stripe setup link
+    const stripeSetupResult = await setupProviderPayment(provider.id);
+    if (!stripeSetupResult.success) {
+      return {
+        success: false,
+        error: "Failed to setup payment processing",
+      };
+    }
+
+    // Send setup email
+    try {
+      await sendEmail({
+        email: provider.contactEmail,
+        subject: "providerSetup",
+        react: ProviderSetupEmail({
+          providerName: provider.name,
+          recipientName: provider.contactName,
+          setupUrl: stripeSetupResult.url!,
+          email: provider.contactEmail,
+        }),
+      });
+      console.log("📤 Setup email sent to provider");
+    } catch (emailError) {
+      console.error("Failed to send setup email:", emailError);
+      // Continue even if email fails
+    }
 
     // Update user role if needed
     if (user.role !== "PROVIDER") {

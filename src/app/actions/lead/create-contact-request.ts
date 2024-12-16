@@ -21,6 +21,7 @@ import LeadNotificationEmail from "emails/lead-notification-email";
 import { findZoneByPostalCode } from "../zone/find-zone";
 import { createAuditLog } from "../audit/create-audit-log";
 import { sendDiscordNotification } from "../discord/send-discord-notification";
+import { chargeForLead } from "../stripe/charge-for-lead";
 
 interface CreateContactRequestData {
   name: string;
@@ -112,7 +113,7 @@ export async function createContactRequest(data: CreateContactRequestData) {
       });
     }
 
-    // Create the lead regardless of zone
+    // Create the lead with SENT status since it will be sent to providers immediately
     const lead = await prisma.lead.create({
       data: {
         customerName: data.name,
@@ -120,7 +121,8 @@ export async function createContactRequest(data: CreateContactRequestData) {
         customerEmail: data.email,
         serviceDetails: data.message || "",
         postalCode: data.postalCode,
-        status: "PENDING",
+        address: data.address || "",
+        status: "SENT",
         categories: {
           connect: data.categoryIds.map((id) => ({ id })),
         },
@@ -178,121 +180,94 @@ export async function createContactRequest(data: CreateContactRequestData) {
               email: true,
             },
           },
+          paymentInfo: true,
         },
       });
-      console.log(
-        "👥 Found matching providers (with users):",
-        providers.map((p) => ({
-          ...p,
-          userCount: p.users.length,
-        }))
-      );
 
-      // If no providers found, send Discord notification
-      if (providers.length === 0) {
-        console.log(
-          "⚠️ No providers found in zone, sending Discord notification"
-        );
-
-        const notificationResult = await sendDiscordNotification({
-          username: "LeadHive Notification",
-          avatar_url: "https://your-leadhive-logo-url.com/logo.png",
-          embeds: [
-            {
-              title: "🚨 New Lead - No Providers Available",
-              color: 0xff0000,
-              fields: [
-                {
-                  name: "Customer",
-                  value: data.name,
-                  inline: true,
-                },
-                {
-                  name: "Phone",
-                  value: data.phone,
-                  inline: true,
-                },
-                {
-                  name: "Address",
-                  value: data.address || "No address provided",
-                  inline: false,
-                },
-                {
-                  name: "Location",
-                  value: `${zone.name} (${data.postalCode})`,
-                  inline: true,
-                },
-                {
-                  name: "Categories",
-                  value:
-                    data.categoryIds.length > 0
-                      ? data.categoryIds.join(", ")
-                      : "No categories specified",
-                  inline: false,
-                },
-                {
-                  name: "Message",
-                  value: data.message || "No message provided",
-                  inline: false,
-                },
-              ],
-              footer: {
-                text: "LeadHive - No Provider Alert",
-              },
-              timestamp: new Date().toISOString(),
-            },
-          ],
-        });
-
-        if (!notificationResult.success) {
-          console.error(
-            "Failed to send Discord notification:",
-            notificationResult.error
+      // Process each provider
+      console.log("🔄 Processing providers...");
+      for (const provider of providers) {
+        try {
+          console.log(
+            `📝 Creating lead connection for provider: ${provider.id}`
           );
+
+          // Create lead-provider connection with SENT status and timestamp
+          const leadProvider = await prisma.leadProvider.create({
+            data: {
+              leadId: lead.id,
+              providerId: provider.id,
+              status: "SENT",
+              sentAt: new Date(),
+              respondedAt: null, // Will be updated when provider responds
+            },
+          });
+          console.log("✅ Lead connection created:", leadProvider);
+
+          // Charge the provider
+          console.log(`💰 Charging provider ${provider.id} for lead...`);
+          const chargeResult = await chargeForLead(provider.id, lead.id);
+          if (!chargeResult.success) {
+            console.error(
+              `❌ Failed to charge provider ${provider.id}:`,
+              chargeResult.error
+            );
+            continue;
+          }
+          console.log(
+            `✅ Successfully charged provider ${provider.id}:`,
+            chargeResult
+          );
+
+          // Send email notification
+          if (provider.contactEmail) {
+            try {
+              const emailResult = await sendEmail({
+                email: provider.contactEmail,
+                subject: "newLead",
+                react: LeadNotificationEmail({
+                  recipientName: provider.contactName,
+                  leadInfo: {
+                    name: lead.customerName,
+                    address: lead.address || "",
+                    postalCode: lead.postalCode,
+                    phoneNumber: lead.customerPhone,
+                  },
+                  email: provider.contactEmail,
+                }),
+              });
+              console.log(
+                `✉️ Email sent to ${provider.contactEmail}:`,
+                emailResult
+              );
+            } catch (emailError) {
+              console.error(
+                `❌ Failed to send email to ${provider.contactEmail}:`,
+                emailError
+              );
+            }
+          } else {
+            console.warn(`⚠️ Provider ${provider.id} missing contact email`);
+          }
+        } catch (providerError) {
+          console.error(
+            `❌ Error processing provider ${provider.id}:`,
+            providerError
+          );
+          // Continue with other providers
         }
       }
+      console.log("✅ Finished processing all providers");
 
-      // Send email notifications to providers
-      console.log("📧 Attempting to send emails to providers...");
-      const emailPromises = providers.flatMap((provider) =>
-        provider.users.map(async (user) => {
-          // Use provider's contact email instead of user email
-          const recipientEmail = provider.contactEmail;
-
-          if (!recipientEmail) {
-            console.warn("⚠️ Provider missing contact email:", provider.id);
-            return;
-          }
-
-          try {
-            const emailResult = await sendEmail({
-              email: recipientEmail, // Send to provider's contact email
-              subject: "newLead",
-              react: LeadNotificationEmail({
-                recipientName: provider.contactName, // Use provider's contact name
-                leadInfo: {
-                  name: lead.customerName,
-                  address: `${zone.name}, ${zone.country.name}`,
-                  postalCode: lead.postalCode,
-                  phoneNumber: lead.customerPhone,
-                },
-                email: recipientEmail,
-              }),
-            });
-            console.log(`✉️ Email sent to ${recipientEmail}:`, emailResult);
-            return emailResult;
-          } catch (error) {
-            console.error(
-              `❌ Failed to send email to ${recipientEmail}:`,
-              error
-            );
-            return null;
-          }
-        })
-      );
-
-      const emailResults = await Promise.all(emailPromises);
-      console.log("📨 Email sending results:", emailResults);
+      // Update lead status based on provider distribution
+      if (providers.length > 0) {
+        await prisma.lead.update({
+          where: { id: lead.id },
+          data: {
+            status: "SENT",
+          },
+        });
+      }
     }
 
     // Create audit log
@@ -313,7 +288,7 @@ export async function createContactRequest(data: CreateContactRequestData) {
       data: lead,
     };
   } catch (error) {
-    console.error("❌ Error in createContactRequest:", error);
+    console.error("Error creating contact request:", error);
     return {
       success: false,
       error: "Failed to create contact request",

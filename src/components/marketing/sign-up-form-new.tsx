@@ -107,6 +107,7 @@ export function SignUpFormTemplate() {
         name: formData.name,
         phone: formData.phone,
         message: formData.message,
+        address: formData.address,
         postalCode: formData.zipCode,
         categoryIds: [],
       });
