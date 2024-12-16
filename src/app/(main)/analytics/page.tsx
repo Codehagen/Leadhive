@@ -1,3 +1,5 @@
+"use client";
+
 import { getCurrentUser } from "@/app/actions/user/get-current-user";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,9 +13,6 @@ import { FinancialAnalyticsTab } from "@/components/analytics/tabs/financial-ana
 import { GeographicAnalyticsTab } from "@/components/analytics/tabs/geographic-analytics-tab";
 
 async function AnalyticsContent() {
-  const user = await getCurrentUser();
-  if (!user) redirect("/sign-in");
-
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="flex items-center justify-between space-y-2">

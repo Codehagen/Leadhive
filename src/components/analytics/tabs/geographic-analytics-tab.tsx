@@ -26,6 +26,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import {
+  ChartConfig,
+  ChartTooltip,
+  ChartContainer,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 // Mock data for geographic analytics
 const mockData = {
@@ -99,6 +105,21 @@ const mockData = {
   ],
 };
 
+const chartConfig = {
+  value: {
+    label: "Leads",
+    color: "hsl(var(--chart-1))",
+  },
+  density: {
+    label: "Density",
+    color: "hsl(var(--chart-2))",
+  },
+  growth: {
+    label: "Growth",
+    color: "hsl(var(--chart-3))",
+  },
+} satisfies ChartConfig;
+
 export function GeographicAnalyticsTab() {
   return (
     <div className="space-y-6">
@@ -142,10 +163,11 @@ export function GeographicAnalyticsTab() {
             <CardDescription>Leads by geographic region</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ChartContainer config={chartConfig}>
               <BarChart
                 data={mockData.leadDistribution}
                 margin={{ left: 12, right: 12 }}
+                height={300}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -155,42 +177,17 @@ export function GeographicAnalyticsTab() {
                   tickMargin={8}
                 />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload?.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-sm">
-                          <div className="grid gap-2">
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Leads
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].value}
-                              </span>
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Growth
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].payload.growth}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
                 />
                 <Bar
                   dataKey="value"
-                  fill="hsl(var(--primary))"
+                  fill="var(--color-value)"
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
 
@@ -201,10 +198,11 @@ export function GeographicAnalyticsTab() {
             <CardDescription>Provider coverage by region</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ChartContainer config={chartConfig}>
               <BarChart
                 data={mockData.providerDensity}
                 margin={{ left: 12, right: 12 }}
+                height={300}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -214,42 +212,17 @@ export function GeographicAnalyticsTab() {
                   tickMargin={8}
                 />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload?.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-sm">
-                          <div className="grid gap-2">
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Coverage Density
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].value}%
-                              </span>
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Change
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].payload.change}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
                 />
                 <Bar
                   dataKey="density"
-                  fill="hsl(var(--primary))"
+                  fill="var(--color-density)"
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>

@@ -22,6 +22,8 @@ import {
   Pie,
   Label,
   Cell,
+  AreaChart,
+  Area,
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -41,6 +43,7 @@ import {
   Target,
 } from "lucide-react";
 import {
+  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -108,6 +111,25 @@ const mockData = {
   })),
 };
 
+const chartConfig = {
+  revenue: {
+    label: "Revenue",
+    color: "hsl(var(--chart-1))",
+  },
+  growth: {
+    label: "Growth",
+    color: "hsl(var(--chart-2))",
+  },
+  leads: {
+    label: "Leads",
+    color: "hsl(var(--chart-3))",
+  },
+  converted: {
+    label: "Converted",
+    color: "hsl(var(--chart-4))",
+  },
+} satisfies ChartConfig;
+
 export function OverviewTab() {
   const totalLeads = mockData.leadDistribution.reduce(
     (acc, curr) => acc + curr.value,
@@ -155,10 +177,11 @@ export function OverviewTab() {
             <CardDescription>Monthly revenue analysis</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart
+            <ChartContainer config={chartConfig}>
+              <AreaChart
                 data={mockData.revenueData}
                 margin={{ left: 12, right: 12 }}
+                height={300}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -166,6 +189,7 @@ export function OverviewTab() {
                   tickLine={false}
                   axisLine={false}
                   tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
                 />
                 <YAxis
                   tickLine={false}
@@ -179,7 +203,7 @@ export function OverviewTab() {
                     }).format(value)
                   }
                 />
-                <Tooltip
+                <ChartTooltip
                   content={({ active, payload }) => {
                     if (active && payload?.length) {
                       return (
@@ -193,7 +217,7 @@ export function OverviewTab() {
                                 {new Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "USD",
-                                }).format(payload[0].value)}
+                                }).format(Number(payload[0].value))}
                               </span>
                             </div>
                             <div className="flex flex-col">
@@ -204,7 +228,7 @@ export function OverviewTab() {
                                 {new Intl.NumberFormat("en-US", {
                                   style: "currency",
                                   currency: "USD",
-                                }).format(payload[0].payload.growth)}
+                                }).format(Number(payload[0].payload.growth))}
                               </span>
                             </div>
                           </div>
@@ -214,15 +238,15 @@ export function OverviewTab() {
                     return null;
                   }}
                 />
-                <Line
+                <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={false}
+                  fill="var(--color-revenue)"
+                  fillOpacity={0.2}
+                  stroke="var(--color-revenue)"
                 />
-              </LineChart>
-            </ResponsiveContainer>
+              </AreaChart>
+            </ChartContainer>
           </CardContent>
           <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="flex gap-2 font-medium leading-none">
@@ -255,7 +279,11 @@ export function OverviewTab() {
                     ))}
                     <Label
                       content={({ viewBox }) => {
-                        const { cx, cy } = viewBox;
+                        const { cx = 0, cy = 0 } = viewBox as {
+                          cx: number;
+                          cy: number;
+                        };
+                        const yOffset = 20;
                         return (
                           <text
                             x={cx}
@@ -272,7 +300,7 @@ export function OverviewTab() {
                             </tspan>
                             <tspan
                               x={cx}
-                              y={cy + 20}
+                              y={Number(cy) + yOffset}
                               className="fill-muted-foreground text-sm"
                             >
                               Total Leads

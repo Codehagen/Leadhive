@@ -31,6 +31,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 // Mock data for lead analytics
 const mockData = {
@@ -84,6 +90,21 @@ const mockData = {
   })),
 };
 
+const chartConfig = {
+  leads: {
+    label: "Total Leads",
+    color: "hsl(var(--chart-1))",
+  },
+  converted: {
+    label: "Converted",
+    color: "hsl(var(--chart-2))",
+  },
+  volume: {
+    label: "Volume",
+    color: "hsl(var(--chart-3))",
+  },
+} satisfies ChartConfig;
+
 export function LeadAnalyticsTab() {
   return (
     <div className="space-y-6">
@@ -130,10 +151,11 @@ export function LeadAnalyticsTab() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ChartContainer config={chartConfig}>
               <AreaChart
                 data={mockData.leadTrend}
                 margin={{ left: 12, right: 12 }}
+                height={300}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -141,55 +163,31 @@ export function LeadAnalyticsTab() {
                   tickLine={false}
                   axisLine={false}
                   tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
                 />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload?.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-sm">
-                          <div className="grid gap-2">
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Total Leads
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].value}
-                              </span>
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Converted
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[1].value}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
                 />
                 <Area
                   type="monotone"
                   dataKey="leads"
-                  stroke="hsl(var(--primary))"
-                  fill="hsl(var(--primary))"
+                  stroke="var(--color-leads)"
+                  fill="var(--color-leads)"
                   fillOpacity={0.2}
                   strokeWidth={2}
                 />
                 <Area
                   type="monotone"
                   dataKey="converted"
-                  stroke="hsl(var(--success))"
-                  fill="hsl(var(--success))"
+                  stroke="var(--color-converted)"
+                  fill="var(--color-converted)"
                   fillOpacity={0.2}
                   strokeWidth={2}
                 />
               </AreaChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
 
@@ -200,10 +198,11 @@ export function LeadAnalyticsTab() {
             <CardDescription>Lead response time by hour</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ChartContainer config={chartConfig}>
               <BarChart
                 data={mockData.responseTimeDistribution}
                 margin={{ left: 12, right: 12 }}
+                height={300}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -214,32 +213,17 @@ export function LeadAnalyticsTab() {
                   tickFormatter={(value) => `${value}h`}
                 />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload?.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-sm">
-                          <div className="flex flex-col">
-                            <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              Response Time: {payload[0].payload.hour}h
-                            </span>
-                            <span className="font-bold text-muted-foreground">
-                              {payload[0].value} leads
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
                 />
                 <Bar
                   dataKey="volume"
-                  fill="hsl(var(--primary))"
+                  fill="var(--color-volume)"
                   radius={[4, 4, 0, 0]}
                 />
               </BarChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>

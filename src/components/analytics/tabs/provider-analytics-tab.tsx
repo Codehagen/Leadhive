@@ -203,9 +203,8 @@ export function ProviderAnalyticsTab() {
                 endAngle={0}
               >
                 <RadialBar
-                  minAngle={15}
+                  label={{ position: "insideStart", fill: "#fff" }}
                   background
-                  clockWise={true}
                   dataKey="value"
                   cornerRadius={12}
                 />

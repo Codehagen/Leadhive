@@ -30,6 +30,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltipContent,
+  ChartTooltip,
+} from "@/components/ui/chart";
 
 // Mock data for financial analytics
 const mockData = {
@@ -100,6 +106,29 @@ const mockData = {
   })),
 };
 
+const chartConfig = {
+  revenue: {
+    label: "Revenue",
+    color: "hsl(var(--chart-1))",
+  },
+  costs: {
+    label: "Costs",
+    color: "hsl(var(--chart-2))",
+  },
+  profit: {
+    label: "Profit",
+    color: "hsl(var(--chart-3))",
+  },
+  volume: {
+    label: "Volume",
+    color: "hsl(var(--chart-4))",
+  },
+  value: {
+    label: "Value",
+    color: "hsl(var(--chart-5))",
+  },
+} satisfies ChartConfig;
+
 export function FinancialAnalyticsTab() {
   return (
     <div className="space-y-6">
@@ -143,10 +172,11 @@ export function FinancialAnalyticsTab() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ChartContainer config={chartConfig}>
               <ComposedChart
                 data={mockData.revenueBreakdown}
                 margin={{ left: 12, right: 12 }}
+                height={300}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -154,6 +184,7 @@ export function FinancialAnalyticsTab() {
                   tickLine={false}
                   axisLine={false}
                   tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
                 />
                 <YAxis
                   tickLine={false}
@@ -167,71 +198,29 @@ export function FinancialAnalyticsTab() {
                     }).format(value)
                   }
                 />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload?.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-sm">
-                          <div className="grid gap-2">
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Revenue
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "USD",
-                                }).format(payload[0].value)}
-                              </span>
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Costs
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "USD",
-                                }).format(payload[1].value)}
-                              </span>
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Profit
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "USD",
-                                }).format(payload[2].value)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
                 />
                 <Bar
                   dataKey="revenue"
-                  fill="hsl(var(--primary))"
+                  fill="var(--color-revenue)"
                   radius={[4, 4, 0, 0]}
                 />
                 <Bar
                   dataKey="costs"
-                  fill="hsl(var(--destructive))"
+                  fill="var(--color-costs)"
                   radius={[4, 4, 0, 0]}
                 />
                 <Line
                   type="monotone"
                   dataKey="profit"
-                  stroke="hsl(var(--success))"
+                  stroke="var(--color-profit)"
                   strokeWidth={2}
                   dot={false}
                 />
               </ComposedChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
 
@@ -244,10 +233,11 @@ export function FinancialAnalyticsTab() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            <ChartContainer config={chartConfig}>
               <ComposedChart
                 data={mockData.transactionMetrics}
                 margin={{ left: 12, right: 12 }}
+                height={300}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -255,6 +245,7 @@ export function FinancialAnalyticsTab() {
                   tickLine={false}
                   axisLine={false}
                   tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
                 />
                 <YAxis
                   yAxisId="left"
@@ -275,54 +266,26 @@ export function FinancialAnalyticsTab() {
                     }).format(value)
                   }
                 />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload?.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-sm">
-                          <div className="grid gap-2">
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Volume
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {payload[0].value} transactions
-                              </span>
-                            </div>
-                            <div className="flex flex-col">
-                              <span className="text-[0.70rem] uppercase text-muted-foreground">
-                                Avg Value
-                              </span>
-                              <span className="font-bold text-muted-foreground">
-                                {new Intl.NumberFormat("en-US", {
-                                  style: "currency",
-                                  currency: "USD",
-                                }).format(payload[1].value)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
                 />
                 <Bar
                   yAxisId="left"
                   dataKey="volume"
-                  fill="hsl(var(--primary))"
+                  fill="var(--color-volume)"
                   radius={[4, 4, 0, 0]}
                 />
                 <Line
                   yAxisId="right"
                   type="monotone"
                   dataKey="value"
-                  stroke="hsl(var(--success))"
+                  stroke="var(--color-value)"
                   strokeWidth={2}
                   dot={false}
                 />
               </ComposedChart>
-            </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
