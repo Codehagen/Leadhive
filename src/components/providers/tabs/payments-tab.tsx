@@ -12,8 +12,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
-import { Receipt, CreditCard, AlertCircle } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Receipt, CreditCard, AlertCircle, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { toast } from "sonner";
+import { refundTransaction } from "@/app/actions/stripe/refund-transaction";
+import Link from "next/link";
 
 interface PaymentsTabProps {
   provider: Provider & {
@@ -29,6 +38,7 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
     SENT: { label: "Sent", variant: "default" as const },
     PAID: { label: "Paid", variant: "outline" as const },
     CANCELLED: { label: "Cancelled", variant: "destructive" as const },
+    REFUNDED: { label: "Refunded", variant: "secondary" as const },
   };
 
   const invoices = provider.invoices || [];
@@ -50,6 +60,30 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
     .filter((invoice) => invoice.status === "PAID")
     .reduce((sum, invoice) => sum + invoice.amount, 0);
 
+  const handleRefund = async (transactionId: string) => {
+    try {
+      const result = await refundTransaction(transactionId);
+      if (result.success) {
+        toast.success("Transaction refunded successfully");
+      } else {
+        toast.error(result.error || "Failed to refund transaction");
+      }
+    } catch (error) {
+      toast.error("An error occurred while processing the refund");
+    }
+  };
+
+  const openStripePortal = () => {
+    if (provider.paymentInfo?.accountId) {
+      window.open(
+        `https://dashboard.stripe.com/test/customers/${provider.paymentInfo.accountId}`,
+        "_blank"
+      );
+    } else {
+      toast.error("No Stripe account connected");
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
@@ -59,16 +93,26 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
             View payment history and manage invoices
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="secondary" className="h-6">
-            {totalInvoices} Total Invoices
-          </Badge>
-          <Badge variant="outline" className="h-6">
-            {paidInvoices} Paid
-          </Badge>
-          <Badge variant="secondary" className="h-6">
-            {pendingInvoices} Pending
-          </Badge>
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            onClick={openStripePortal}
+            className="flex items-center gap-2"
+          >
+            <ExternalLink className="h-4 w-4" />
+            Open Stripe Dashboard
+          </Button>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="h-6">
+              {totalInvoices} Total
+            </Badge>
+            <Badge variant="outline" className="h-6">
+              {paidInvoices} Paid
+            </Badge>
+            <Badge variant="secondary" className="h-6">
+              {pendingInvoices} Pending
+            </Badge>
+          </div>
         </div>
       </div>
 
@@ -159,6 +203,100 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Transactions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {transactions.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-8">
+              <Receipt className="h-8 w-8 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-medium">No Transactions Yet</h3>
+              <p className="text-sm text-muted-foreground text-center max-w-sm mt-1">
+                No transactions have been processed yet.
+              </p>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Lead ID</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.map((transaction) => (
+                  <TableRow key={transaction.id}>
+                    <TableCell>
+                      <Link
+                        href={`/leads/${transaction.leadId}`}
+                        className="flex items-center hover:underline"
+                      >
+                        <span className="font-medium">
+                          {transaction.leadId}
+                        </span>
+                        <ExternalLink className="ml-2 h-4 w-4 text-muted-foreground" />
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: transaction.currency,
+                      }).format(transaction.amount)}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          transaction.status === "COMPLETED"
+                            ? "default"
+                            : transaction.status === "REFUNDED"
+                              ? "secondary"
+                              : "destructive"
+                        }
+                      >
+                        {transaction.status.toLowerCase()}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {format(new Date(transaction.createdAt), "MMM d, HH:mm")}
+                    </TableCell>
+                    <TableCell>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRefund(transaction.id)}
+                              disabled={
+                                transaction.status !== "COMPLETED" ||
+                                provider.paymentInfo?.accountStatus !== "active"
+                              }
+                            >
+                              Refund
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {transaction.status !== "COMPLETED"
+                              ? "Can only refund completed transactions"
+                              : provider.paymentInfo?.accountStatus !== "active"
+                                ? "Account must be active to process refunds"
+                                : "Process refund for this transaction"}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

@@ -101,6 +101,16 @@ enum AuditAction {
   PROCESS_PAYMENT
   REFUND_PAYMENT
   UPDATE_PROFILE
+  CREATE_PROVIDER
+  UPDATE_PROVIDER
+  DELETE_PROVIDER
+  CREATE_ZONE
+  UPDATE_ZONE
+  DELETE_ZONE
+  CREATE_CATEGORY
+  UPDATE_CATEGORY
+  DELETE_CATEGORY
+  REFUND_TRANSACTION
   // Add other actions as needed
 }
 
@@ -172,17 +182,21 @@ model PaymentInfo {
 // -----------------------------
 
 model Transaction {
-  id            String            @id @default(cuid())
-  providerId    String
-  provider      Provider          @relation(fields: [providerId], references: [id])
-  leadId        String
-  lead          Lead              @relation(fields: [leadId], references: [id])
-  amount        Float             @default(500)
-  currency      String            @default("USD")
-  status        TransactionStatus @default(PENDING)
-  paymentMethod String? // e.g., credit card, PayPal
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @default(now()) @updatedAt
+  id                    String            @id @default(cuid())
+  providerId            String
+  provider              Provider          @relation(fields: [providerId], references: [id])
+  leadId                String
+  lead                  Lead              @relation(fields: [leadId], references: [id])
+  amount                Float             @default(500)
+  currency              String            @default("USD")
+  status                TransactionStatus @default(PENDING)
+  paymentMethod         String? // e.g., credit card, PayPal
+  stripePaymentIntentId String? // Stripe payment intent ID
+  stripeChargeId        String? // Stripe charge ID
+  refundId              String? // Stripe refund ID
+  refundedAt            DateTime? // When the transaction was refunded
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @default(now()) @updatedAt
 
   @@index([providerId])
   @@index([leadId])

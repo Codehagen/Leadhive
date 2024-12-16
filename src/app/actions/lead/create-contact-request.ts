@@ -179,79 +179,9 @@ export async function createContactRequest(data: CreateContactRequestData) {
               email: true,
             },
           },
+          paymentInfo: true,
         },
       });
-      console.log(
-        "👥 Found matching providers (with users):",
-        providers.map((p) => ({
-          ...p,
-          userCount: p.users.length,
-        }))
-      );
-
-      // If no providers found, send Discord notification
-      if (providers.length === 0) {
-        console.log(
-          "⚠️ No providers found in zone, sending Discord notification"
-        );
-
-        const notificationResult = await sendDiscordNotification({
-          username: "LeadHive Notification",
-          avatar_url: "https://your-leadhive-logo-url.com/logo.png",
-          embeds: [
-            {
-              title: "🚨 New Lead - No Providers Available",
-              color: 0xff0000,
-              fields: [
-                {
-                  name: "Customer",
-                  value: data.name,
-                  inline: true,
-                },
-                {
-                  name: "Phone",
-                  value: data.phone,
-                  inline: true,
-                },
-                {
-                  name: "Address",
-                  value: data.address || "No address provided",
-                  inline: false,
-                },
-                {
-                  name: "Location",
-                  value: `${zone.name} (${data.postalCode})`,
-                  inline: true,
-                },
-                {
-                  name: "Categories",
-                  value:
-                    data.categoryIds.length > 0
-                      ? data.categoryIds.join(", ")
-                      : "No categories specified",
-                  inline: false,
-                },
-                {
-                  name: "Message",
-                  value: data.message || "No message provided",
-                  inline: false,
-                },
-              ],
-              footer: {
-                text: "LeadHive - No Provider Alert",
-              },
-              timestamp: new Date().toISOString(),
-            },
-          ],
-        });
-
-        if (!notificationResult.success) {
-          console.error(
-            "Failed to send Discord notification:",
-            notificationResult.error
-          );
-        }
-      }
 
       // Process each provider
       console.log("🔄 Processing providers...");
@@ -357,7 +287,7 @@ export async function createContactRequest(data: CreateContactRequestData) {
       data: lead,
     };
   } catch (error) {
-    console.error("❌ Error in createContactRequest:", error);
+    console.error("Error creating contact request:", error);
     return {
       success: false,
       error: "Failed to create contact request",
