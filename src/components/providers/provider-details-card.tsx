@@ -27,7 +27,6 @@ interface ProviderDetailsCardProps {
 export function ProviderDetailsCard({ provider }: ProviderDetailsCardProps) {
   const addedTimeAgo = formatDistanceToNow(new Date(provider.createdAt), {
     addSuffix: true,
-    locale: nb,
   });
 
   const infoItems = [

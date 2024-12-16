@@ -6,12 +6,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProviderDetailsCard } from "@/components/providers/provider-details-card";
 import { DashboardTab } from "@/components/providers/tabs/dashboard-tab";
 import { ZonesTab } from "@/components/providers/tabs/zones-tab";
+import { LeadsTab } from "@/components/providers/tabs/leads-tab";
+import { PaymentsTab } from "@/components/providers/tabs/payments-tab";
+import { SettingsTab } from "@/components/providers/tabs/settings-tab";
 import {
   LayoutDashboard,
   MapPin,
   Receipt,
   Users,
-  FileText,
   Settings,
 } from "lucide-react";
 
@@ -38,7 +40,7 @@ export default async function ProviderDetailsPage({
         </div>
         <div className="md:col-span-2">
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-6">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger
                 value="dashboard"
                 className="flex items-center gap-2"
@@ -58,13 +60,6 @@ export default async function ProviderDetailsPage({
                 <Receipt className="h-4 w-4" />
                 <span>Payments</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="documents"
-                className="flex items-center gap-2"
-              >
-                <FileText className="h-4 w-4" />
-                <span>Documents</span>
-              </TabsTrigger>
               <TabsTrigger value="settings" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
                 <span>Settings</span>
@@ -80,55 +75,15 @@ export default async function ProviderDetailsPage({
             </TabsContent>
 
             <TabsContent value="leads">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Lead Management</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Track and manage customer leads
-                  </p>
-                </CardContent>
-              </Card>
+              <LeadsTab provider={provider} />
             </TabsContent>
 
             <TabsContent value="payments">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Payment History</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    View payment history and invoices
-                  </p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="documents">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Documents</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Manage contracts and important documents
-                  </p>
-                </CardContent>
-              </Card>
+              <PaymentsTab provider={provider} />
             </TabsContent>
 
             <TabsContent value="settings">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Settings</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Configure provider settings and preferences
-                  </p>
-                </CardContent>
-              </Card>
+              <SettingsTab provider={provider} />
             </TabsContent>
           </Tabs>
         </div>

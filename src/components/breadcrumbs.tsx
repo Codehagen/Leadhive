@@ -13,15 +13,14 @@ import {
 import React from "react";
 
 const breadcrumbNameMap: { [key: string]: string } = {
-  "/dashboard": "Dashbord",
-  "/company": "Bedrifter",
-  "/people": "Personer",
-  "/opportunities": "Opportunities",
-  "/tasks": "Oppgaver",
-  "/prospects": "Prospects",
-  "/notes": "Notater",
-  "/kanban": "Kanban",
-  "/settings": "Innstillinger",
+  "/dashboard": "Dashboard",
+  "/analytics": "Analytics",
+  "/providers": "Providers",
+  "/leads": "Leads",
+  "/payments": "Payments",
+  "/settings": "Settings",
+  "/support": "Support",
+  "/messages": "Messages",
 };
 
 export function Breadcrumbs() {
@@ -32,7 +31,7 @@ export function Breadcrumbs() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Hjem</BreadcrumbLink>
+          <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
         {pathSegments.map((segment, index) => {
           const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
@@ -40,9 +39,19 @@ export function Breadcrumbs() {
 
           let breadcrumbName = breadcrumbNameMap[href] || segment;
 
-          // If it's an ID (like in your company example), use a generic name
-          if (segment.length === 36 && segment.includes("-")) {
-            breadcrumbName = "Detaljer";
+          // Handle dynamic segments (like provider IDs)
+          if (segment.match(/^[0-9a-f-]{36}$/)) {
+            // If the previous segment was 'providers', this is a provider detail page
+            if (pathSegments[index - 1] === "providers") {
+              breadcrumbName = "Provider Details";
+            } else {
+              breadcrumbName = "Details";
+            }
+          }
+
+          // Capitalize first letter if not found in map
+          if (!breadcrumbNameMap[href]) {
+            breadcrumbName = segment.charAt(0).toUpperCase() + segment.slice(1);
           }
 
           return (

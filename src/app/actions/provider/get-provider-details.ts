@@ -14,6 +14,16 @@ export async function getProviderDetails(id: string) {
         paymentInfo: true,
         categories: true,
         Country: true,
+        invoices: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+        transactions: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
 
