@@ -113,7 +113,7 @@ export async function createContactRequest(data: CreateContactRequestData) {
       });
     }
 
-    // Create the lead regardless of zone
+    // Create the lead with SENT status since it will be sent to providers immediately
     const lead = await prisma.lead.create({
       data: {
         customerName: data.name,
@@ -121,7 +121,7 @@ export async function createContactRequest(data: CreateContactRequestData) {
         customerEmail: data.email,
         serviceDetails: data.message || "",
         postalCode: data.postalCode,
-        status: "PENDING",
+        status: "SENT",
         categories: {
           connect: data.categoryIds.map((id) => ({ id })),
         },
@@ -260,12 +260,15 @@ export async function createContactRequest(data: CreateContactRequestData) {
           console.log(
             `📝 Creating lead connection for provider: ${provider.id}`
           );
-          // Create lead-provider connection
+
+          // Create lead-provider connection with SENT status and timestamp
           const leadProvider = await prisma.leadProvider.create({
             data: {
               leadId: lead.id,
               providerId: provider.id,
               status: "SENT",
+              sentAt: new Date(),
+              respondedAt: null, // Will be updated when provider responds
             },
           });
           console.log("✅ Lead connection created:", leadProvider);
@@ -286,7 +289,6 @@ export async function createContactRequest(data: CreateContactRequestData) {
           );
 
           // Send email notification
-          console.log(`📧 Sending email to provider ${provider.id}...`);
           if (provider.contactEmail) {
             try {
               const emailResult = await sendEmail({
@@ -325,6 +327,16 @@ export async function createContactRequest(data: CreateContactRequestData) {
         }
       }
       console.log("✅ Finished processing all providers");
+
+      // Update lead status based on provider distribution
+      if (providers.length > 0) {
+        await prisma.lead.update({
+          where: { id: lead.id },
+          data: {
+            status: "SENT",
+          },
+        });
+      }
     }
 
     // Create audit log

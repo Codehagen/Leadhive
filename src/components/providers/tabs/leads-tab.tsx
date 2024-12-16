@@ -13,27 +13,51 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import { Users } from "lucide-react";
+import Link from "next/link";
 
 interface LeadsTabProps {
   provider: Provider & {
-    leads: any[];
+    leadProviders: Array<{
+      id: string;
+      status: string;
+      sentAt: Date;
+      respondedAt: Date | null;
+      lead: {
+        id: string;
+        customerName: string;
+        customerEmail: string | null;
+        customerPhone: string;
+        serviceDetails: string;
+        postalCode: string;
+        zone: {
+          name: string;
+        } | null;
+      };
+    }>;
   };
 }
 
 export function LeadsTab({ provider }: LeadsTabProps) {
   const leadStatuses = {
+    SENT: { label: "Sent", variant: "default" as const },
     ACCEPTED: { label: "Accepted", variant: "default" as const },
+    DECLINED: { label: "Declined", variant: "destructive" as const },
     PENDING: { label: "Pending", variant: "secondary" as const },
-    REJECTED: { label: "Rejected", variant: "destructive" as const },
-    EXPIRED: { label: "Expired", variant: "outline" as const },
   };
 
-  const totalLeads = provider.leads.length;
-  const acceptedLeads = provider.leads.filter(
+  const providerLeads = provider.leadProviders.map((lp) => ({
+    ...lp.lead,
+    status: lp.status,
+    sentAt: lp.sentAt,
+    respondedAt: lp.respondedAt,
+  }));
+
+  const totalLeads = providerLeads.length;
+  const acceptedLeads = providerLeads.filter(
     (lead) => lead.status === "ACCEPTED"
   ).length;
-  const pendingLeads = provider.leads.filter(
-    (lead) => lead.status === "PENDING"
+  const pendingLeads = providerLeads.filter(
+    (lead) => lead.status === "PENDING" || lead.status === "SENT"
   ).length;
 
   return (
@@ -63,7 +87,7 @@ export function LeadsTab({ provider }: LeadsTabProps) {
           <CardTitle>All Leads</CardTitle>
         </CardHeader>
         <CardContent>
-          {provider.leads.length === 0 ? (
+          {providerLeads.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8">
               <Users className="h-8 w-8 text-muted-foreground mb-4" />
               <h3 className="text-lg font-medium">No Leads Yet</h3>
@@ -85,26 +109,61 @@ export function LeadsTab({ provider }: LeadsTabProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {provider.leads.map((lead) => (
-                  <TableRow key={lead.id}>
-                    <TableCell className="font-medium">
-                      {lead.customerName}
-                    </TableCell>
-                    <TableCell>{lead.serviceDetails}</TableCell>
-                    <TableCell>{lead.postalCode}</TableCell>
-                    <TableCell>
-                      <Badge variant={leadStatuses[lead.status].variant}>
-                        {leadStatuses[lead.status].label}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {format(new Date(lead.createdAt), "MMM d, HH:mm")}
-                    </TableCell>
-                    <TableCell>
-                      {lead.responseTime ? `${lead.responseTime}m` : "-"}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {providerLeads.map((lead) => {
+                  const responseTime = lead.respondedAt
+                    ? Math.round(
+                        (new Date(lead.respondedAt).getTime() -
+                          new Date(lead.sentAt).getTime()) /
+                          (1000 * 60)
+                      )
+                    : null;
+
+                  return (
+                    <TableRow key={lead.id}>
+                      <TableCell>
+                        <Link
+                          href={`/leads/${lead.id}`}
+                          className="flex flex-col hover:underline"
+                        >
+                          <span className="font-medium">
+                            {lead.customerName}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            {lead.customerEmail || lead.customerPhone}
+                          </span>
+                        </Link>
+                      </TableCell>
+                      <TableCell>{lead.serviceDetails}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="font-medium">
+                            {lead.zone?.name || "Unknown"}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            {lead.postalCode}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            leadStatuses[lead.status]?.variant || "secondary"
+                          }
+                        >
+                          {leadStatuses[lead.status]?.label ||
+                            lead.status.charAt(0).toUpperCase() +
+                              lead.status.slice(1).toLowerCase()}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        {format(new Date(lead.sentAt), "MMM d, HH:mm")}
+                      </TableCell>
+                      <TableCell>
+                        {responseTime !== null ? `${responseTime}m` : "-"}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           )}

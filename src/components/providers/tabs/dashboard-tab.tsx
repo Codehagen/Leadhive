@@ -6,16 +6,33 @@ import { Users, MapPin, Receipt, Clock } from "lucide-react";
 
 interface DashboardTabProps {
   provider: Provider & {
-    leads: any[];
+    leadProviders: any[];
     zones: any[];
   };
 }
 
 export function DashboardTab({ provider }: DashboardTabProps) {
+  // Calculate average response time
+  const responseTimeMinutes = provider.leadProviders
+    .filter((lp) => lp.respondedAt)
+    .map((lp) => {
+      const responseTime =
+        new Date(lp.respondedAt!).getTime() - new Date(lp.sentAt).getTime();
+      return Math.round(responseTime / (1000 * 60)); // Convert to minutes
+    });
+
+  const averageResponseTime =
+    responseTimeMinutes.length > 0
+      ? Math.round(
+          responseTimeMinutes.reduce((a, b) => a + b, 0) /
+            responseTimeMinutes.length
+        )
+      : 0;
+
   const stats = [
     {
       title: "Total Leads",
-      value: provider.leads.length,
+      value: provider.leadProviders.length,
       description: "Total leads received",
       icon: Users,
     },
@@ -33,7 +50,7 @@ export function DashboardTab({ provider }: DashboardTabProps) {
     },
     {
       title: "Response Time",
-      value: "0m",
+      value: `${averageResponseTime}m`,
       description: "Average response time",
       icon: Clock,
     },

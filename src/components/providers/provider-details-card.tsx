@@ -20,7 +20,7 @@ interface ProviderDetailsCardProps {
   provider: Provider & {
     categories: any[];
     zones: any[];
-    leads: any[];
+    leadProviders: any[];
   };
 }
 
@@ -149,7 +149,7 @@ export function ProviderDetailsCard({ provider }: ProviderDetailsCardProps) {
 
           <div className="space-y-4">
             <h4 className="text-sm font-medium text-muted-foreground">
-              Leads ({provider.leads.length})
+              Leads ({provider.leadProviders.length})
             </h4>
           </div>
         </div>

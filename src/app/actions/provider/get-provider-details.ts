@@ -8,9 +8,27 @@ export async function getProviderDetails(id: string) {
       where: { id },
       include: {
         users: true,
-        zones: true,
-        leads: true,
-        leadProviders: true,
+        zones: {
+          include: {
+            country: true,
+          },
+        },
+        leadProviders: {
+          where: {
+            providerId: id,
+          },
+          include: {
+            lead: {
+              include: {
+                zone: true,
+                categories: true,
+              },
+            },
+          },
+          orderBy: {
+            sentAt: "desc",
+          },
+        },
         paymentInfo: true,
         categories: true,
         Country: true,

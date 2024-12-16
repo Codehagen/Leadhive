@@ -153,15 +153,15 @@ enum ProviderStatus {
 // -----------------------------
 
 model PaymentInfo {
-  id              String   @id @default(cuid())
-  providerId      String   @unique
-  provider        Provider @relation(fields: [providerId], references: [id])
-  paymentProvider String   // "stripe"
-  accountId       String   // Stripe Customer ID
-  accountStatus   String?  // "active" or "inactive"
-  hasPaymentMethod Boolean @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
+  id               String   @id @default(cuid())
+  providerId       String   @unique
+  provider         Provider @relation(fields: [providerId], references: [id])
+  paymentProvider  String // "stripe"
+  accountId        String // Stripe Customer ID
+  accountStatus    String? // "active" or "inactive"
+  hasPaymentMethod Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
 
   @@index([accountId])
   @@map(name: "payment_info")
@@ -176,7 +176,7 @@ model Transaction {
   providerId    String
   provider      Provider          @relation(fields: [providerId], references: [id])
   leadId        String
-  lead            Lead              @relation(fields: [leadId], references: [id])
+  lead          Lead              @relation(fields: [leadId], references: [id])
   amount        Float             @default(500)
   currency      String            @default("USD")
   status        TransactionStatus @default(PENDING)
@@ -430,13 +430,13 @@ model DailyStats {
 
 // Add this new model for payment settings
 model PaymentSettings {
-  id            String   @id @default(cuid())
-  countryId     String
-  country       Country  @relation(fields: [countryId], references: [id])
-  leadPrice     Float    @default(50.00)  // Default $50.00
-  currency      String   @default("USD")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        String   @id @default(cuid())
+  countryId String
+  country   Country  @relation(fields: [countryId], references: [id])
+  leadPrice Float    @default(50.00) // Default $50.00
+  currency  String   @default("USD")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([countryId])
   @@map(name: "payment_settings")

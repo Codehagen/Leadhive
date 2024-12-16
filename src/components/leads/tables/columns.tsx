@@ -54,7 +54,13 @@ export const columns: ColumnDef<Lead>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-col">
-          <span className="font-medium">{row.getValue("customerName")}</span>
+          <Link
+            href={`/leads/${row.original.id}`}
+            className="flex items-center hover:underline"
+          >
+            <span className="font-medium">{row.getValue("customerName")}</span>
+            <ExternalLink className="ml-2 h-4 w-4 text-muted-foreground" />
+          </Link>
           <span className="text-sm text-muted-foreground">
             {row.original.customerEmail || row.original.customerPhone}
           </span>
@@ -71,24 +77,16 @@ export const columns: ColumnDef<Lead>[] = [
   {
     accessorKey: "provider",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Provider" />
+      <DataTableColumnHeader column={column} title="Providers" />
     ),
     cell: ({ row }) => {
-      const provider = row.original.provider;
-      return provider ? (
+      const providerCount = row.original.leadProviders.length;
+      return (
         <div className="flex items-center space-x-2">
-          <Link
-            href={`/providers/${provider.id}`}
-            className="flex items-center hover:underline"
-          >
-            <span className="max-w-[200px] truncate font-medium">
-              {provider.name}
-            </span>
-            <ExternalLink className="ml-2 h-4 w-4 text-muted-foreground" />
-          </Link>
+          <Badge variant="secondary">
+            {providerCount} provider{providerCount !== 1 ? "s" : ""}
+          </Badge>
         </div>
-      ) : (
-        <span className="text-muted-foreground">Unassigned</span>
       );
     },
   },
@@ -116,17 +114,20 @@ export const columns: ColumnDef<Lead>[] = [
     ),
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
+      const formattedStatus =
+        status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+
       return (
         <Badge
           variant={
-            status === "ACCEPTED"
+            status === "SENT" || status === "ACCEPTED"
               ? "default"
-              : status === "PENDING" || status === "SENT"
+              : status === "PENDING"
                 ? "secondary"
                 : "destructive"
           }
         >
-          {status.toLowerCase()}
+          {formattedStatus}
         </Badge>
       );
     },
@@ -171,8 +172,9 @@ export const columns: ColumnDef<Lead>[] = [
               Copy lead ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuItem>Edit lead</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={`/leads/${row.original.id}`}>View details</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
