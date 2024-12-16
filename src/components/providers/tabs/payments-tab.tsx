@@ -33,32 +33,23 @@ interface PaymentsTabProps {
 }
 
 export function PaymentsTab({ provider }: PaymentsTabProps) {
-  const invoiceStatuses = {
-    PENDING: { label: "Pending", variant: "secondary" as const },
-    SENT: { label: "Sent", variant: "default" as const },
-    PAID: { label: "Paid", variant: "outline" as const },
-    CANCELLED: { label: "Cancelled", variant: "destructive" as const },
-    REFUNDED: { label: "Refunded", variant: "secondary" as const },
-  };
-
-  const invoices = provider.invoices || [];
   const transactions = provider.transactions || [];
 
-  const totalInvoices = invoices.length;
-  const paidInvoices = invoices.filter(
-    (invoice) => invoice.status === "PAID"
+  const totalTransactions = transactions.length;
+  const completedTransactions = transactions.filter(
+    (transaction) => transaction.status === "COMPLETED"
   ).length;
-  const pendingInvoices = invoices.filter(
-    (invoice) => invoice.status === "PENDING" || invoice.status === "SENT"
+  const pendingTransactions = transactions.filter(
+    (transaction) => transaction.status === "PENDING"
   ).length;
 
-  const totalAmount = invoices.reduce(
-    (sum, invoice) => sum + invoice.amount,
+  const totalRevenue = transactions.reduce(
+    (sum, transaction) => sum + transaction.amount,
     0
   );
-  const paidAmount = invoices
-    .filter((invoice) => invoice.status === "PAID")
-    .reduce((sum, invoice) => sum + invoice.amount, 0);
+  const paidAmount = transactions
+    .filter((transaction) => transaction.status === "COMPLETED")
+    .reduce((sum, transaction) => sum + transaction.amount, 0);
 
   const handleRefund = async (transactionId: string) => {
     try {
@@ -90,7 +81,7 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Payment History</h2>
           <p className="text-muted-foreground">
-            View payment history and manage invoices
+            View payment history and manage transactions
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -104,13 +95,13 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
           </Button>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="h-6">
-              {totalInvoices} Total
+              {totalTransactions} Total
             </Badge>
             <Badge variant="outline" className="h-6">
-              {paidInvoices} Paid
+              {completedTransactions} Completed
             </Badge>
             <Badge variant="secondary" className="h-6">
-              {pendingInvoices} Pending
+              {pendingTransactions} Pending
             </Badge>
           </div>
         </div>
@@ -126,11 +117,11 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
             <div className="text-2xl font-bold">
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
-                currency: "USD",
-              }).format(totalAmount)}
+                currency: transactions[0]?.currency || "USD",
+              }).format(totalRevenue)}
             </div>
             <p className="text-xs text-muted-foreground">
-              Lifetime revenue from leads
+              Total revenue from leads
             </p>
           </CardContent>
         </Card>
@@ -144,10 +135,12 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
             <div className="text-2xl font-bold">
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
-                currency: "USD",
+                currency: transactions[0]?.currency || "USD",
               }).format(paidAmount)}
             </div>
-            <p className="text-xs text-muted-foreground">Total paid invoices</p>
+            <p className="text-xs text-muted-foreground">
+              Total completed transactions
+            </p>
           </CardContent>
         </Card>
 
@@ -289,70 +282,6 @@ export function PaymentsTab({ provider }: PaymentsTabProps) {
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Invoices</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {invoices.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-8">
-              <Receipt className="h-8 w-8 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium">No Invoices Yet</h3>
-              <p className="text-sm text-muted-foreground text-center max-w-sm mt-1">
-                No invoices have been generated yet. They will appear here once
-                created.
-              </p>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Invoice Number</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Due Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Created</TableHead>
-                  <TableHead>Paid At</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {invoices.map((invoice) => (
-                  <TableRow key={invoice.id}>
-                    <TableCell className="font-medium">
-                      {invoice.invoiceNumber}
-                    </TableCell>
-                    <TableCell>
-                      {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: invoice.currency || "USD",
-                      }).format(invoice.amount)}
-                    </TableCell>
-                    <TableCell>
-                      {invoice.dueDate
-                        ? format(new Date(invoice.dueDate), "MMM d, yyyy")
-                        : "-"}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={invoiceStatuses[invoice.status].variant}>
-                        {invoiceStatuses[invoice.status].label}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {format(new Date(invoice.createdAt), "MMM d, yyyy")}
-                    </TableCell>
-                    <TableCell>
-                      {invoice.paidAt
-                        ? format(new Date(invoice.paidAt), "MMM d, yyyy")
-                        : "-"}
                     </TableCell>
                   </TableRow>
                 ))}
