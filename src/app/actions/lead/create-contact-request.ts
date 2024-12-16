@@ -121,6 +121,7 @@ export async function createContactRequest(data: CreateContactRequestData) {
         customerEmail: data.email,
         serviceDetails: data.message || "",
         postalCode: data.postalCode,
+        address: data.address || "",
         status: "SENT",
         categories: {
           connect: data.categoryIds.map((id) => ({ id })),
@@ -228,7 +229,7 @@ export async function createContactRequest(data: CreateContactRequestData) {
                   recipientName: provider.contactName,
                   leadInfo: {
                     name: lead.customerName,
-                    address: `${zone.name}, ${zone.country.name}`,
+                    address: lead.address || "",
                     postalCode: lead.postalCode,
                     phoneNumber: lead.customerPhone,
                   },
