@@ -134,7 +134,7 @@ model Provider {
   updatedAt    DateTime       @default(now()) @map(name: "updated_at")
 
   users         User[]         @relation("UserProvider")
-  zones         Zone[]         @relation("ProviderZones")
+  zones         Zone[]         @relation("ProviderToZone")
   leads         Lead[]
   leadProviders LeadProvider[]
   transactions  Transaction[]
@@ -262,16 +262,26 @@ model PaymentHistory {
 // -----------------------------
 
 model Zone {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
-  countryId   String
-  country     Country  @relation(fields: [countryId], references: [id])
+  state       String? // For Australian states (NSW, VIC, etc.)
   postalCodes String[] // Array of postal codes in this zone
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  countryId   String
+  country     Country    @relation(fields: [countryId], references: [id])
+  providers   Provider[] @relation("ProviderToZone")
+  leads       Lead[]
 
-  providers Provider[] @relation("ProviderZones")
-  Lead      Lead[]
+  // Australian-specific fields
+  sa3Code   String? // Statistical Area 3 code
+  sa3Name   String? // Statistical Area 3 name
+  sa4Code   String? // Statistical Area 4 code
+  sa4Name   String? // Statistical Area 4 name
+  region    String? // Designated Regional Area
+  latitude  Float? // Latitude
+  longitude Float? // Longitude
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([countryId])
   @@map(name: "zones")
@@ -290,6 +300,7 @@ model Lead {
   customerPhone  String
   serviceDetails String
   postalCode     String
+  address        String?
   zoneId         String
   zone           Zone       @relation(fields: [zoneId], references: [id])
   status         LeadStatus @default(PENDING)

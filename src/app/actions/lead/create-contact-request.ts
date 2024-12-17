@@ -31,6 +31,7 @@ interface CreateContactRequestData {
   postalCode: string;
   categoryIds: string[];
   email?: string;
+  country?: string;
 }
 
 export async function createContactRequest(data: CreateContactRequestData) {
@@ -38,25 +39,32 @@ export async function createContactRequest(data: CreateContactRequestData) {
     console.log("📥 Received contact request:", data);
 
     // Find zone for the postal code
-    const zoneResult = await findZoneByPostalCode(data.postalCode);
+    const zoneResult = await findZoneByPostalCode(data.postalCode, {
+      country: data.country,
+    });
     console.log("🌍 Zone lookup result:", zoneResult);
 
     let zone = null;
     let providers: any[] = [];
 
     if (!zoneResult.success || !zoneResult.data) {
-      console.warn("⚠️ No zone found for postal code:", data.postalCode);
+      // Customize message based on country
+      const errorMessage =
+        data.country === "AU"
+          ? "This postcode is not currently serviced by our Australian agents"
+          : "No service zone found for this postal code";
+
+      console.warn(`⚠️ No zone found for postal code: ${data.postalCode}`);
 
       // Send Discord notification for missing zone
-      const notificationResult = await sendDiscordNotification({
+      await sendDiscordNotification({
         username: "LeadHive Notification",
         avatar_url: "https://your-leadhive-logo-url.com/logo.png",
         embeds: [
           {
             title: "🚨 New Lead - Unknown Zone",
-            description:
-              "Received a lead from an area without a configured zone",
-            color: 0xffa500, // Orange color for warning
+            description: `Received a lead from ${data.country || "unknown"} area without a configured zone`,
+            color: 0xffa500,
             fields: [
               {
                 name: "Customer",
@@ -79,39 +87,25 @@ export async function createContactRequest(data: CreateContactRequestData) {
                 inline: true,
               },
               {
-                name: "Categories",
-                value:
-                  data.categoryIds.length > 0
-                    ? data.categoryIds.join(", ")
-                    : "No categories specified",
-                inline: false,
-              },
-              {
-                name: "Message",
-                value: data.message || "No message provided",
-                inline: false,
+                name: "Country",
+                value: data.country || "Unknown",
+                inline: true,
               },
             ],
-            footer: {
-              text: "LeadHive - New Zone Opportunity",
-            },
-            timestamp: new Date().toISOString(),
           },
         ],
       });
 
-      if (!notificationResult.success) {
-        console.error(
-          "Failed to send Discord notification:",
-          notificationResult.error
-        );
-      }
-    } else {
-      zone = await prisma.zone.findUnique({
-        where: { id: zoneResult.data.id },
-        include: { country: true },
-      });
+      return {
+        success: false,
+        error: errorMessage,
+      };
     }
+
+    zone = await prisma.zone.findUnique({
+      where: { id: zoneResult.data.id },
+      include: { country: true },
+    });
 
     // Create the lead with SENT status since it will be sent to providers immediately
     const lead = await prisma.lead.create({
@@ -183,6 +177,66 @@ export async function createContactRequest(data: CreateContactRequestData) {
           paymentInfo: true,
         },
       });
+
+      if (providers.length === 0) {
+        // Send Discord notification for zone without providers
+        await sendDiscordNotification({
+          username: "LeadHive Notification",
+          avatar_url: "https://your-leadhive-logo-url.com/logo.png",
+          embeds: [
+            {
+              title: "🚨 New Lead - No Providers in Zone",
+              description: `Received a lead in ${zone.name} (${zone.state}) with no active providers`,
+              color: 0xff0000, // Red color for urgent attention
+              fields: [
+                {
+                  name: "Zone",
+                  value: zone.name,
+                  inline: true,
+                },
+                {
+                  name: "State",
+                  value: zone.state || "Unknown",
+                  inline: true,
+                },
+                {
+                  name: "Country",
+                  value: zone.country.name,
+                  inline: true,
+                },
+                {
+                  name: "Postcode",
+                  value: data.postalCode,
+                  inline: true,
+                },
+                {
+                  name: "Customer",
+                  value: data.name,
+                  inline: true,
+                },
+                {
+                  name: "Phone",
+                  value: data.phone,
+                  inline: true,
+                },
+                {
+                  name: "Address",
+                  value: data.address || "No address provided",
+                  inline: false,
+                },
+                {
+                  name: "Lead ID",
+                  value: lead.id,
+                  inline: false,
+                },
+              ],
+              timestamp: new Date().toISOString(),
+            },
+          ],
+        });
+
+        console.log("⚠️ No providers found in zone:", zone.name);
+      }
 
       // Process each provider
       console.log("🔄 Processing providers...");

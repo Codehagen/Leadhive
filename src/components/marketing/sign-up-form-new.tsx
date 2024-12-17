@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { Check } from "lucide-react";
 import { Icons } from "../icons";
 import confetti from "canvas-confetti";
+import { findZoneByPostalCode } from "@/app/actions/zone/find-zone";
 
 // Updated validation functions
 function validatePhone(phone: string): boolean {
@@ -102,6 +103,10 @@ export function SignUpFormTemplate() {
         setIsLoading(false);
         return;
       }
+
+      const zoneResult = await findZoneByPostalCode(formData.zipCode, {
+        country: "NO",
+      });
 
       const response = await createContactRequest({
         name: formData.name,
