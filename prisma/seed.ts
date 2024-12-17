@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
 import * as path from "path";
+import { seedAustralianPostcodes } from "./seed-au-postcodes";
 
 const prisma = new PrismaClient();
 
-interface PostalCode {
+interface NorwegianPostalCode {
   code: string;
   postalName: string;
   municipalityNumber: string;
@@ -22,8 +23,8 @@ interface Municipality {
   };
 }
 
-async function parsePostalCodes(): Promise<PostalCode[]> {
-  console.log("Starting to parse postal codes file...");
+async function parseNorwegianPostalCodes(): Promise<NorwegianPostalCode[]> {
+  console.log("Starting to parse Norwegian postal codes file...");
   const filePath = path.join(__dirname, "Postal-codes-Norway-ansi.txt");
   const fileContent = fs.readFileSync(filePath, "latin1");
 
@@ -42,11 +43,15 @@ async function parsePostalCodes(): Promise<PostalCode[]> {
       };
     });
 
-  console.log(`Successfully parsed ${postalCodes.length} postal codes`);
+  console.log(
+    `Successfully parsed ${postalCodes.length} Norwegian postal codes`
+  );
   return postalCodes;
 }
 
-function groupByMunicipality(postalCodes: PostalCode[]): Municipality[] {
+function groupByMunicipality(
+  postalCodes: NorwegianPostalCode[]
+): Municipality[] {
   const municipalityMap = new Map<string, Municipality>();
 
   postalCodes.forEach((pc) => {
@@ -74,7 +79,6 @@ function groupByMunicipality(postalCodes: PostalCode[]): Municipality[] {
 }
 
 function getCountyName(countyNumber: string): string {
-  // Norwegian county numbers and names (as of 2024)
   const counties: Record<string, string> = {
     "03": "Oslo",
     "11": "Rogaland",
@@ -93,8 +97,8 @@ function getCountyName(countyNumber: string): string {
   return counties[countyNumber] || "Unknown";
 }
 
-async function createZones(municipalities: Municipality[]) {
-  console.log("\nStarting zone creation...");
+async function createNorwegianZones(municipalities: Municipality[]) {
+  console.log("\nStarting Norwegian zone creation...");
 
   try {
     // Create Norway country record
@@ -122,14 +126,14 @@ async function createZones(municipalities: Municipality[]) {
           try {
             await prisma.zone.upsert({
               where: {
-                id: municipality.number, // Using municipality number as zone ID
+                id: `NO_${municipality.number}`,
               },
               update: {
                 name: municipality.name,
                 postalCodes: municipality.postalCodes,
               },
               create: {
-                id: municipality.number,
+                id: `NO_${municipality.number}`,
                 name: municipality.name,
                 countryId: norway.id,
                 postalCodes: municipality.postalCodes,
@@ -146,13 +150,12 @@ async function createZones(municipalities: Municipality[]) {
       );
 
       console.log(`Processed municipalities ${i + 1} to ${i + batch.length}`);
-      // Small delay between batches
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    console.log("\nZone creation completed successfully");
+    console.log("\nNorwegian zone creation completed successfully");
   } catch (error) {
-    console.error("Error in createZones:", error);
+    console.error("Error in createNorwegianZones:", error);
     throw error;
   }
 }
@@ -161,9 +164,13 @@ async function main() {
   console.log("=== Starting seed process ===\n");
 
   try {
-    const postalCodes = await parsePostalCodes();
-    const municipalities = groupByMunicipality(postalCodes);
-    await createZones(municipalities);
+    // Seed Norwegian postal codes
+    const norwegianPostalCodes = await parseNorwegianPostalCodes();
+    const municipalities = groupByMunicipality(norwegianPostalCodes);
+    await createNorwegianZones(municipalities);
+
+    // Seed Australian postal codes
+    await seedAustralianPostcodes();
 
     console.log("\n=== Seed completed successfully ===");
   } catch (error) {
@@ -179,8 +186,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("\nClosing database connection...");
     await prisma.$disconnect();
-    console.log("Database connection closed");
   });

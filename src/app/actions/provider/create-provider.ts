@@ -13,10 +13,10 @@ export interface CreateProviderData {
   address: string;
   city: string;
   zip: string;
-  industry?: string;
   categoryIds: string[];
   contactName: string;
   contactEmail: string;
+  country: string;
 }
 
 export async function createProvider(data: CreateProviderData) {
@@ -31,8 +31,10 @@ export async function createProvider(data: CreateProviderData) {
 
     console.log("🏢 Creating provider with data:", data);
 
-    // Find zone based on postal code
-    const zoneResult = await findZoneByPostalCode(data.zip);
+    // Find zone based on postal code with country
+    const zoneResult = await findZoneByPostalCode(data.zip, {
+      country: data.country,
+    });
     console.log("🌍 Zone lookup result:", zoneResult);
 
     if (!zoneResult.success || !zoneResult.data) {
@@ -51,7 +53,6 @@ export async function createProvider(data: CreateProviderData) {
         address: data.address,
         city: data.city,
         zip: data.zip,
-        industry: data.industry,
         contactName: data.contactName,
         contactEmail: data.contactEmail,
         status: "PENDING_ONBOARDING",

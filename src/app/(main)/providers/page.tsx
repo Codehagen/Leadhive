@@ -2,12 +2,12 @@ import { getCurrentUser } from "@/app/actions/user/get-current-user";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import ProviderRegistrationDialog from "@/components/providers/provider-registration-dialog";
 import { SetupStatusMessage } from "@/components/providers/setup-status-message";
 import { getProviders } from "@/app/actions/provider/get-providers";
 import { ProvidersClient } from "@/components/providers/providers-client";
 import { Suspense } from "react";
 import { ProvidersTableSkeleton } from "@/components/providers/tables/skeleton";
+import ProviderRegistrationSheet from "@/components/providers/provider-registration-sheet";
 
 export default async function ProvidersPage() {
   const user = await getCurrentUser();
@@ -21,7 +21,7 @@ export default async function ProvidersPage() {
           Hey {user?.name?.split(" ")[0]}, Welcome back 👋
         </h2>
         <div className="flex items-center space-x-2">
-          <ProviderRegistrationDialog
+          <ProviderRegistrationSheet
             trigger={
               <Button>
                 <PlusCircle className="mr-2 h-4 w-4" />
