@@ -22,6 +22,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^1.0.8",
     "@clerk/nextjs": "^6.5.1",
     "@hookform/resolvers": "^3.9.1",
     "@number-flow/react": "^0.4.2",
@@ -58,6 +59,7 @@
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.3.0",
     "@tanstack/react-table": "^8.20.5",
+    "ai": "^4.0.20",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -77,6 +79,7 @@
     "next-themes": "^0.3.0",
     "npm": "^10.9.2",
     "number-flow": "^0.4.1",
+    "openai": "^4.76.3",
     "react": "^18.3.1",
     "react-day-picker": "8.10.1",
     "react-dom": "^18.3.1",
