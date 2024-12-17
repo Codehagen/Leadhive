@@ -280,8 +280,9 @@ model Zone {
   latitude  Float? // Latitude
   longitude Float? // Longitude
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  DiscoveredBusiness DiscoveredBusiness[]
 
   @@index([countryId])
   @@map(name: "zones")
@@ -379,9 +380,10 @@ model Country {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  zones           Zone[]
-  providers       Provider[]
-  paymentSettings PaymentSettings?
+  zones              Zone[]
+  providers          Provider[]
+  paymentSettings    PaymentSettings?
+  DiscoveredBusiness DiscoveredBusiness[]
 
   @@map(name: "countries")
 }
@@ -465,4 +467,70 @@ model PaymentSettings {
 
   @@unique([countryId])
   @@map(name: "payment_settings")
+}
+
+// -----------------------------
+// DiscoveredBusiness Model
+// -----------------------------
+
+model DiscoveredBusiness {
+  id             String            @id @default(cuid())
+  name           String
+  website        String?
+  email          String?
+  phone          String?
+  address        String?
+  description    String
+  relevanceScore Int
+  category       String
+  yearsFounded   Int?
+  employeeCount  String?
+  socialProfiles String[]
+  zoneId         String
+  zone           Zone              @relation(fields: [zoneId], references: [id])
+  countryId      String
+  country        Country           @relation(fields: [countryId], references: [id])
+  status         DiscoveryStatus   @default(DISCOVERED)
+  outreach       BusinessOutreach?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([zoneId])
+  @@index([countryId])
+  @@index([status])
+  @@map(name: "discovered_businesses")
+}
+
+model BusinessOutreach {
+  id           String             @id @default(cuid())
+  businessId   String             @unique
+  business     DiscoveredBusiness @relation(fields: [businessId], references: [id])
+  status       OutreachStatus     @default(DRAFT)
+  emailSubject String?
+  emailBody    String?
+  sentAt       DateTime?
+  repliedAt    DateTime?
+  notes        String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@index([status])
+  @@map(name: "business_outreach")
+}
+
+enum DiscoveryStatus {
+  DISCOVERED
+  SELECTED
+  CONTACTED
+  RESPONDED
+  CONVERTED
+  REJECTED
+}
+
+enum OutreachStatus {
+  DRAFT
+  READY
+  SENT
+  REPLIED
+  FAILED
 }
