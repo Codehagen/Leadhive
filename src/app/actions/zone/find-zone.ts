@@ -6,6 +6,12 @@ interface FindZoneByPostalCodeOptions {
   country?: string;
 }
 
+interface ZoneInfo {
+  id: string;
+  name: string;
+  city?: string;
+}
+
 export async function findZoneByPostalCode(
   postalCode: string,
   options: FindZoneByPostalCodeOptions = {}
@@ -13,12 +19,12 @@ export async function findZoneByPostalCode(
   try {
     console.log("🔍 Looking up zone for:", { postalCode, options });
 
+    // First find the zone
     const zone = await prisma.zone.findFirst({
       where: {
         postalCodes: {
           has: postalCode,
         },
-        // Only include zones for the specified country if provided
         ...(options.country && {
           country: {
             code: options.country,
@@ -28,7 +34,7 @@ export async function findZoneByPostalCode(
       select: {
         id: true,
         name: true,
-        countryId: true,
+        sa3Name: true, // This will be our city for Australian postcodes
       },
     });
 
@@ -43,7 +49,11 @@ export async function findZoneByPostalCode(
     console.log("✅ Found zone:", zone);
     return {
       success: true,
-      data: zone,
+      data: {
+        id: zone.id,
+        name: zone.name,
+        city: zone.sa3Name || undefined,
+      },
     };
   } catch (error) {
     console.error("Error finding zone:", error);
