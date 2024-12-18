@@ -15,6 +15,8 @@ const isPublicRoute = createRouteMatcher([
   "/robots.txt",
   "/integrations(.*)",
   "/terms(.*)",
+  "/au/landscaping(.*)",
+  "/au/real-estate(.*)",
 ]);
 
 export default clerkMiddleware(

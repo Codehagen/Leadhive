@@ -44,24 +44,14 @@ export default function Header() {
               <Menu />
             </div>
 
-            <nav className="flex items-center space-x-4">
+            <nav className="flex items-center space-x-2">
               <Link
-                href="/au/real-estate"
+                href="/au/real-estate/sign-up"
                 className={buttonVariants({
-                  variant: "outline",
                   size: "sm",
                 })}
               >
-                Real Estate
-              </Link>
-              <Link
-                href="/au/landscaping"
-                className={buttonVariants({
-                  variant: "outline",
-                  size: "sm",
-                })}
-              >
-                Landscaping
+                Get Proposal
               </Link>
             </nav>
           </div>

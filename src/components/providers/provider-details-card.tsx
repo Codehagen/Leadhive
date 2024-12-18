@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { Provider } from "@prisma/client";
 import { ProviderEditSheet } from "./provider-edit-sheet";
+import { AddCategoryDialog } from "./dialogs/add-category-dialog";
+import { CategoryBadge } from "./category-badge";
 
 interface ProviderDetailsCardProps {
   provider: Provider & {
@@ -118,14 +120,19 @@ export function ProviderDetailsCard({ provider }: ProviderDetailsCardProps) {
           <Separator className="my-4" />
 
           <div className="space-y-4">
-            <h4 className="text-sm font-medium text-muted-foreground">
-              Categories ({provider.categories.length})
-            </h4>
+            <div className="flex justify-between items-center">
+              <h4 className="text-sm font-medium text-muted-foreground">
+                Categories ({provider.categories.length})
+              </h4>
+              <AddCategoryDialog provider={provider} />
+            </div>
             <div className="flex flex-wrap gap-2">
               {provider.categories.map((category: any) => (
-                <Badge key={category.id} variant="outline">
-                  {category.name}
-                </Badge>
+                <CategoryBadge
+                  key={category.id}
+                  category={category}
+                  providerId={provider.id}
+                />
               ))}
             </div>
           </div>
