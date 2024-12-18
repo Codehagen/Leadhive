@@ -8,29 +8,29 @@ import {
 
 const faqs = [
   {
-    question: "How does LeadHive work for home sellers?",
+    question: "How does LeadHive work for home owners?",
     answer:
-      "LeadHive connects you with top local real estate agents for free. Simply share your property details through our form, and we'll match you with experienced agents who specialize in your area. You'll receive multiple proposals to compare and choose from, with no obligation.",
+      "LeadHive connects you with top local landscapers for free. Simply share your property details through our form, and we'll match you with experienced landscapers who specialize in your area. You'll receive multiple proposals to compare and choose from, with no obligation.",
   },
   {
-    question: "Is there any cost for homeowners?",
+    question: "Is there any cost for home owners?",
     answer:
-      "No, our service is completely free for homeowners. We only charge real estate agents when they receive qualified leads. You can get multiple proposals from top agents without any cost or commitment.",
+      "No, our service is completely free for homeowners. We only charge landscapers when they receive qualified leads. You can get multiple proposals from top landscapers without any cost or commitment.",
   },
   {
-    question: "How do you select real estate agents?",
+    question: "How do you select landscapers?",
     answer:
-      "We partner with experienced agents who have proven track records in their local markets. We evaluate their performance, customer satisfaction, and local market knowledge to ensure you're connected with qualified professionals.",
+      "We partner with experienced landscapers who have proven track records in their local markets. We evaluate their performance, customer satisfaction, and local market knowledge to ensure you're connected with qualified professionals.",
   },
   {
-    question: "How long does it take to receive agent proposals?",
+    question: "How long does it take to receive landscaper proposals?",
     answer:
-      "Most homeowners receive their first proposal within 24 hours of submitting their property details. You can typically expect multiple proposals within 48 hours, allowing you to compare different agents and their approaches.",
+      "Most homeowners receive their first proposal within 24 hours of submitting their property details. You can typically expect multiple proposals within 48 hours, allowing you to compare different landscapers and their approaches.",
   },
   {
-    question: "For agents: How does lead pricing work?",
+    question: "For landscapers: How does lead pricing work?",
     answer:
-      "Agents only pay for qualified leads that match their criteria. The cost per lead varies based on your subscription tier, ranging from $40-50 per lead. You can choose how many leads you want to receive monthly, and there are no hidden fees or long-term commitments.",
+      "Landscapers only pay for qualified leads that match their criteria. The cost per lead varies based on your subscription tier, ranging from $40-50 per lead. You can choose how many leads you want to receive monthly, and there are no hidden fees or long-term commitments.",
   },
   {
     question: "What information is included in each lead?",

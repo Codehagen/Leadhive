@@ -27,8 +27,19 @@ interface LeadsTabProps {
         customerName: string;
         customerEmail: string | null;
         customerPhone: string;
-        serviceDetails: string;
+        address: string;
         postalCode: string;
+        categoryId: string;
+        category: {
+          id: string;
+          name: string;
+          description: string;
+          parentId: string | null;
+          parent: {
+            id: string;
+            name: string;
+          } | null;
+        } | null;
         zone: {
           name: string;
         } | null;
@@ -59,6 +70,17 @@ export function LeadsTab({ provider }: LeadsTabProps) {
   const pendingLeads = providerLeads.filter(
     (lead) => lead.status === "PENDING" || lead.status === "SENT"
   ).length;
+
+  // Helper function to get the display category name
+  const getCategoryName = (lead: (typeof providerLeads)[0]) => {
+    if (!lead.category) return "Unknown Service";
+    // If it's a child category, show "Parent - Child"
+    if (lead.category.parentId && lead.category.parent) {
+      return `${lead.category.parent.name} - ${lead.category.name}`;
+    }
+    // Otherwise just show the category name
+    return lead.category.name;
+  };
 
   return (
     <div className="space-y-4">
@@ -102,7 +124,7 @@ export function LeadsTab({ provider }: LeadsTabProps) {
                 <TableRow>
                   <TableHead>Customer</TableHead>
                   <TableHead>Service</TableHead>
-                  <TableHead>Location</TableHead>
+                  <TableHead>Address</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Received</TableHead>
                   <TableHead>Response Time</TableHead>
@@ -133,14 +155,18 @@ export function LeadsTab({ provider }: LeadsTabProps) {
                           </span>
                         </Link>
                       </TableCell>
-                      <TableCell>{lead.serviceDetails}</TableCell>
+                      <TableCell>
+                        <span className="font-medium">
+                          {getCategoryName(lead)}
+                        </span>
+                      </TableCell>
                       <TableCell>
                         <div className="flex flex-col">
                           <span className="font-medium">
-                            {lead.zone?.name || "Unknown"}
+                            {lead.address || "No address provided"}
                           </span>
                           <span className="text-sm text-muted-foreground">
-                            {lead.postalCode}
+                            {lead.zone?.name}, {lead.postalCode}
                           </span>
                         </div>
                       </TableCell>

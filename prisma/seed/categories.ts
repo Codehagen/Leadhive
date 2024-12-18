@@ -1,52 +1,71 @@
 export const categories = [
   {
     name: "Real Estate",
-    description: "Property sales and management services",
+    description: "Professional real estate and property services",
+    subcategories: [],
+  },
+  {
+    name: "Landscaping",
+    description: "Garden and outdoor maintenance services",
     subcategories: [
-      { name: "Residential", description: "Residential property services" },
-      { name: "Commercial", description: "Commercial property services" },
       {
-        name: "Property Management",
-        description: "Property management services",
+        name: "Garden Maintenance",
+        description: "Regular garden and lawn care",
+      },
+      { name: "Landscape Design", description: "Garden design and planning" },
+      {
+        name: "Irrigation Systems",
+        description: "Watering system installation and maintenance",
+      },
+      {
+        name: "Tree Services",
+        description: "Tree trimming, removal, and maintenance",
       },
     ],
   },
   {
-    name: "Construction",
-    description: "Building and renovation services",
+    name: "Carpentry",
+    description: "Professional carpentry and woodworking services",
     subcategories: [
-      { name: "Carpenter", description: "Woodworking and carpentry services" },
-      { name: "Plumber", description: "Plumbing installation and repair" },
       {
-        name: "Electrician",
-        description: "Electrical installation and repair",
+        name: "Custom Cabinets",
+        description: "Custom cabinet design and installation",
+      },
+      { name: "Decking", description: "Deck building and renovation" },
+      {
+        name: "General Carpentry",
+        description: "General woodworking and repairs",
+      },
+      { name: "Renovations", description: "Home renovation and remodeling" },
+    ],
+  },
+  {
+    name: "Electrical",
+    description: "Professional electrical services",
+    subcategories: [
+      { name: "Residential", description: "Home electrical services" },
+      { name: "Commercial", description: "Business electrical services" },
+      {
+        name: "Solar Installation",
+        description: "Solar system installation and maintenance",
       },
       {
-        name: "General Contractor",
-        description: "General construction services",
+        name: "Emergency Services",
+        description: "24/7 emergency electrical repairs",
       },
     ],
   },
   {
-    name: "Home Services",
-    description: "Residential maintenance and improvement",
+    name: "Auto Services",
+    description: "Professional automotive repair and maintenance",
     subcategories: [
-      { name: "Landscaping", description: "Garden and outdoor maintenance" },
-      { name: "Cleaning", description: "Cleaning and maintenance services" },
-      { name: "Painting", description: "Interior and exterior painting" },
       {
-        name: "HVAC",
-        description: "Heating, ventilation, and air conditioning",
+        name: "General Repairs",
+        description: "General auto repairs and servicing",
       },
-    ],
-  },
-  {
-    name: "Professional Services",
-    description: "Business and professional services",
-    subcategories: [
-      { name: "Accounting", description: "Financial and accounting services" },
-      { name: "Legal", description: "Legal services and consultation" },
-      { name: "Consulting", description: "Business consulting services" },
+      { name: "Auto Electrical", description: "Automotive electrical repairs" },
+      { name: "Tire Services", description: "Tire replacement and repairs" },
+      { name: "Body Repairs", description: "Auto body repairs and painting" },
     ],
   },
 ];

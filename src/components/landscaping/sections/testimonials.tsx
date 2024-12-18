@@ -90,9 +90,9 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/women/12.jpg",
     description: (
       <p>
-        Using {siteConfig.name} to find an agent was so easy.
+        Using {siteConfig.name} to find a landscaper was so easy.
         <Highlight>I received 3 proposals within 24 hours</Highlight> and found
-        the perfect agent for my property. Sold above asking price!
+        the perfect landscaper for my property. Sold above asking price!
       </p>
     ),
   },
@@ -103,7 +103,8 @@ const testimonials = [
     description: (
       <p>
         I was nervous about selling my first home, but {siteConfig.name} made it
-        simple. <Highlight>The agents were patient and knowledgeable</Highlight>{" "}
+        simple.{" "}
+        <Highlight>The landscapers were patient and knowledgeable</Highlight>{" "}
         and helped me understand every step of the process.
       </p>
     ),
@@ -114,7 +115,7 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/men/1.jpg",
     description: (
       <p>
-        {siteConfig.name} matched me with the perfect local agent.
+        {siteConfig.name} matched me with the perfect local landscaper.
         <Highlight>My house sold within two weeks</Highlight> and the whole
         process was completely stress-free.
       </p>
@@ -126,7 +127,8 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/women/45.jpg",
     description: (
       <p>
-        Comparing different agents through {siteConfig.name} was eye-opening.
+        Comparing different landscapers through {siteConfig.name} was
+        eye-opening.
         <Highlight>Each proposal offered unique strategies</Highlight> for
         selling my home. Found exactly what I was looking for.
       </p>
@@ -140,7 +142,7 @@ const testimonials = [
       <p>
         The best part about {siteConfig.name}?{" "}
         <Highlight>No pressure or endless phone calls</Highlight>. I could
-        review proposals at my own pace and choose the agent I felt most
+        review proposals at my own pace and choose the landscaper I felt most
         comfortable with.
       </p>
     ),
@@ -152,7 +154,7 @@ const testimonials = [
     description: (
       <p>
         After trying to sell on my own, I turned to {siteConfig.name}.
-        <Highlight>Within days, I had multiple qualified agents</Highlight>{" "}
+        <Highlight>Within days, I had multiple qualified landscapers</Highlight>{" "}
         competing for my listing. Best decision I could have made.
       </p>
     ),
@@ -163,9 +165,9 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/men/14.jpg",
     description: (
       <p>
-        The quality of agents on {siteConfig.name} impressed me.
+        The quality of landscapers on {siteConfig.name} impressed me.
         <Highlight>Every proposal was professional and detailed</Highlight>.
-        Made choosing the right agent much easier than expected.
+        Made choosing the right landscaper much easier than expected.
       </p>
     ),
   },
@@ -176,8 +178,9 @@ const testimonials = [
     description: (
       <p>
         {siteConfig.name} saved me so much time.
-        <Highlight>Instead of researching dozens of agents</Highlight>, I got
-        matched with pre-screened professionals who knew my neighborhood well.
+        <Highlight>Instead of researching dozens of landscapers</Highlight>, I
+        got matched with pre-screened professionals who knew my neighborhood
+        well.
       </p>
     ),
   },
@@ -188,8 +191,10 @@ const testimonials = [
     description: (
       <p>
         Selling a home is stressful, but {siteConfig.name} made it manageable.
-        <Highlight>The agent they matched me with was fantastic</Highlight> and
-        got me more than I expected for my home.
+        <Highlight>
+          The landscaper they matched me with was fantastic
+        </Highlight>{" "}
+        and got me more than I expected for my home.
       </p>
     ),
   },
@@ -199,7 +204,7 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/women/91.jpg",
     description: (
       <p>
-        What a great service! {siteConfig.name} helped me find an agent who
+        What a great service! {siteConfig.name} helped me find a landscaper who
         <Highlight>sold my house $30,000 above asking price</Highlight>. The
         whole process was smooth and professional.
       </p>
@@ -211,7 +216,7 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/men/92.jpg",
     description: (
       <p>
-        I appreciated how {siteConfig.name} vetted the agents first.
+        I appreciated how {siteConfig.name} vetted the landscapers first.
         <Highlight>Every proposal I received was high-quality</Highlight> and
         showed deep market knowledge. Excellent service!
       </p>
@@ -225,7 +230,7 @@ const testimonials = [
       <p>
         From start to finish, {siteConfig.name} exceeded my expectations.
         <Highlight>
-          Found an amazing agent who sold my home in just 5 days
+          Found an amazing landscaper who sold my home in just 5 days
         </Highlight>
         . Couldn't ask for a better experience.
       </p>
@@ -242,9 +247,9 @@ export default function Testimonials() {
           <span className="block">about {siteConfig.name}</span>
         </h2>
         <p className="text-muted-foreground text-lg">
-          Join thousands of happy home sellers
+          Join thousands of happy home owners
           <br />
-          who found their perfect real estate agent through our platform
+          who found their perfect landscaper through our platform
         </p>
       </div>
       <div className="relative mt-6 max-h-screen overflow-hidden">

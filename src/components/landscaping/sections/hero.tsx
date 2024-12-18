@@ -101,8 +101,7 @@ function HeroCTA() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.0, duration: 0.8 }}
       >
-        Join 10,000+ homeowners who found their perfect landscaper through
-        LeadHive
+        Join 10,000+ homeowners who found their perfect agent through LeadHive
       </motion.p>
     </>
   );
@@ -132,7 +131,7 @@ function HeroImage() {
 
 export default function Hero() {
   return (
-    <section id="hero" aria-label="Find Local Landscapers">
+    <section id="hero" aria-label="Find Local Real Estate Agents">
       <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 pb-16 sm:px-6 sm:pt-40 md:pt-48 lg:px-8">
         <HeroPill />
         <HeroTitles />
