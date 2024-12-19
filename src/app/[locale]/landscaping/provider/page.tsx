@@ -23,14 +23,14 @@ export function generateMetadata({ params }: Props) {
 export default function LandscapingProviderPage({ params }: Props) {
   return (
     <main>
-      <Header
+      {/* <Header
         industry="landscaping"
         signUpPath={`/${params.locale}/landscaping/provider/sign-up`}
       />
       <Hero industry="landscaping" />
       <Features industry="landscaping" />
       <Benefits industry="landscaping" />
-      <CTA industry="landscaping" />
+      <CTA industry="landscaping" /> */}
       <Footer />
     </main>
   );
