@@ -23,15 +23,15 @@ const steps = [
     icon: ClipboardCheck,
   },
   {
-    title: "2. Get matched with agents",
+    title: "2. Get matched with landscapers",
     description:
-      "We'll connect you with top local agents who specialize in your area and property type.",
+      "We'll connect you with top local landscapers who specialize in your area and property type.",
     icon: CalendarRange,
   },
   {
     title: "3. Compare and choose",
     description:
-      "Review personalized proposals from agents and choose the best fit for your needs. No pressure, no obligations.",
+      "Review personalized proposals from landscapers and choose the best fit for your needs. No pressure, no obligations.",
     icon: Handshake,
   },
 ];
@@ -42,7 +42,7 @@ export default function ProcessSection() {
       <ProcessPill />
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Find your perfect agent{" "}
+          Find your perfect landscaper{" "}
           <span className="block">in three simple steps</span>
         </h2>
         <p className="text-muted-foreground text-lg">

@@ -107,6 +107,128 @@ export const siteConfig = {
       label: "Blogg",
     },
   ],
+  industryHeaders: {
+    "real-estate": [
+      {
+        trigger: "Services",
+        content: {
+          main: {
+            icon: <Icons.logo className="h-6 w-6" />,
+            title: "Real Estate Services",
+            description: "Find top local real estate agents for your property.",
+            href: "/au/real-estate/services",
+          },
+          items: [
+            {
+              href: "/au/real-estate/selling",
+              title: "Property Selling",
+              description: "Expert guidance for selling your property.",
+            },
+            {
+              href: "/au/real-estate/buying",
+              title: "Property Buying",
+              description: "Find the perfect property with expert agents.",
+            },
+            {
+              href: "/au/real-estate/investment",
+              title: "Investment Properties",
+              description: "Maximize your real estate investments.",
+            },
+          ],
+        },
+      },
+      {
+        trigger: "Resources",
+        content: {
+          items: [
+            {
+              title: "Market Reports",
+              href: "/au/real-estate/market-reports",
+              description: "Stay informed with local market insights.",
+            },
+            {
+              title: "Property Guides",
+              href: "/au/real-estate/guides",
+              description: "Expert guides for property transactions.",
+            },
+            {
+              title: "Agent Directory",
+              href: "/au/real-estate/agents",
+              description: "Browse our network of verified agents.",
+            },
+          ],
+        },
+      },
+      {
+        href: "/au/real-estate/about",
+        label: "About",
+      },
+      {
+        href: "/au/real-estate/contact",
+        label: "Contact",
+      },
+    ],
+    landscaping: [
+      {
+        trigger: "Services",
+        content: {
+          main: {
+            icon: <Icons.logo className="h-6 w-6" />,
+            title: "Landscaping Services",
+            description: "Connect with professional landscaping contractors.",
+            href: "/au/landscaping/services",
+          },
+          items: [
+            {
+              href: "/au/landscaping/residential",
+              title: "Residential",
+              description: "Transform your home's outdoor space.",
+            },
+            {
+              href: "/au/landscaping/commercial",
+              title: "Commercial",
+              description: "Professional landscaping for businesses.",
+            },
+            {
+              href: "/au/landscaping/maintenance",
+              title: "Maintenance",
+              description: "Regular care for your landscape.",
+            },
+          ],
+        },
+      },
+      {
+        trigger: "Resources",
+        content: {
+          items: [
+            {
+              title: "Design Ideas",
+              href: "/au/landscaping/design-ideas",
+              description: "Inspiration for your outdoor space.",
+            },
+            {
+              title: "Contractor Guides",
+              href: "/au/landscaping/guides",
+              description: "How to choose the right contractor.",
+            },
+            {
+              title: "Project Gallery",
+              href: "/au/landscaping/gallery",
+              description: "View completed landscaping projects.",
+            },
+          ],
+        },
+      },
+      {
+        href: "/au/landscaping/about",
+        label: "About",
+      },
+      {
+        href: "/au/landscaping/contact",
+        label: "Contact",
+      },
+    ],
+  },
   pricing: [
     {
       name: "BASIC",

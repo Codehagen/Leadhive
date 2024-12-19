@@ -21,7 +21,7 @@ export default function LandscapingPage() {
       <Problem />
       <Solution />
       <Testimonials />
-      <Pricing />
+      {/* <Pricing /> */}
       <FAQ />
       <CTA />
       <Footer />

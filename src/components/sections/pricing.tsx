@@ -15,7 +15,11 @@ import { FaStar } from "react-icons/fa";
 import confetti from "canvas-confetti";
 import NumberFlow from "@number-flow/react";
 
-export default function PricingSection() {
+interface PricingProps {
+  industry?: "real-estate" | "landscaping";
+}
+
+export default function Pricing({ industry }: PricingProps) {
   const [isMonthly, setIsMonthly] = useState(true);
   const { isDesktop } = useWindowSize();
   const switchRef = useRef<HTMLButtonElement>(null);
@@ -46,16 +50,44 @@ export default function PricingSection() {
     }
   };
 
+  const getIndustryContent = () => {
+    switch (industry) {
+      case "real-estate":
+        return {
+          title: "Real Estate Agent Pricing",
+          subtitle: "Simple, transparent pricing for real estate professionals",
+          description:
+            "Choose the plan that best fits your business. Get high-quality leads and powerful tools to grow your real estate business.",
+        };
+      case "landscaping":
+        return {
+          title: "Landscaping Provider Pricing",
+          subtitle: "Flexible pricing for landscaping professionals",
+          description:
+            "Select a plan that matches your needs. Get quality leads and tools to expand your landscaping business.",
+        };
+      default:
+        return {
+          title: "Simple, Transparent Pricing",
+          subtitle: "Choose the plan that works for you",
+          description:
+            "All plans include access to our platform, lead generation tools, and dedicated support.",
+        };
+    }
+  };
+
+  const content = getIndustryContent();
+
   return (
     <Section>
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Simple, transparent <span className="block">pricing for agents</span>
+          {content.title}
         </h2>
         <p className="text-muted-foreground text-lg">
-          Only pay for the leads you receive.
+          {content.subtitle}
           <br />
-          No monthly fees, no hidden costs.
+          {content.description}
         </p>
       </div>
 

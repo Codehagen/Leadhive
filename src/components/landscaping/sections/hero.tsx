@@ -92,7 +92,7 @@ function HeroCTA() {
           )}
         >
           <Search className="h-6 w-6" />
-          Get Free Agent Proposals
+          Get Free Landscaper Proposals
         </Link>
       </motion.div>
       <motion.p
@@ -101,7 +101,8 @@ function HeroCTA() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.0, duration: 0.8 }}
       >
-        Join 10,000+ homeowners who found their perfect agent through LeadHive
+        Join 10,000+ homeowners who found their perfect landscaper through
+        LeadHive
       </motion.p>
     </>
   );

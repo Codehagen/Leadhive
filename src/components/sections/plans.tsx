@@ -1,176 +1,186 @@
-import { Check, HelpCircle, X } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
-const tiers = [
-  {
-    name: "BASIC",
-    price: "10000",
-    priceAmount: 10000,
-    duration: "per mnd",
-    billing: "8333 kr fakturert månedlig",
-    description: "Perfekt for små og mellomstore bedrifter",
-    buttonText: "Kom i gang",
-    popular: false,
-  },
-  {
-    name: "PRO",
-    price: "15000",
-    priceAmount: 15000,
-    duration: "per mnd",
-    billing: "12500 kr fakturert månedlig",
-    description:
-      "Ideell for voksende bedrifter med aktiv digital tilstedeværelse",
-    buttonText: "Kom i gang",
-    popular: true,
-  },
-  {
-    name: "ENTERPRISE",
-    price: "20000",
-    priceAmount: 20000,
-    duration: "per mnd",
-    billing: "16667 kr fakturert månedlig",
-    description: "For større bedrifter med omfattende behov",
-    buttonText: "Kontakt oss",
-    popular: false,
-  },
-];
+interface PricingPlansProps {
+  industry?: "real-estate" | "landscaping";
+}
 
-const features = [
-  "Fotosesjoner",
-  "Høyoppløselige bilder",
-  "Video",
-  "Bilderedigering",
-  "Digital bildemappe",
-  "Sosiale medier-pakke",
-  "Drone-fotografering",
-  "Support",
-  "Bindingstid",
-];
+export default function PricingPlans({ industry }: PricingPlansProps) {
+  const getIndustryPlans = () => {
+    switch (industry) {
+      case "real-estate":
+        return [
+          {
+            name: "Basic",
+            price: "199",
+            period: "/lead",
+            description: "Perfect for individual agents",
+            features: [
+              "Qualified property seller leads",
+              "Lead contact information",
+              "Property details and requirements",
+              "Basic CRM integration",
+              "Email notifications",
+              "Standard support",
+            ],
+            cta: "Get Started",
+            href: `/au/real-estate/provider/sign-up?plan=basic`,
+          },
+          {
+            name: "Professional",
+            price: "299",
+            period: "/lead",
+            description: "Ideal for growing agencies",
+            features: [
+              "All Basic features",
+              "Priority lead matching",
+              "Advanced CRM integration",
+              "Lead scoring",
+              "Performance analytics",
+              "Priority support",
+              "Team collaboration tools",
+            ],
+            cta: "Get Started",
+            href: `/au/real-estate/provider/sign-up?plan=professional`,
+            popular: true,
+          },
+          {
+            name: "Enterprise",
+            price: "Custom",
+            description: "For large agencies and brokerages",
+            features: [
+              "All Professional features",
+              "Custom lead volume",
+              "Dedicated account manager",
+              "API access",
+              "Custom integrations",
+              "24/7 premium support",
+              "White-label options",
+            ],
+            cta: "Contact Sales",
+            href: `/au/real-estate/provider/contact`,
+          },
+        ];
+      case "landscaping":
+        return [
+          {
+            name: "Basic",
+            price: "149",
+            period: "/lead",
+            description: "Perfect for small contractors",
+            features: [
+              "Qualified landscaping leads",
+              "Lead contact information",
+              "Project requirements",
+              "Basic job management",
+              "Email notifications",
+              "Standard support",
+            ],
+            cta: "Get Started",
+            href: `/au/landscaping/provider/sign-up?plan=basic`,
+          },
+          {
+            name: "Professional",
+            price: "249",
+            period: "/lead",
+            description: "Ideal for growing businesses",
+            features: [
+              "All Basic features",
+              "Priority lead matching",
+              "Advanced job management",
+              "Lead qualification",
+              "Performance tracking",
+              "Priority support",
+              "Team management",
+            ],
+            cta: "Get Started",
+            href: `/au/landscaping/provider/sign-up?plan=professional`,
+            popular: true,
+          },
+          {
+            name: "Enterprise",
+            price: "Custom",
+            description: "For large landscaping companies",
+            features: [
+              "All Professional features",
+              "Custom lead volume",
+              "Dedicated account manager",
+              "API access",
+              "Custom integrations",
+              "24/7 premium support",
+              "White-label options",
+            ],
+            cta: "Contact Sales",
+            href: `/au/landscaping/provider/contact`,
+          },
+        ];
+      default:
+        return [];
+    }
+  };
 
-const featureAvailability = [
-  ["1 per måned", "1 per måned", "1 per måned"],
-  ["20 bilder", "40 bilder", "Ubegrenset"],
-  [false, "3-5 videoer", "Skreddersydd"],
-  [true, true, true],
-  [true, true, true],
-  [false, true, true],
-  [false, false, true],
-  ["Standard", "Dedikert", "24/7 Prioritert"],
-  ["Ingen", "Ingen", "Ingen"],
-];
+  const plans = getIndustryPlans();
 
-export default function PricingPlans() {
+  if (plans.length === 0) return null;
+
   return (
-    <section id="pricing">
-      <div className="container px-4 md:px-6 py-12 md:py-24 lg:py-32">
-        <div className="text-center space-y-4 mb-12">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Forutsigbare, <span className="block">og rimelige priser</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Finn en plan som passer dine behov.
-            <br />
-            Start gratis, ingen kredittkort nødvendig.
-          </p>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="p-4 text-left font-medium"></th>
-                {tiers.map((tier, index) => (
-                  <th key={tier.name} className="p-4 text-center font-medium">
-                    <div
-                      className={`rounded-2xl p-6 ${
-                        tier.popular ? "bg-gray-100 ring-2 ring-blue-500" : ""
-                      }`}
-                    >
-                      {tier.popular && (
-                        <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full mb-4 inline-block">
-                          Mest populær
-                        </span>
-                      )}
-                      <div className="text-lg font-semibold mb-2">
-                        {tier.name}
-                      </div>
-                      <div className="flex items-baseline justify-center mb-1">
-                        <span className="text-4xl font-bold">
-                          {`${tier.priceAmount.toLocaleString("no-NO")} kr`}
-                        </span>
-                        {tier.priceAmount !== 0 && (
-                          <span className="text-xl font-normal text-gray-500 ml-1">
-                            /{tier.duration.split(" ")[1]}
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-sm text-gray-500 mb-4 h-8">
-                        {tier.priceAmount === 0 ? tier.duration : tier.billing}
-                      </div>
-                      <p className="text-sm text-gray-600 mb-6 h-12">
-                        {tier.description}
-                      </p>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                {tiers.map((tier, index) => (
-                  <td key={`button-${tier.name}`} className="p-4 text-center">
-                    <Button
-                      className={`w-full ${
-                        tier.popular
-                          ? "bg-blue-500 text-white hover:bg-blue-600"
-                          : "bg-white text-blue-500 border border-blue-500 hover:bg-blue-50"
-                      }`}
-                    >
-                      {tier.buttonText}
-                    </Button>
-                  </td>
-                ))}
-              </tr>
-              {features.map((feature, index) => (
-                <tr key={feature} className="border-t border-gray-100">
-                  <td className="py-4 px-4 flex items-center">
-                    <span className="font-medium">{feature}</span>
-                    <HelpCircle
-                      className="ml-2 h-4 w-4 text-gray-400"
-                      aria-label={`More info about ${feature}`}
-                    />
-                  </td>
-                  {featureAvailability[index].map((available, tierIndex) => (
-                    <td key={tierIndex} className="py-4 px-4 text-center">
-                      {typeof available === "boolean" ? (
-                        available ? (
-                          <Check
-                            className="mx-auto h-5 w-5 text-primary"
-                            aria-label="Inkludert"
-                          />
-                        ) : (
-                          <X
-                            className="mx-auto h-5 w-5 text-gray-300"
-                            aria-label="Ikke inkludert"
-                          />
-                        )
-                      ) : (
-                        <span className="text-sm text-gray-600">
-                          {available}
-                        </span>
-                      )}
-                    </td>
+    <section className="py-24">
+      <div className="container px-4 md:px-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={cn(
+                "relative flex flex-col rounded-lg border p-6",
+                plan.popular
+                  ? "border-primary shadow-lg"
+                  : "border-border bg-card"
+              )}
+            >
+              {plan.popular && (
+                <div className="absolute -top-5 left-0 right-0 mx-auto w-fit rounded-full bg-primary px-3 py-1 text-sm font-medium text-primary-foreground">
+                  Most Popular
+                </div>
+              )}
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold">{plan.name}</h3>
+                <div className="space-y-2">
+                  <div className="text-3xl font-bold">
+                    ${plan.price}
+                    {plan.period && (
+                      <span className="text-sm font-normal text-muted-foreground">
+                        {plan.period}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {plan.description}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-8 space-y-4">
+                <ul className="space-y-2.5 text-sm">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary" />
+                      <span>{feature}</span>
+                    </li>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </ul>
+              </div>
+              <div className="mt-8">
+                <Button
+                  className="w-full"
+                  variant={plan.popular ? "default" : "outline"}
+                  asChild
+                >
+                  <a href={plan.href}>{plan.cta}</a>
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
-        <p className="mt-12 text-center text-sm text-gray-500">
-          Alle planer inkluderer 14 dagers prøveperiode. Ingen kredittkort
-          nødvendig.
-        </p>
       </div>
     </section>
   );

@@ -15,11 +15,19 @@ import {
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
-export default function NavigationMenuDemo() {
+interface MenuProps {
+  industry?: "real-estate" | "landscaping";
+}
+
+export default function Menu({ industry }: MenuProps) {
+  const menuItems = industry
+    ? siteConfig.industryHeaders[industry]
+    : siteConfig.header;
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {siteConfig.header.map((item, index) => (
+        {menuItems.map((item, index) => (
           <NavigationMenuItem key={index}>
             {item.trigger ? (
               <>
@@ -64,12 +72,7 @@ export default function NavigationMenuDemo() {
                 </NavigationMenuContent>
               </>
             ) : (
-              <Link
-                href={item.href || ""}
-                target="_arya"
-                legacyBehavior
-                passHref
-              >
+              <Link href={item.href || ""} legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   {item.label}
                 </NavigationMenuLink>
