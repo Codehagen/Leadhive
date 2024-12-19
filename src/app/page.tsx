@@ -27,7 +27,7 @@ export default function Home() {
       {/* <TestimonialsCarousel /> */}
       {/* <Features /> */}
       <Testimonials />
-      <Pricing />
+      {/* <Pricing /> */}
       <FAQ />
       {/* <Blog /> */}
       <CTA />

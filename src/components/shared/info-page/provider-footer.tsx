@@ -21,28 +21,28 @@ const industryContent = {
       {
         title: "Services",
         links: [
-          { href: "/real-estate/services", text: "Our Services" },
-          { href: "/real-estate/features", text: "Features" },
-          { href: "/real-estate/pricing", text: "Pricing" },
-          { href: "/real-estate/case-studies", text: "Case Studies" },
+          { href: "/au/real-estate/", text: "Our Services" },
+          { href: "/au/real-estate/", text: "Features" },
+          { href: "/au/real-estate/pricing", text: "Pricing" },
+          { href: "/au/real-estate/", text: "Case Studies" },
         ],
       },
       {
         title: "Resources",
         links: [
-          { href: "/real-estate/guides", text: "Agent Guides" },
-          { href: "/real-estate/market-insights", text: "Market Insights" },
-          { href: "/real-estate/blog", text: "Blog" },
-          { href: "/real-estate/help", text: "Help Center" },
+          { href: "au/real-estate/providers", text: "Agent Guides" },
+          { href: "au/real-estate/providers", text: "Market Insights" },
+          { href: "au/real-estate/blog", text: "Blog" },
+          { href: "au/real-estate/help", text: "Help Center" },
         ],
       },
       {
         title: "Company",
         links: [
-          { href: "/about", text: "About Us" },
+          { href: "/", text: "About Us" },
           { href: "/contact", text: "Contact" },
-          { href: "/careers", text: "Careers" },
-          { href: "/partners", text: "Partner Program" },
+          { href: "/", text: "Careers" },
+          { href: "/", text: "Partner Program" },
         ],
       },
       {
@@ -73,28 +73,28 @@ const industryContent = {
       {
         title: "Services",
         links: [
-          { href: "/landscaping/services", text: "Our Services" },
-          { href: "/landscaping/features", text: "Features" },
-          { href: "/landscaping/pricing", text: "Pricing" },
-          { href: "/landscaping/case-studies", text: "Case Studies" },
+          { href: "/au/landscaping/", text: "Our Services" },
+          { href: "/au/landscaping/", text: "Features" },
+          { href: "/au/landscaping/pricing", text: "Pricing" },
+          { href: "/au/landscaping/", text: "Case Studies" },
         ],
       },
       {
         title: "Resources",
         links: [
-          { href: "/landscaping/guides", text: "Business Guides" },
-          { href: "/landscaping/industry-insights", text: "Industry Insights" },
-          { href: "/landscaping/blog", text: "Blog" },
-          { href: "/landscaping/help", text: "Help Center" },
+          { href: "/au/landscaping/providers", text: "Business Guides" },
+          { href: "/au/landscaping/providers", text: "Industry Insights" },
+          { href: "/au/landscaping/blog", text: "Blog" },
+          { href: "/au/landscaping/help", text: "Help Center" },
         ],
       },
       {
         title: "Company",
         links: [
-          { href: "/about", text: "About Us" },
+          { href: "/", text: "About Us" },
           { href: "/contact", text: "Contact" },
-          { href: "/careers", text: "Careers" },
-          { href: "/partners", text: "Partner Program" },
+          { href: "/", text: "Careers" },
+          { href: "/", text: "Partner Program" },
         ],
       },
       {
