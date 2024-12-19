@@ -1,12 +1,12 @@
 import { constructMetadata } from "@/lib/utils";
 import { HeroSection } from "@/components/shared/info-page/hero-section";
 import { FeaturePreview } from "@/components/shared/info-page/feature-preview";
-import { LogoCloud } from "@/components/shared/info-page/logo-cloud";
-import { ScalabilitySection } from "@/components/shared/info-page/scalability-section";
 import { StatsSection } from "@/components/shared/info-page/stats-section";
+import { ScalabilitySection } from "@/components/shared/info-page/scalability-section";
 import Header from "@/components/shared/industry-header";
 import Footer from "@/components/sections/footer";
 import Logos from "@/components/sections/logos";
+import { ProviderFooter } from "@/components/shared/info-page/provider-footer";
 
 interface Props {
   params: {
@@ -29,12 +29,12 @@ export default function RealEstateProviderPage({ params }: Props) {
         industry="real-estate"
         signUpPath={`/${params.locale}/real-estate/provider/sign-up`}
       />
-      <HeroSection />
-      <FeaturePreview />
+      <HeroSection industry="real-estate" locale={params.locale} />
       <Logos />
-      <ScalabilitySection />
-      <StatsSection />
-      <Footer />
+      <ScalabilitySection industry="real-estate" />
+      <StatsSection industry="real-estate" />
+      <FeaturePreview industry="real-estate" />
+      <ProviderFooter industry="real-estate" locale={params.locale} />
     </main>
   );
 }

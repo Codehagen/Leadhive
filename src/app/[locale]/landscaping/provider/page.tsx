@@ -1,10 +1,12 @@
 import { constructMetadata } from "@/lib/utils";
-import Hero from "@/components/sections/provider/hero";
-import Features from "@/components/sections/provider/features";
-import Benefits from "@/components/sections/provider/benefits";
-import CTA from "@/components/sections/provider/cta";
+import { HeroSection } from "@/components/shared/info-page/hero-section";
+import { FeaturePreview } from "@/components/shared/info-page/feature-preview";
+import { StatsSection } from "@/components/shared/info-page/stats-section";
+import { ScalabilitySection } from "@/components/shared/info-page/scalability-section";
 import Header from "@/components/shared/industry-header";
 import Footer from "@/components/sections/footer";
+import Logos from "@/components/sections/logos";
+import { ProviderFooter } from "@/components/shared/info-page/provider-footer";
 
 interface Props {
   params: {
@@ -23,15 +25,16 @@ export function generateMetadata({ params }: Props) {
 export default function LandscapingProviderPage({ params }: Props) {
   return (
     <main>
-      {/* <Header
+      <Header
         industry="landscaping"
         signUpPath={`/${params.locale}/landscaping/provider/sign-up`}
       />
-      <Hero industry="landscaping" />
-      <Features industry="landscaping" />
-      <Benefits industry="landscaping" />
-      <CTA industry="landscaping" /> */}
-      <Footer />
+      <HeroSection industry="landscaping" locale={params.locale} />
+      <Logos />
+      <ScalabilitySection industry="landscaping" />
+      <StatsSection industry="landscaping" />
+      <FeaturePreview industry="landscaping" />
+      <ProviderFooter industry="landscaping" locale={params.locale} />
     </main>
   );
 }
