@@ -17,6 +17,7 @@ const isPublicRoute = createRouteMatcher([
   "/terms(.*)",
   "/au/landscaping(.*)",
   "/au/real-estate(.*)",
+  "/customers(.*)",
 ]);
 
 export default clerkMiddleware(

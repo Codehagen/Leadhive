@@ -48,10 +48,10 @@ const customers = [
   //   site: "https://vercel.com",
   // },
   {
-    slug: "corponor",
+    slug: "mcgrath-estate-agents",
   },
   {
-    slug: "nordic-choice",
+    slug: "ray-white-brisbane",
   },
   // {
   //   slug: "tinybird",
