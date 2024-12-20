@@ -9,10 +9,11 @@ export default function CtaSection() {
     <Section id="cta" className="bg-primary/10 rounded-xl py-16">
       <div className="text-center space-y-4 mb-8">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Ready to find your <span className="block">perfect agent?</span>
+          Ready to find your{" "}
+          <span className="block">perfect professional?</span>
         </h2>
         <p className="text-muted-foreground text-lg">
-          Get free proposals from top local agents.
+          Get free proposals from top local professionals.
           <br />
           No obligation, no pressure.
         </p>

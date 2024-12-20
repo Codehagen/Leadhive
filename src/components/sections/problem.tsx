@@ -19,19 +19,19 @@ const steps = [
   {
     title: "1. Tell us about your needs",
     description:
-      "Share basic details about your property and what you're looking to achieve. It takes less than 2 minutes.",
+      "Tell us what you need in just a few clicks. Whether it's real estate, landscaping, construction, or any other service - we'll understand your specific requirements.",
     icon: ClipboardCheck,
   },
   {
-    title: "2. Get matched with agents",
+    title: "2. Get expert matches",
     description:
-      "We'll connect you with top local agents who specialize in your area and property type.",
+      "We'll connect you with top verified professionals who specialize in your exact needs.",
     icon: CalendarRange,
   },
   {
     title: "3. Compare and choose",
     description:
-      "Review personalized proposals from agents and choose the best fit for your needs. No pressure, no obligations.",
+      "Review personalized proposals from multiple professionals and choose the best fit for your needs. No pressure, no obligations.",
     icon: Handshake,
   },
 ];

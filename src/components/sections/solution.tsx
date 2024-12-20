@@ -9,9 +9,9 @@ import { motion } from "framer-motion";
 
 const features = [
   {
-    title: "Easy Property Submission",
+    title: "Easy Service Matching",
     description:
-      "Share your property details in minutes through our simple form. No complicated processes, just the essential information needed to match you with the right agents.",
+      "Share your requirements in minutes through our simple form. Our AI-powered system matches you with the perfect professionals for your specific needs.",
     className: "hover:bg-blue-500/10 transition-all duration-500 ease-out",
     content: (
       <>
@@ -24,9 +24,9 @@ const features = [
     ),
   },
   {
-    title: "Multiple Free Proposals",
+    title: "Compare Multiple Proposals",
     description:
-      "Receive proposals from several local agents without any cost. Compare different approaches and choose the one that best matches your needs.",
+      "Receive detailed proposals from verified professionals in your area. Compare services, pricing, and expertise to make an informed decision.",
     className:
       "order-3 xl:order-none hover:bg-green-500/10 transition-all duration-500 ease-out",
     content: (
@@ -38,9 +38,9 @@ const features = [
     ),
   },
   {
-    title: "Local Market Experts",
+    title: "Verified Industry Experts",
     description:
-      "Get connected with agents who know your neighborhood inside out. Our network includes experienced professionals with proven success in your local market.",
+      "Connect with professionals who excel in their field. Our network includes only verified experts with proven track records and the right qualifications for your project.",
     className:
       "md:row-span-2 hover:bg-purple-500/10 transition-all duration-500 ease-out",
     content: (
@@ -64,9 +64,9 @@ const features = [
     ),
   },
   {
-    title: "No-Pressure Process",
+    title: "Hassle-Free Experience",
     description:
-      "Take your time to review proposals and make decisions. There's no obligation to choose any agent, and you're in control of the entire process.",
+      "Take control of your project timeline. Review proposals at your own pace, with no pressure or obligations. Our platform ensures a smooth and transparent process.",
     className:
       "flex-row order-4 md:col-span-2 md:flex-row xl:order-none hover:bg-orange-500/10 transition-all duration-500 ease-out",
     content: (
@@ -85,9 +85,9 @@ const features = [
 export default function SolutionSection() {
   return (
     <Section
-      title="Platform Features"
-      subtitle="Everything you need to find your perfect agent"
-      description="Our platform streamlines the agent selection process with powerful features designed to help you make the best choice for your property."
+      title="How LeadHive Works"
+      subtitle="Connecting You with the Right Professionals"
+      description="Our AI-powered platform simplifies finding and connecting with verified experts across multiple industries, ensuring you get the best service for your needs."
       className="bg-neutral-100 dark:bg-neutral-900"
     >
       <div className="mx-auto mt-16 grid max-w-sm grid-cols-1 gap-6 text-gray-500 md:max-w-3xl md:grid-cols-2 xl:grid-rows-2 md:grid-rows-3 xl:max-w-6xl xl:auto-rows-fr xl:grid-cols-3">

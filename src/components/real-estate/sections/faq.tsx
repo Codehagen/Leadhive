@@ -74,8 +74,8 @@ export default function FAQ() {
       </div>
       <h4 className="mb-12 text-center text-sm font-medium tracking-tight text-foreground/80">
         Have more questions? Email us at{" "}
-        <a href="mailto:support@leadhive.no" className="underline">
-          support@leadhive.no
+        <a href="mailto:support@leadhive.tech" className="underline">
+          support@leadhive.tech
         </a>
       </h4>
     </Section>
