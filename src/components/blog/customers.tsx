@@ -35,7 +35,7 @@ export const Customer = ({ slug, site }: { slug: string; site?: string }) => {
         />
         <div className="flex space-x-1">
           <p className="text-sm font-medium text-gray-500 group-hover:text-blue-600">
-            {site ? "Besøk nettsted" : "Les mer"}
+            {site ? "Visit Website" : "Learn More"}
           </p>
           <ExpandingArrow className="text-gray-500 group-hover:text-blue-600" />
         </div>

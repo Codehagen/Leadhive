@@ -75,18 +75,18 @@ export function formatDate(date: string) {
   });
 
   if (daysAgo < 1) {
-    return "I dag";
+    return "Today";
   } else if (daysAgo < 7) {
-    return `${fullDate} (${daysAgo}d siden)`;
+    return `${fullDate} (${daysAgo}d ago)`;
   } else if (daysAgo < 30) {
     const weeksAgo = Math.floor(daysAgo / 7);
-    return `${fullDate} (${weeksAgo}u siden)`;
+    return `${fullDate} (${weeksAgo}w ago)`;
   } else if (daysAgo < 365) {
     const monthsAgo = Math.floor(daysAgo / 30);
-    return `${fullDate} (${monthsAgo}mnd siden)`;
+    return `${fullDate} (${monthsAgo}mo ago)`;
   } else {
     const yearsAgo = Math.floor(daysAgo / 365);
-    return `${fullDate} (${yearsAgo}år siden)`;
+    return `${fullDate} (${yearsAgo}y ago)`;
   }
 }
 

@@ -8,34 +8,34 @@ import {
 
 const faqs = [
   {
-    question: "How does LeadHive work for home sellers?",
+    question: "How does LeadHive work?",
     answer:
-      "LeadHive connects you with top local real estate agents for free. Simply share your property details through our form, and we'll match you with experienced agents who specialize in your area. You'll receive multiple proposals to compare and choose from, with no obligation.",
+      "LeadHive connects you with verified professionals for free. Simply share your requirements through our form, and we'll match you with experienced experts who specialize in your needs. You'll receive multiple proposals to compare and choose from, with no obligation.",
   },
   {
-    question: "Is there any cost for homeowners?",
+    question: "Is there any cost to use LeadHive?",
     answer:
-      "No, our service is completely free for homeowners. We only charge real estate agents when they receive qualified leads. You can get multiple proposals from top agents without any cost or commitment.",
+      "No, our service is completely free for customers. We only charge service providers when they receive qualified leads. You can get multiple proposals from top professionals without any cost or commitment.",
   },
   {
-    question: "How do you select real estate agents?",
+    question: "How do you select service providers?",
     answer:
-      "We partner with experienced agents who have proven track records in their local markets. We evaluate their performance, customer satisfaction, and local market knowledge to ensure you're connected with qualified professionals.",
+      "We carefully vet all professionals on our platform. Each provider undergoes a thorough screening process where we verify their credentials, experience, and track record. We continuously monitor their performance and customer satisfaction to maintain high service standards.",
   },
   {
-    question: "How long does it take to receive agent proposals?",
+    question: "How long does it take to receive proposals?",
     answer:
-      "Most homeowners receive their first proposal within 24 hours of submitting their property details. You can typically expect multiple proposals within 48 hours, allowing you to compare different agents and their approaches.",
+      "Most customers receive their first proposal within 24 hours of submitting their requirements. You can typically expect multiple proposals within 48 hours, allowing you to compare different providers and their approaches.",
   },
   {
-    question: "For agents: How does lead pricing work?",
+    question: "What areas do you service?",
     answer:
-      "Agents only pay for qualified leads that match their criteria. The cost per lead varies based on your subscription tier, ranging from $40-50 per lead. You can choose how many leads you want to receive monthly, and there are no hidden fees or long-term commitments.",
+      "We currently operate across major Australian cities and regions, connecting customers with local professionals in real estate, landscaping, construction, healthcare, electrical services, and financial services.",
   },
   {
-    question: "What information is included in each lead?",
+    question: "Can I compare multiple proposals?",
     answer:
-      "Each lead includes essential property details, seller timeline, preferred contact method, and specific requirements. Premium tiers receive additional insights and priority access to help you better serve potential clients.",
+      "Yes! You'll receive multiple proposals from different service providers, making it easy to compare their experience, pricing, and approach. This helps you make an informed decision without any pressure.",
   },
 ];
 
@@ -74,8 +74,8 @@ export default function FAQ() {
       </div>
       <h4 className="mb-12 text-center text-sm font-medium tracking-tight text-foreground/80">
         Have more questions? Email us at{" "}
-        <a href="mailto:support@leadhive.no" className="underline">
-          support@leadhive.no
+        <a href="mailto:support@leadhive.tech" className="underline">
+          support@leadhive.tech
         </a>
       </h4>
     </Section>

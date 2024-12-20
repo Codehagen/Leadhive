@@ -7,8 +7,9 @@ import TestimonialsCarousel from "@/components/sections/testimonials-carousel";
 import Testimonials from "@/components/sections/testimonials";
 
 export const metadata = constructMetadata({
-  title: "Kunder - Fotovibe",
-  description: "Møt våre kunder og lær hvordan de bruker Fotovibe.",
+  title: "Success Stories - LeadHive",
+  description:
+    "Discover how businesses and professionals across Australia are growing with LeadHive's lead generation platform.",
 });
 
 export default function Customers() {
@@ -17,15 +18,15 @@ export default function Customers() {
       <MaxWidthWrapper className="mb-8 mt-16 text-center">
         <div className="mx-auto mb-10 sm:max-w-lg">
           <h1 className="font-display text-4xl font-extrabold text-black sm:text-5xl">
-            Se våre{" "}
-            <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              kunder
+            Our Success{" "}
+            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              Stories
             </span>
           </h1>
           <p className="mt-5 text-gray-600 sm:text-lg">
-            Fotovibe gir bedrifter tilgang til profesjonell fotografering på
-            abonnement - fra små bedrifter til store selskaper med omfattende
-            behov for visuelt innhold.
+            Leadhive connects top professionals with quality leads across
+            multiple industries. From real estate agents to healthcare
+            providers, see how our platform helps businesses grow.
           </p>
         </div>
         <div className="grid grid-cols-2 gap-5 py-5 md:grid-cols-4">
@@ -35,9 +36,6 @@ export default function Customers() {
         </div>
       </MaxWidthWrapper>
       <Testimonials />
-
-      <Suspense>{/* <Testimonials /> */}</Suspense>
-      {/* <CTA /> */}
     </>
   );
 }
@@ -48,10 +46,10 @@ const customers = [
   //   site: "https://vercel.com",
   // },
   {
-    slug: "corponor",
+    slug: "mcgrath-estate-agents",
   },
   {
-    slug: "nordic-choice",
+    slug: "ray-white-brisbane",
   },
   // {
   //   slug: "tinybird",

@@ -422,7 +422,7 @@ export const siteConfig = {
       marketing: "Christer from LeadHive <christer@leadhive.no>",
       system: "LeadHive <system@leadhive.no>",
     },
-    support: "support@leadhive.no",
+    support: "support@leadhive.tech",
     unsubscribe: "https://leadhive.no/unsubscribe",
     location: "Oslo, Norway",
     subjects: {

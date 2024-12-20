@@ -21,7 +21,7 @@ export default function RealEstatePage() {
       <Problem />
       <Solution />
       <Testimonials />
-      <Pricing />
+      {/* <Pricing /> */}
       <FAQ />
       <CTA />
       <Footer />
