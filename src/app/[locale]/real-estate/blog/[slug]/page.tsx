@@ -6,14 +6,17 @@ import Author from "@/components/blog/author";
 import { MDX } from "@/components/blog/mdx";
 import { getBlurDataURL } from "@/lib/blog/images";
 import { Metadata } from "next";
-import { constructMetadata, formatDate } from "@/lib/utils";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { formatDate } from "@/lib/utils";
 import { BLOG_CATEGORIES } from "@/lib/blog/content";
 import BlurImage from "@/lib/blog/blur-image";
 
 export async function generateStaticParams() {
-  return allBlogPosts.map((post) => ({
-    slug: post.slug,
-  }));
+  return allBlogPosts
+    .filter((post) => post.categories.includes("real-estate"))
+    .map((post) => ({
+      slug: post.slug,
+    }));
 }
 
 export async function generateMetadata({
@@ -29,24 +32,22 @@ export async function generateMetadata({
   const { title, seoTitle, summary, seoDescription, image } = post;
 
   return constructMetadata({
-    title: `${seoTitle || title} – Fotovibe`,
+    title: `${seoTitle || title} – Leadhive`,
     description: seoDescription || summary,
     image,
   });
 }
 
-// Priority categories that should be shown first
-const PRIORITY_CATEGORIES = ["real-estate", "landscaping"];
-
-export default async function BlogArticle({
+export default async function RealEstateBlogPost({
   params,
 }: {
   params: {
     slug: string;
+    locale: string;
   };
 }) {
   const data = allBlogPosts.find((post) => post.slug === params.slug);
-  if (!data) {
+  if (!data || !data.categories.includes("real-estate")) {
     notFound();
   }
 
@@ -60,29 +61,15 @@ export default async function BlogArticle({
     ),
   ]);
 
-  // First try to find a priority category (industry category)
-  let category = PRIORITY_CATEGORIES.filter((cat) =>
-    data.categories.includes(cat)
-  )
-    .map((cat) => BLOG_CATEGORIES.find((c) => c.slug === cat))
-    .find((cat) => cat !== undefined);
-
-  // If no priority category found, fall back to any valid category
-  if (!category) {
-    category = data.categories
-      .map((cat) => BLOG_CATEGORIES.find((c) => c.slug === cat))
-      .find((cat) => cat !== undefined);
-  }
-
-  if (!category) {
-    console.error(`No valid category found for post: ${data.slug}`);
-    notFound();
-  }
+  const category = BLOG_CATEGORIES.find(
+    (category) => category.slug === "real-estate"
+  )!;
 
   const relatedArticles = data.related
     ? data.related
         .map((slug) => allBlogPosts.find((post) => post.slug === slug))
         .filter((post): post is NonNullable<typeof post> => post !== undefined)
+        .filter((post) => post.categories.includes("real-estate"))
     : [];
 
   return (
@@ -91,7 +78,7 @@ export default async function BlogArticle({
         <div className="flex max-w-screen-sm flex-col space-y-4 pt-16">
           <div className="flex items-center space-x-4">
             <Link
-              href={`/blog/category/${category.slug}`}
+              href={`/${params.locale}/real-estate/blog`}
               className="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-semibold text-gray-700 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.1)] backdrop-blur transition-all hover:border-gray-300 hover:bg-white/50"
             >
               {category.title}
@@ -121,7 +108,7 @@ export default async function BlogArticle({
               width={1200}
               height={630}
               alt={data.title}
-              priority // cause it's above the fold
+              priority
             />
             <MDX
               code={data.mdx}
@@ -131,17 +118,17 @@ export default async function BlogArticle({
           </div>
           <div className="sticky top-20 col-span-1 mt-48 hidden flex-col divide-y divide-gray-200 self-start sm:flex">
             <div className="flex flex-col space-y-4 py-5">
-              <p className="text-sm text-gray-500">Skrevet av</p>
+              <p className="text-sm text-gray-500">Written by</p>
               <Author username={data.author} />
             </div>
             {relatedArticles.length > 0 && (
               <div className="flex flex-col space-y-4 py-5">
-                <p className="text-sm text-gray-500">Les mer</p>
+                <p className="text-sm text-gray-500">Read more</p>
                 <ul className="flex flex-col space-y-4">
                   {relatedArticles.map((post) => (
                     <li key={post.slug}>
                       <Link
-                        href={`/blog/${post.slug}`}
+                        href={`/${params.locale}/real-estate/blog/${post.slug}`}
                         className="group flex flex-col space-y-2"
                       >
                         <p className="font-semibold text-gray-700 underline-offset-4 group-hover:underline">

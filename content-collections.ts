@@ -52,11 +52,20 @@ const computedFields = (
 const BlogPost = defineCollection({
   name: "BlogPost",
   directory: "src/content/blog",
-  include: "*.mdx",
+  include: "**/*.mdx",
   schema: (z) => ({
     title: z.string(),
     categories: z
-      .array(z.enum(["company", "agents", "guides", "success-stories"]))
+      .array(
+        z.enum([
+          "company",
+          "agents",
+          "guides",
+          "success-stories",
+          "real-estate",
+          "landscaping",
+        ])
+      )
       .default(["company"]),
     publishedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     featured: z.boolean().default(false),
