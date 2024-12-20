@@ -53,7 +53,7 @@ export default function WelcomePage() {
 
   return (
     <div>
-      <h1>Welcome to Fotovibe</h1>
+      <h1>Welcome to Leadhive</h1>
       <p>Setting up your account...</p>
     </div>
   );

@@ -122,7 +122,7 @@ export default function Pricing({ industry }: PricingProps) {
             ],
             description: "Perfect for individual agents starting out",
             buttonText: "Start Free Trial",
-            href: "/agent/sign-up",
+            href: "/au/real-estate/provider/sign-up",
             isPopular: false,
           },
           {
@@ -141,7 +141,7 @@ export default function Pricing({ industry }: PricingProps) {
             ],
             description: "Ideal for established agents and small teams",
             buttonText: "Get Started",
-            href: "/agent/sign-up",
+            href: "/au/real-estate/provider/sign-up",
             isPopular: true,
           },
           {

@@ -5,7 +5,7 @@ import Logos from "@/components/sections/logos";
 import PricingPlans from "@/components/sections/plans";
 
 export const metadata = constructMetadata({
-  title: "Priser – Fotovibe",
+  title: "Pricing – Leadhive",
 });
 
 export default function PricingPage() {

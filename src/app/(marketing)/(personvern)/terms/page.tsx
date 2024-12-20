@@ -4,8 +4,8 @@ import { allLegalPosts } from "content-collections";
 import LegalPage from "@/components/blog/legal";
 
 export const metadata: Metadata = constructMetadata({
-  title: "Personvern – Fotovibe",
-  image: "/api/og/help?title=Personvern&summary=fotovibe.no/personvern",
+  title: "Terms of Service – Leadhive",
+  image: "/api/og/help?title=Terms of Service&summary=leadhive.com/terms",
 });
 
 export default function Terms() {

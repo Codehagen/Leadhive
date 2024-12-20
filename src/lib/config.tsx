@@ -32,27 +32,28 @@ export const siteConfig = {
       content: {
         main: {
           icon: <Icons.logo className="h-6 w-6" />,
-          title: "Find Your Agent",
+          title: "Find Your Expert",
           description:
-            "Get matched with top local real estate agents for free.",
-          href: "/property",
+            "Get matched with verified industry professionals instantly.",
+          href: "/industries",
         },
         items: [
           {
-            href: "/property",
-            title: "Home Selling",
+            href: "/industries/search",
+            title: "Expert Matching",
             description:
-              "Get expert help selling your property for the best price.",
+              "Get matched with pre-screened professionals in your industry.",
           },
           {
-            href: "/property",
-            title: "Agent Matching",
-            description: "Compare proposals from pre-screened local agents.",
+            href: "/industries/compare",
+            title: "Compare Experts",
+            description:
+              "Compare proposals and credentials from multiple experts.",
           },
           {
-            href: "/property",
-            title: "Market Analysis",
-            description: "Get detailed insights about your local market.",
+            href: "/industries/insights",
+            title: "Industry Insights",
+            description: "Access detailed market analysis and industry trends.",
           },
         ],
       },
@@ -62,34 +63,34 @@ export const siteConfig = {
       content: {
         items: [
           {
-            title: "For Home Sellers",
-            href: "/property",
-            description: "Find the perfect agent to sell your property.",
+            title: "Real Estate",
+            href: "/au/real-estate",
+            description: "Connect with top local real estate agents",
           },
           {
-            title: "For First-Time Sellers",
-            href: "/property",
-            description: "Expert guidance for your first home sale.",
+            title: "Landscaping",
+            href: "/au/landscaping",
+            description: "Find professional landscapers and gardeners",
           },
           {
-            title: "For Luxury Properties",
-            href: "/property",
-            description: "Specialized agents for high-end real estate.",
+            title: "Construction",
+            href: "/au/construction",
+            description: "Connect with licensed builders and contractors",
           },
           {
-            title: "For Quick Sales",
-            href: "/property",
-            description: "Fast-track your property sale with top agents.",
+            title: "Healthcare",
+            href: "/au/healthcare",
+            description: "Find healthcare providers and specialists",
           },
           {
-            title: "For Investment Properties",
-            href: "/property",
-            description: "Expert agents for investment property sales.",
+            title: "Electrical",
+            href: "/au/electrical",
+            description: "Connect with certified electricians",
           },
           {
-            title: "For Real Estate Agents",
-            href: "/agents",
-            description: "Get more information about lead generation",
+            title: "Loans",
+            href: "/au/loans",
+            description: "Find mortgage brokers and lenders",
           },
         ],
       },
@@ -104,7 +105,7 @@ export const siteConfig = {
     },
     {
       href: "/blog",
-      label: "Blogg",
+      label: "Blog",
     },
   ],
   industryHeaders: {
@@ -385,7 +386,7 @@ export const siteConfig = {
       links: [
         { href: "/help", text: "Help Center", icon: null },
         { href: "/terms", text: "Terms & Conditions", icon: null },
-        { href: "/faq", text: "FAQ", icon: null },
+        { href: "/", text: "FAQ", icon: null },
         { href: "/privacy", text: "Privacy Policy", icon: null },
       ],
     },
