@@ -40,7 +40,7 @@ const CustomLink = (props: any) => {
 const components = {
   h2: (props: any) => (
     <h2
-      className="text-2xl text-foreground underline-offset-4 hover:underline"
+      className="text-xl font-medium text-foreground mb-4 scroll-mt-8"
       {...props}
     />
   ),

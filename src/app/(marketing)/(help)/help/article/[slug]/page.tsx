@@ -116,7 +116,7 @@ export default async function HelpArticle({
             {relatedArticles.length > 0 && (
               <div className="flex flex-col space-y-4 border-t border-border pt-8">
                 <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
-                  Relaterte artikler
+                  Relevant articles
                 </h2>
                 <div className="grid gap-2 rounded-xl border border-border bg-card p-4">
                   {relatedArticles.map((article) => (
