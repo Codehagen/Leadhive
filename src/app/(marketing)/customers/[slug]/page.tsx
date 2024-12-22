@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { title, summary, image } = post;
 
   return constructMetadata({
-    title: `${title} –Propdock`,
+    title: `${title} –Leadhive`,
     description: summary,
     image,
   });

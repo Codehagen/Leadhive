@@ -9,6 +9,17 @@ import {
   allIntegrationsPosts,
 } from "content-collections";
 
+const LOCALES = ["au"] as const;
+const INDUSTRIES = [
+  "real-estate",
+  "landscaping",
+  "electrical",
+  "healthcare",
+  "loans",
+  "construction",
+  "property",
+] as const;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const headersList = headers();
   const domain = headersList.get("host") as string;
@@ -18,7 +29,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static public pages
   const staticPages = [
     "/",
-    "/about",
     "/contact",
     "/pricing",
     "/compare",
@@ -26,14 +36,72 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/help",
     "/changelog",
     "/customers",
-    "/integrations",
     "/legal",
+    "/privacy",
+    "/terms",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: "daily" as const,
     priority: 1.0,
   }));
+
+  // Help category pages
+  const helpCategories = [
+    "admin",
+    "getting-started",
+    "overview",
+    "for-users",
+    "integrations",
+    "for-providers",
+  ].map((category) => ({
+    url: `${baseUrl}/help/category/${category}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
+  // Blog category pages
+  const blogCategories = ["stories", "agents", "company", "guides"].map(
+    (category) => ({
+      url: `${baseUrl}/blog/category/${category}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })
+  );
+
+  // Non-localized industry pages
+  const industryPages = INDUSTRIES.map((industry) => ({
+    url: `${baseUrl}/${industry}`,
+    lastModified: new Date(),
+    changeFrequency: "daily" as const,
+    priority: 0.9,
+  }));
+
+  // Locale-specific industry pages
+  const localePages = LOCALES.flatMap((locale) =>
+    INDUSTRIES.flatMap((industry) => [
+      {
+        url: `${baseUrl}/${locale}/${industry}`,
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/${locale}/${industry}/sign-up`,
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority: 0.9,
+      },
+      {
+        url: `${baseUrl}/${locale}/${industry}/provider/sign-up`,
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority: 0.9,
+      },
+    ])
+  );
 
   // Dynamic content pages
   const blogPages = allBlogPosts.map((post) => ({
@@ -80,6 +148,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticPages,
+    ...helpCategories,
+    ...blogCategories,
+    ...industryPages,
+    ...localePages,
     ...blogPages,
     ...changelogPages,
     ...customerPages,

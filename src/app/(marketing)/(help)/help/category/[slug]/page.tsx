@@ -1,54 +1,56 @@
-import { Metadata } from "next"
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { allHelpPosts } from "content-collections"
-import { ChevronRight } from "lucide-react"
+import { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { allHelpPosts } from "content-collections";
+import { ChevronRight } from "lucide-react";
 
-import { constructMetadata } from "@/lib/blog/constructMetadata"
-import { HELP_CATEGORIES, POPULAR_ARTICLES } from "@/lib/blog/content"
-import HelpArticleLink from "@/components/blog/help-article-link"
-import MaxWidthWrapper from "@/components/blog/max-width-wrapper"
-import SearchButton from "@/components/blog/search-button"
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+import { HELP_CATEGORIES, POPULAR_ARTICLES } from "@/lib/blog/content";
+import HelpArticleLink from "@/components/blog/help-article-link";
+import MaxWidthWrapper from "@/components/blog/max-width-wrapper";
+import SearchButton from "@/components/blog/search-button";
 
 export async function generateStaticParams() {
   return HELP_CATEGORIES.map((category) => ({
     slug: category.slug,
-  }))
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: { slug: string };
 }): Promise<Metadata | undefined> {
   const category = HELP_CATEGORIES.find(
-    (category) => category.slug === params.slug,
-  )
+    (category) => category.slug === params.slug
+  );
   if (!category) {
-    return
+    return;
   }
 
-  const { title, description } = category
+  const { title, description } = category;
 
   return constructMetadata({
-    title: `${title} – Propdock Hjelpesenter`,
+    title: `${title} – Leadhive Helpcenter`,
     description,
     image: `/api/og/help?title=${encodeURIComponent(
-      title,
+      title
     )}&summary=${encodeURIComponent(description)}`,
-  })
+  });
 }
 
 export default function HelpCategory({
   params,
 }: {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }) {
-  const data = HELP_CATEGORIES.find((category) => category.slug === params.slug)
+  const data = HELP_CATEGORIES.find(
+    (category) => category.slug === params.slug
+  );
   if (!data) {
-    notFound()
+    notFound();
   }
   const articles = allHelpPosts
     .filter((post) => post.categories.includes(data.slug))
@@ -56,14 +58,14 @@ export default function HelpCategory({
     .reduce(
       (acc, curr) => {
         if (POPULAR_ARTICLES.includes(curr.slug)) {
-          acc.unshift(curr)
+          acc.unshift(curr);
         } else {
-          acc.push(curr)
+          acc.push(curr);
         }
-        return acc
+        return acc;
       },
-      [] as typeof allHelpPosts,
-    )
+      [] as typeof allHelpPosts
+    );
 
   return (
     <>
@@ -104,5 +106,5 @@ export default function HelpCategory({
         </MaxWidthWrapper>
       </div>
     </>
-  )
+  );
 }

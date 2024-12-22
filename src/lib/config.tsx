@@ -9,7 +9,8 @@ export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
   name: "Leadhive",
-  description: "Your gateway to quality leads",
+  description:
+    "Connect with trusted indrustry experts. World leading platform for service matching. Your gateway to quality leads.",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   keywords: [
     "home selling service",

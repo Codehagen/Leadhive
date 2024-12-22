@@ -6,7 +6,8 @@ import { constructMetadata } from "@/lib/blog/constructMetadata";
 
 export const metadata = constructMetadata({
   title: "Blog – Leadhive",
-  description: "Latest news and updates from Leadhive.",
+  description:
+    "Latest news and updates from Leadhive. Discover expert insights, industry trends, and success stories.",
 });
 
 export default async function Blog() {

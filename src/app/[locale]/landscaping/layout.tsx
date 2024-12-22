@@ -3,13 +3,13 @@ import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | LeadHive Landscaping",
-    default: "LeadHive Landscaping - Professional Landscaping Lead Generation",
+    template: "%s | Leadhive Landscaping",
+    default: "Leadhive Landscaping - Professional Landscaping service",
   },
   description:
-    "Generate high-quality landscaping leads with LeadHive's specialized landscaping marketing solutions.",
+    "Generate high-quality landscaping leads with Leadhive's specialized landscaping marketing solutions.",
   openGraph: {
-    title: "LeadHive Landscaping",
+    title: "Leadhive Landscaping",
     description: "Professional landscaping lead generation solutions",
     type: "website",
   },

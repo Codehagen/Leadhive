@@ -7,7 +7,8 @@ import SearchButton from "@/components/blog/search-button";
 
 export const metadata = constructMetadata({
   title: "Help Center – Leadhive",
-  description: "A central hub for all your Leadhive-related questions.",
+  description:
+    "A central hub for all your Leadhive-related questions. Find answers to common queries, learn how to use our platform, and get expert advice.",
 });
 
 export default function HelpCenter() {

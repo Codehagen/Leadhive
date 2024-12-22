@@ -23,22 +23,26 @@ export const BLOG_CATEGORIES = [
   {
     title: "Company",
     slug: "company",
-    description: "Latest updates and announcements from Leadhive.",
+    description:
+      "Latest updates and announcements from Leadhive. Learn about our platform, team, and industry insights.",
   },
   {
     title: "Agents",
     slug: "agents",
-    description: "Guides and resources for real estate agents using Leadhive.",
+    description:
+      "Guides and resources for real estate agents using Leadhive. Compare Leadhive to other platforms.",
   },
   {
     title: "Guides",
     slug: "guides",
-    description: "Comprehensive guides for property sellers and buyers.",
+    description:
+      "Comprehensive guides for property sellers and buyers. Learn how to sell your property, find the right agent, and more.",
   },
   {
     title: "Stories",
     slug: "stories",
-    description: "Real stories from agents and sellers who've used Leadhive.",
+    description:
+      "Real stories from real estate agents and sellers who've used Leadhive.",
   },
 ];
 
@@ -65,13 +69,15 @@ export const HELP_CATEGORIES: {
   {
     title: "Platform Overview",
     slug: "overview",
-    description: "Learn about Leadhive and how it can help your business.",
+    description:
+      "Learn about Leadhive and how it can help your business. Get a overview of our platform and how it can help you.",
     icon: <Globe className="h-6 w-6 text-gray-500" />,
   },
   {
     title: "Getting Started",
     slug: "getting-started",
-    description: "Quick start guides and tutorials for new users.",
+    description:
+      "Quick start guides and tutorials for new users. Learn how to use our platform.",
     icon: <PartyPopper className="h-6 w-6 text-gray-500" />,
   },
   {
@@ -95,7 +101,8 @@ export const HELP_CATEGORIES: {
   {
     title: "Account & Settings",
     slug: "admin",
-    description: "Manage your account, billing, and platform settings.",
+    description:
+      "Manage your account, billing, and platform settings. Learn how to use our platform, and get expert advice.",
     icon: <Settings className="h-6 w-6 text-gray-500" />,
   },
 ];

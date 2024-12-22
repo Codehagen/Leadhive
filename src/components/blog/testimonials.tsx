@@ -1,7 +1,7 @@
-import { nFormatter } from "@/lib/utils"
+import { nFormatter } from "@/lib/utils";
 
-import MaxWidthWrapper from "./max-width-wrapper"
-import TestimonialsMobile from "./testimonials-mobile"
+import MaxWidthWrapper from "./max-width-wrapper";
+import TestimonialsMobile from "./testimonials-mobile";
 
 // Placeholder testimonial data
 const testimonials = [
@@ -9,10 +9,10 @@ const testimonials = [
   { id: 2, content: "Eksempel på tilbakemelding 2" },
   { id: 3, content: "Eksempel på tilbakemelding 3" },
   // ... legg til flere eksempler på tilbakemeldinger etter behov
-]
+];
 
 export default async function Testimonials() {
-  const userCount = 100
+  const userCount = 100;
 
   return (
     <MaxWidthWrapper className="pt-20">
@@ -24,7 +24,7 @@ export default async function Testimonials() {
           </span>
         </h2>
         <p className="mt-5 text-gray-600 sm:text-lg">
-          Ikke ta vårt ord for det – her er hva våre brukere sier om Propdock.
+          Ikke ta vårt ord for det – her er hva våre brukere sier om Leadhive.
         </p>
       </div>
       <TestimonialsMobile testimonials={testimonials} />
@@ -41,5 +41,5 @@ export default async function Testimonials() {
         ))}
       </div>
     </MaxWidthWrapper>
-  )
+  );
 }

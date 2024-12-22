@@ -49,7 +49,7 @@ export async function generateMetadata({
   const { title, description } = category
 
   return constructMetadata({
-    title: `${title} Poster – Propdock`,
+    title: `${title} Poster – Leadhive`,
     description,
     image: `/api/og/help?title=${encodeURIComponent(
       title,
