@@ -38,12 +38,12 @@ export default function Author({
           className="rounded-full"
         />
         <div className="flex flex-col">
-          <p className="text-sm text-gray-500">Skrevet av {name}</p>
+          <p className="text-sm text-gray-500">Written by {name}</p>
           <time
             dateTime={updatedAt}
             className="text-sm font-light text-gray-400"
           >
-            Oppdatert {formatDate(updatedAt)}
+            Updated {formatDate(updatedAt)}
           </time>
         </div>
       </div>

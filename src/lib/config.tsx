@@ -9,16 +9,22 @@ export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
   name: "Leadhive",
-  description: "Get free proposals from top local real estate agents.",
+  description: "Your gateway to quality leads",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   keywords: [
-    "real estate agent finder",
-    "compare real estate agents",
-    "free agent proposals",
-    "find local realtor",
-    "best real estate agents",
-    "sell my house",
     "home selling service",
+    "landscaping services",
+    "find landscaping professionals",
+    "find construction professionals",
+    "find electrical professionals",
+    "find loan professionals",
+    "find healthcare professionals",
+    "find insurance professionals",
+    "find legal professionals",
+    "find financial professionals",
+    "find insurance professionals",
+    "find legal professionals",
+    "find financial professionals",
   ],
   links: {
     email: "kontakt@leadhive.no",
@@ -39,17 +45,17 @@ export const siteConfig = {
         },
         items: [
           {
-            href: "/industries/search",
+            href: "/",
             title: "Expert Matching",
             description:
               "Get matched with pre-screened professionals in your industry.",
           },
-          {
-            href: "/industries/compare",
-            title: "Compare Experts",
-            description:
-              "Compare proposals and credentials from multiple experts.",
-          },
+          // {
+          //   href: "/industries/compare",
+          //   title: "Compare Experts",
+          //   description:
+          //     "Compare proposals and credentials from multiple experts.",
+          // },
           {
             href: "/industries/insights",
             title: "Industry Insights",
@@ -121,17 +127,17 @@ export const siteConfig = {
           },
           items: [
             {
-              href: "/au/real-estate/selling",
+              href: "/au/real-estate/",
               title: "Property Selling",
               description: "Expert guidance for selling your property.",
             },
             {
-              href: "/au/real-estate/buying",
+              href: "/au/real-estate/",
               title: "Property Buying",
               description: "Find the perfect property with expert agents.",
             },
             {
-              href: "/au/real-estate/investment",
+              href: "/au/real-estate/",
               title: "Investment Properties",
               description: "Maximize your real estate investments.",
             },
@@ -144,28 +150,28 @@ export const siteConfig = {
           items: [
             {
               title: "Market Reports",
-              href: "/au/real-estate/market-reports",
+              href: "/au/real-estate/",
               description: "Stay informed with local market insights.",
             },
             {
               title: "Property Guides",
-              href: "/au/real-estate/guides",
+              href: "/au/real-estate/",
               description: "Expert guides for property transactions.",
             },
             {
               title: "Agent Directory",
-              href: "/au/real-estate/agents",
+              href: "/au/real-estate/",
               description: "Browse our network of verified agents.",
             },
           ],
         },
       },
       {
-        href: "/au/real-estate/about",
+        href: "/au/real-estate/",
         label: "About",
       },
       {
-        href: "/au/real-estate/contact",
+        href: "/contact",
         label: "Contact",
       },
     ],
@@ -181,17 +187,17 @@ export const siteConfig = {
           },
           items: [
             {
-              href: "/au/landscaping/residential",
+              href: "/au/landscaping/",
               title: "Residential",
               description: "Transform your home's outdoor space.",
             },
             {
-              href: "/au/landscaping/commercial",
+              href: "/au/landscaping/",
               title: "Commercial",
               description: "Professional landscaping for businesses.",
             },
             {
-              href: "/au/landscaping/maintenance",
+              href: "/au/landscaping/e",
               title: "Maintenance",
               description: "Regular care for your landscape.",
             },
@@ -204,28 +210,28 @@ export const siteConfig = {
           items: [
             {
               title: "Design Ideas",
-              href: "/au/landscaping/design-ideas",
+              href: "/au/landscaping/d",
               description: "Inspiration for your outdoor space.",
             },
             {
               title: "Contractor Guides",
-              href: "/au/landscaping/guides",
+              href: "/au/landscaping/",
               description: "How to choose the right contractor.",
             },
             {
               title: "Project Gallery",
-              href: "/au/landscaping/gallery",
+              href: "/au/landscaping/",
               description: "View completed landscaping projects.",
             },
           ],
         },
       },
       {
-        href: "/au/landscaping/about",
+        href: "/au/landscaping/",
         label: "About",
       },
       {
-        href: "/au/landscaping/contact",
+        href: "/contact",
         label: "Contact",
       },
     ],
@@ -371,9 +377,9 @@ export const siteConfig = {
     {
       title: "Company",
       links: [
-        { href: "/about", text: "About LeadHive", icon: null },
+        { href: "/", text: "About LeadHive", icon: null },
         {
-          href: "/agents/",
+          href: "/au/real-estate/",
           text: "For Real Estate Agents",
           icon: null,
         },

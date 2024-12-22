@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { title, seoTitle, summary, seoDescription, image } = post;
 
   return constructMetadata({
-    title: `${seoTitle || title} – Fotovibe`,
+    title: `${seoTitle || title} – Leadhive`,
     description: seoDescription || summary,
     image,
   });
@@ -62,7 +62,7 @@ export default async function BlogArticle({
 
   // First try to find a priority category (industry category)
   let category = PRIORITY_CATEGORIES.filter((cat) =>
-    data.categories.includes(cat)
+    data.categories.includes(cat as any)
   )
     .map((cat) => BLOG_CATEGORIES.find((c) => c.slug === cat))
     .find((cat) => cat !== undefined);
@@ -131,12 +131,12 @@ export default async function BlogArticle({
           </div>
           <div className="sticky top-20 col-span-1 mt-48 hidden flex-col divide-y divide-gray-200 self-start sm:flex">
             <div className="flex flex-col space-y-4 py-5">
-              <p className="text-sm text-gray-500">Skrevet av</p>
+              <p className="text-sm text-gray-500">Written by</p>
               <Author username={data.author} />
             </div>
             {relatedArticles.length > 0 && (
               <div className="flex flex-col space-y-4 py-5">
-                <p className="text-sm text-gray-500">Les mer</p>
+                <p className="text-sm text-gray-500">Read more</p>
                 <ul className="flex flex-col space-y-4">
                   {relatedArticles.map((post) => (
                     <li key={post.slug}>

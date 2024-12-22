@@ -217,14 +217,15 @@ export const HelpPost = defineCollection({
     categories: z
       .array(
         z.enum([
-          "oversikt",
-          "starter",
-          "eiendomsforvaltning",
-          "api",
-          "integrasjoner",
+          "overview",
+          "getting-started",
+          "for-users",
+          "for-providers",
+          "integrations",
+          "admin",
         ])
       )
-      .default(["oversikt"]),
+      .default(["overview"]),
     related: z.array(z.string()).optional(),
     excludeHeadingsFromSearch: z.boolean().optional(),
     slug: z.string().optional(),

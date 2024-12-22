@@ -4,62 +4,46 @@ export default function useCurrentAnchor() {
   const [currentAnchor, setCurrentAnchor] = useState<string | null>(null);
 
   useEffect(() => {
-    const mdxContainer: HTMLElement | null = document.querySelector(
-      "[data-mdx-container]",
-    );
+    const mdxContainer = document.querySelector("[data-mdx-container]");
     if (!mdxContainer) return;
 
-    const offsetTop = mdxContainer.offsetTop - 1;
+    // Get all h2 elements within the MDX container
+    const headings = Array.from(mdxContainer.querySelectorAll("h2"));
+    if (headings.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let currentEntry = entries[0];
-        if (!currentEntry) return;
+    const getActiveHeading = () => {
+      const scrollY = window.scrollY;
+      const headerOffset = 100; // Adjust based on your header height
 
-        const offsetBottom =
-          (currentEntry.rootBounds?.height || 0) * 0.3 + offsetTop;
+      // Find the last heading that's above our scroll position
+      for (let i = headings.length - 1; i >= 0; i--) {
+        const heading = headings[i];
+        const headingTop = heading.getBoundingClientRect().top + scrollY;
 
-        for (let i = 1; i < entries.length; i++) {
-          const entry = entries[i];
-          if (!entry) break;
-
-          if (
-            entry.boundingClientRect.top <
-              currentEntry.boundingClientRect.top ||
-            currentEntry.boundingClientRect.bottom < offsetTop
-          ) {
-            currentEntry = entry;
-          }
+        if (scrollY >= headingTop - headerOffset) {
+          return heading.id;
         }
+      }
 
-        let target: Element | undefined = currentEntry.target;
+      // If no heading is found, return the first one
+      return headings[0].id;
+    };
 
-        // if the target is too high up, we need to find the next sibling
-        while (target && target.getBoundingClientRect().bottom < offsetTop) {
-          target = siblings.get(target)?.next;
-        }
+    const onScroll = () => {
+      const activeHeading = getActiveHeading();
+      setCurrentAnchor(activeHeading);
+    };
 
-        // if the target is too low, we need to find the previous sibling
-        while (target && target.getBoundingClientRect().top > offsetBottom) {
-          target = siblings.get(target)?.prev;
-        }
-        if (target) setCurrentAnchor(target.getAttribute("href"));
-      },
-      {
-        threshold: 1,
-        rootMargin: `-${offsetTop}px 0px 0px 0px`,
-      },
-    );
+    // Initial check
+    onScroll();
 
-    const siblings = new Map();
-
-    const anchors = mdxContainer?.querySelectorAll("[data-mdx-heading]");
-    anchors.forEach((anchor) => observer.observe(anchor));
+    // Add scroll listener
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
-  return currentAnchor?.replace("#", "");
+  return currentAnchor;
 }
