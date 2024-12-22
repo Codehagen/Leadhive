@@ -20,7 +20,7 @@ export default function CtaSection() {
       </div>
       <div className="flex flex-col w-full sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
         <Link
-          href="/sign-up"
+          href="/"
           className={cn(
             buttonVariants({ variant: "default" }),
             "w-full sm:w-auto text-background flex gap-2"

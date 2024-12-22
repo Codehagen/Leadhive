@@ -102,31 +102,31 @@ function IndustryGrid() {
       title: "Landscaping",
       description: "Find professional landscapers and gardeners",
       icon: <Sprout className="w-6 h-6 text-primary" />,
-      href: "/au/landscaping",
+      href: "/au/landscaping/",
     },
     {
       title: "Construction",
       description: "Connect with licensed builders and contractors",
       icon: <Construction className="w-6 h-6 text-primary" />,
-      href: "/au/construction",
+      href: "/au/construction/",
     },
     {
       title: "Healthcare",
       description: "Find healthcare providers and specialists",
       icon: <HeartPulse className="w-6 h-6 text-primary" />,
-      href: "/au/healthcare",
+      href: "/au/healthcare/",
     },
     {
       title: "Electrical",
       description: "Connect with certified electricians",
       icon: <Zap className="w-6 h-6 text-primary" />,
-      href: "/au/electrical",
+      href: "/au/electrical/",
     },
     {
       title: "Loans",
       description: "Find mortgage brokers and lenders",
       icon: <Wallet className="w-6 h-6 text-primary" />,
-      href: "/au/loans",
+      href: "/au/loans/",
     },
   ];
 

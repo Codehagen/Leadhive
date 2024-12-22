@@ -7,9 +7,9 @@ import Link from "next/link";
 import { MigrationSteps } from "@/components/migration-steps";
 
 export const metadata = {
-  title: "FotoVibe vs Competition | Compare Photo Sharing Platforms",
+  title: "LeadHive vs Competition | Compare Lead Generation Platforms",
   description:
-    "See how FotoVibe compares to other photo sharing platforms and discover why it's the best choice for your photography needs.",
+    "See how LeadHive compares to other lead generation platforms and discover why it's the best choice for your photography needs.",
 };
 
 interface ComparisonFeature {
@@ -131,7 +131,7 @@ function ComparisonHeader() {
           className="rounded-full bg-primary text-primary-foreground"
           asChild
         >
-          <Link href="/sign-up">Start nå</Link>
+          <Link href="/contact">Start nå</Link>
         </Button>
         <Button
           variant="outline"

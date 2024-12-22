@@ -161,7 +161,7 @@ export default function Pricing({ industry }: PricingProps) {
             ],
             description: "For large teams and agencies",
             buttonText: "Contact Sales",
-            href: "/agent/contact-sales",
+            href: "/contact",
             isPopular: false,
           },
         ].map((plan, index) => (
