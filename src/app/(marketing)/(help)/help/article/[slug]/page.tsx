@@ -57,7 +57,7 @@ export default async function HelpArticle({
     (category) => data.categories[0] === category.slug
   )!;
 
-  const [images ] = await Promise.all([
+  const [images] = await Promise.all([
     await Promise.all(
       data.images.map(async (src: string) => ({
         src,
@@ -112,7 +112,7 @@ export default async function HelpArticle({
               <p className="text-muted-foreground">{data.summary}</p>
               <Author username={data.author} updatedAt={data.updatedAt} />
             </div>
-            <MDX code={data.mdx} images={images}  />
+            <MDX code={data.mdx} images={images} />
             {relatedArticles.length > 0 && (
               <div className="flex flex-col space-y-4 border-t border-border pt-8">
                 <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
@@ -133,12 +133,12 @@ export default async function HelpArticle({
             )}
             <div className="flex justify-center pt-5">
               <Link
-                href={`https://github.com/codehagen/fotovibe/blob/main/app/content/help/${params.slug}.mdx`}
+                href={`https://github.com/codehagen/leadhive/blob/main/app/content/help/${params.slug}.mdx`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-muted-foreground transition-colors hover:text-foreground"
               >
-                Fant du en skrivefeil? Rediger denne siden ↗
+                Found a typo? Edit this page ↗
               </Link>
             </div>
           </div>

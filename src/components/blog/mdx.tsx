@@ -72,10 +72,10 @@ const components = {
     />
   ),
   p: (props: any) => (
-    <p className="text-foreground dark:text-muted-foreground" {...props} />
+    <p className="text-base text-muted-foreground leading-7" {...props} />
   ),
   li: (props: any) => (
-    <li className="text-foreground dark:text-muted-foreground" {...props} />
+    <li className="text-base text-muted-foreground leading-7" {...props} />
   ),
   Note: (props: any) => (
     <div
@@ -133,7 +133,7 @@ const components = {
     <div className="mt-4 rounded-md border border-border bg-card px-6 py-1 text-[0.95rem] leading-[1.4rem] shadow-md">
       <div className="-mb-6 flex items-center space-x-2 text-muted-foreground">
         <ListChecks size={20} />
-        <p className="text-sm font-medium uppercase">Forutsetninger</p>
+        <p className="text-sm font-medium uppercase">Prerequisites</p>
       </div>
       {props.children}
     </div>
@@ -175,7 +175,7 @@ const components = {
         .filter((post) => post.publishedAt <= props.before)
         .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
         .slice(0, props.count)
-        .map((post) => (
+        .map((post: any) => (
           <li key={post.slug}>
             <Link
               href={`/${post.type === "BlogPost" ? "blog" : "changelog"}/${
@@ -242,8 +242,6 @@ export function MDX({ code, images, tweets, repos, className }: MDXProps) {
     return <ZoomImage {...props} blurDataURL={blurDataURL} />;
   };
 
-  // ... other custom components ...
-
   return (
     <article
       data-mdx-container
@@ -257,8 +255,6 @@ export function MDX({ code, images, tweets, repos, className }: MDXProps) {
         components={{
           ...components,
           Image: MDXImage,
-          // Tweet,
-          // GithubRepo: MDXRepo,
         }}
       />
     </article>

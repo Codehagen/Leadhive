@@ -34,9 +34,7 @@ export default function Feedback() {
 
   return (
     <div className="mb-10 flex flex-col items-center justify-center space-y-2 border-t border-gray-200 py-10">
-      <p className="text-gray-500 sm:text-lg">
-        Svarte dette på spørsmålet ditt?
-      </p>
+      <p className="text-gray-500 sm:text-lg">Did this answer your question?</p>
       <div className="flex space-x-4">
         {reactions.map(({ emoji, label }) => (
           <button
@@ -47,7 +45,7 @@ export default function Feedback() {
               // })
               Cookies.set(`feedback-help-${slug}`, label);
               setReaction(label);
-              toast.success("Tilbakemelding registrert – takk skal du ha!");
+              toast.success("Feedback registered – thank you!");
             }}
             className={cn(
               "text-4xl transition-all duration-75 hover:scale-110 active:scale-100",
