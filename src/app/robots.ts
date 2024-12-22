@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 export default function robots(): MetadataRoute.Robots {
   const headersList = headers();
-  const domain = headersList.get("host") || "leadhive.com";
+  const domain = headersList.get("host") || "leadhive.tech";
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
   const baseUrl = `${protocol}://${domain}`;
 
@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/real-estate/*", "/landscaping/*"],
+        allow: ["/", "/au/real-estate/*", "/au/landscaping/*"],
         disallow: [
           "/api/",
           "/_next/",

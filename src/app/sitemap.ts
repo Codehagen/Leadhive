@@ -17,7 +17,7 @@ const INDUSTRIES = [
   "healthcare",
   "loans",
   "construction",
-  "property",
+  // "property",
 ] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
