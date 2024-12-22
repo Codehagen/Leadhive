@@ -90,7 +90,7 @@ export default function PricingSection() {
             ],
             description: "Perfect for individual agents starting out",
             buttonText: "Start Free Trial",
-            href: "/agent/sign-up",
+            href: "/au/real-estate/provider/sign-up",
             isPopular: false,
           },
           {
@@ -109,7 +109,7 @@ export default function PricingSection() {
             ],
             description: "Ideal for established agents and small teams",
             buttonText: "Get Started",
-            href: "/agent/sign-up",
+            href: "/au/provider/real-estate/sign-up",
             isPopular: true,
           },
           {
@@ -129,7 +129,7 @@ export default function PricingSection() {
             ],
             description: "For large teams and agencies",
             buttonText: "Contact Sales",
-            href: "/agent/contact-sales",
+            href: "/contact",
             isPopular: false,
           },
         ].map((plan, index) => (

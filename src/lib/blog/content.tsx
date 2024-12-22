@@ -43,47 +43,59 @@ export const BLOG_CATEGORIES = [
 ];
 
 export const POPULAR_ARTICLES = [
-  "introduserer-fotovibe",
-  "kom-i-gang",
-  "foto-pakker",
-  "booking-system",
-  "bli-fotograf",
+  "what-is-leadhive",
+  "getting-started",
+  "become-provider",
+  "success-stories",
+  "integrations-overview",
 ];
 
 export const HELP_CATEGORIES: {
   title: string;
-  slug: "oversikt" | "starter" | "fotografer" | "booking" | "administrasjon";
+  slug:
+    | "overview"
+    | "getting-started"
+    | "for-users"
+    | "for-providers"
+    | "integrations"
+    | "admin";
   description: string;
   icon: JSX.Element;
 }[] = [
   {
-    title: "Fotovibe Oversikt",
-    slug: "oversikt",
-    description: "Lær om Fotovibe og hvordan det kan hjelpe din bedrift.",
-    icon: <Settings className="h-6 w-6 text-gray-500" />,
+    title: "Platform Overview",
+    slug: "overview",
+    description: "Learn about Leadhive and how it can help your business.",
+    icon: <Globe className="h-6 w-6 text-gray-500" />,
   },
   {
-    title: "Kom i Gang",
-    slug: "starter",
-    description: "Lær hvordan du kommer i gang med Fotovibe.",
+    title: "Getting Started",
+    slug: "getting-started",
+    description: "Quick start guides and tutorials for new users.",
     icon: <PartyPopper className="h-6 w-6 text-gray-500" />,
   },
   {
-    title: "For Fotografer",
-    slug: "fotografer",
-    description: "Informasjon for fotografer som vil jobbe med Fotovibe.",
-    icon: <Camera className="h-6 w-6 text-gray-500" />,
+    title: "For Users",
+    slug: "for-users",
+    description: "Guides for property owners and businesses seeking services.",
+    icon: <Building className="h-6 w-6 text-gray-500" />,
   },
   {
-    title: "Booking",
-    slug: "booking",
-    description: "Lær hvordan du booker og administrerer fotosesjoner.",
-    icon: <Calendar className="h-6 w-6 text-gray-500" />,
+    title: "For Service Providers",
+    slug: "for-providers",
+    description: "Information for agents and service providers using Leadhive.",
+    icon: <Users className="h-6 w-6 text-gray-500" />,
   },
   {
-    title: "Administrasjon",
-    slug: "administrasjon",
-    description: "Administrer ditt abonnement og bildebibliotek.",
+    title: "Integrations",
+    slug: "integrations",
+    description: "Connect Leadhive with your favorite tools and services.",
+    icon: <Link2 className="h-6 w-6 text-gray-500" />,
+  },
+  {
+    title: "Account & Settings",
+    slug: "admin",
+    description: "Manage your account, billing, and platform settings.",
     icon: <Settings className="h-6 w-6 text-gray-500" />,
   },
 ];
