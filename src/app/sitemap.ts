@@ -34,11 +34,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/compare",
     "/blog",
     "/help",
-    "/changelog",
+    // "/changelog",
     "/customers",
-    "/legal",
-    "/privacy",
-    "/terms",
+    // "/legal",
+    // "/privacy",
+    // "/terms",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -72,12 +72,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   // Non-localized industry pages
-  const industryPages = INDUSTRIES.map((industry) => ({
-    url: `${baseUrl}/${industry}`,
-    lastModified: new Date(),
-    changeFrequency: "daily" as const,
-    priority: 0.9,
-  }));
+  // const industryPages = INDUSTRIES.map((industry) => ({
+  //   url: `${baseUrl}/${industry}`,
+  //   lastModified: new Date(),
+  //   changeFrequency: "daily" as const,
+  //   priority: 0.9,
+  // }));
 
   // Locale-specific industry pages
   const localePages = LOCALES.flatMap((locale) =>
@@ -150,7 +150,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticPages,
     ...helpCategories,
     ...blogCategories,
-    ...industryPages,
+    // ...industryPages,
     ...localePages,
     ...blogPages,
     ...changelogPages,
