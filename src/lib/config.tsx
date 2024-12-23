@@ -42,7 +42,7 @@ export const siteConfig = {
           title: "Find Your Expert",
           description:
             "Get matched with verified industry professionals instantly.",
-          href: "/industries",
+          href: "/",
         },
         items: [
           {
@@ -58,7 +58,7 @@ export const siteConfig = {
           //     "Compare proposals and credentials from multiple experts.",
           // },
           {
-            href: "/industries/insights",
+            href: "/",
             title: "Industry Insights",
             description: "Access detailed market analysis and industry trends.",
           },
