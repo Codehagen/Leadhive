@@ -45,7 +45,7 @@ export default function Header() {
             </div>
 
             <nav className="flex items-center space-x-4">
-              <Link
+              {/* <Link
                 href="/au/real-estate"
                 className={buttonVariants({
                   variant: "outline",
@@ -62,7 +62,7 @@ export default function Header() {
                 })}
               >
                 Landscaping
-              </Link>
+              </Link> */}
             </nav>
           </div>
 
