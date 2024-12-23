@@ -3,6 +3,13 @@ import Header from "@/components/sections/header";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+
+export const metadata = constructMetadata({
+  title: "Compare Loan Offers - Free Quotes | Leadhive",
+  description:
+    "Compare loan offers from trusted lenders. Get multiple quotes, compare interest rates, and find the best financing solution for your needs. Free service.",
+});
 
 export default function LoansSignUpPage() {
   return (

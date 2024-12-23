@@ -3,6 +3,13 @@ import Header from "@/components/sections/header";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+
+export const metadata = constructMetadata({
+  title: "Healthcare Provider Sign Up - Leadhive",
+  description:
+    "Join Leadhive's network of healthcare professionals. Connect with patients and grow your practice with our lead generation platform.",
+});
 
 export default function HealthcareProviderSignUpPage() {
   return (

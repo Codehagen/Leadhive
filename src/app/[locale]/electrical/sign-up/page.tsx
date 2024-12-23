@@ -3,6 +3,13 @@ import Header from "@/components/sections/header";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+
+export const metadata = constructMetadata({
+  title: "Compare Electrical Services - Free Quotes | Leadhive",
+  description:
+    "Compare quotes from licensed local electricians. Get multiple proposals, compare rates, and find the right electrician for your needs. Free service.",
+});
 
 export default function ElectricalSignUpPage() {
   return (

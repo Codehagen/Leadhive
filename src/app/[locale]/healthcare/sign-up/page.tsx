@@ -3,6 +3,13 @@ import Header from "@/components/sections/header";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+
+export const metadata = constructMetadata({
+  title: "Compare Healthcare Providers - Free Service | Leadhive",
+  description:
+    "Find and compare top healthcare providers in your area. Get matched with qualified professionals, compare services, and choose the best fit for your health needs. Free service.",
+});
 
 export default function HealthcareSignUpPage() {
   return (

@@ -3,6 +3,13 @@ import Header from "@/components/sections/header";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { constructMetadata } from "@/lib/blog/constructMetadata";
+
+export const metadata = constructMetadata({
+  title: "Compare Construction Services - Free Quotes | Leadhive",
+  description:
+    "Compare construction quotes from top local builders and contractors. Get multiple proposals, compare prices, and find the perfect match for your project. Free service.",
+});
 
 export default function ConstructionSignUpPage() {
   return (

@@ -34,7 +34,7 @@ export async function generateMetadata({
   const { title, summary } = post;
 
   return constructMetadata({
-    title: `${title} – Fotovibe Hjelpesenter`,
+    title: `${title} – Leadhive Hjelpesenter`,
     description: summary,
     image: `/api/og/help?title=${encodeURIComponent(
       title

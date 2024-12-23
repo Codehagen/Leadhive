@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/config";
 export function constructMetadata({
   title = siteConfig.name,
   description = siteConfig.description,
-  image = "https://fotovibe.as/_static/thumbnail.png",
+  image = "https://leadhive.tech/_static/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
@@ -33,7 +33,7 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: "@codehagen",
+      creator: "@leadhivetech",
     },
     icons,
     metadataBase: new URL(HOME_DOMAIN),
@@ -48,15 +48,14 @@ export function constructMetadata({
 
 export const HOME_DOMAIN =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-    ? "https://fotovibe.as"
+    ? "https://leadhive.tech"
     : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-      : "http://home.localhost:3000";
+      : "http://localhost:3000";
 
 export const APP_HOSTNAMES = new Set([
-  "fotovibe.as",
-  "preview.fotovibe.as",
-  "localhost:8888",
+  "leadhive.tech",
+  "preview.leadhive.tech",
   "localhost:3000",
   "localhost",
 ]);

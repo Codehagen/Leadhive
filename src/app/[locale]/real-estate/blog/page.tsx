@@ -5,8 +5,8 @@ import BlogCard from "@/components/blog/blog-card";
 import { constructMetadata } from "@/lib/blog/constructMetadata";
 
 export const metadata = constructMetadata({
-  title: "Real Estate Blog – Fotovibe",
-  description: "Latest real estate news and updates from Fotovibe.",
+  title: "Real Estate Blog – Leadhive",
+  description: "Latest real estate news and updates from Leadhive. ",
 });
 
 export default async function RealEstateBlog() {
