@@ -4,6 +4,7 @@ import Drawer from "@/components/drawer";
 import { Icons } from "@/components/icons";
 import Menu from "@/components/menu";
 import { buttonVariants } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -52,7 +53,8 @@ export default function IndustryHeader({
               <Menu industry={industry} />
             </div>
 
-            <nav className="flex items-center space-x-2">
+            <nav className="flex items-center space-x-4">
+              <LanguageSwitcher />
               <Link
                 href={signUpPath}
                 className={buttonVariants({

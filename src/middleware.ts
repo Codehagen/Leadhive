@@ -24,6 +24,13 @@ const isPublicRoute = createRouteMatcher([
   "/au/construction(.*)",
   "/au/electrical(.*)",
   "/au/healthcare(.*)",
+  "/no/landscaping(.*)",
+  "/no/loans(.*)",
+  "/no/real-estate(.*)",
+  "/no/construction(.*)",
+  "/no/electrical(.*)",
+  "/no/healthcare(.*)",
+  "/no/eiendomsmegler(.*)",
   "/customers(.*)",
 ]);
 
